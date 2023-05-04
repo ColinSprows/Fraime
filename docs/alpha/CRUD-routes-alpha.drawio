@@ -1,0 +1,190 @@
+<mxfile host="app.diagrams.net" modified="2023-05-04T21:11:05.249Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="_KlMX4hd3HGw9izTTmy4" version="21.2.8" type="device">
+  <diagram name="Page-1" id="rvImuvXjVMc4ffw-6pSX">
+    <mxGraphModel dx="1022" dy="531" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="jOxMLj2nNzEwI72JrV1--1" value="User" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="270" width="140" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--3" value="Update user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--1">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--4" value="Delete user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--1">
+          <mxGeometry y="60" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--5" value="Auth" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="60" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--6" value="Login" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--5">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--7" value="Logout" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--5">
+          <mxGeometry y="60" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--22" value="Signup" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--5">
+          <mxGeometry y="90" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--13" value="Update User" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="300" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--14" value="email" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--13">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--15" value="password" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--13">
+          <mxGeometry y="60" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--16" value="name" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--13">
+          <mxGeometry y="90" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--23" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--13">
+          <mxGeometry y="120" width="140" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.015;entryY=0.122;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--3" target="jOxMLj2nNzEwI72JrV1--13">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="435" as="sourcePoint" />
+            <mxPoint x="420" y="465" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--32" target="jOxMLj2nNzEwI72JrV1--22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--32" value="Sign up" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="20" y="170" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--34" target="jOxMLj2nNzEwI72JrV1--7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--34" value="Log out" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="20" y="90" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--35" target="jOxMLj2nNzEwI72JrV1--6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--35" value="Log in" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--38" target="jOxMLj2nNzEwI72JrV1--3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--38" value="User modifies&lt;br&gt;profile" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="20" y="250" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--40" target="jOxMLj2nNzEwI72JrV1--4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--40" value="User deletes account" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="20" y="330" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--42" target="jOxMLj2nNzEwI72JrV1--44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--42" value="Generate Button" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="20" y="460" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--43" value="Prompt" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="470" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--44" value="Create prompt" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--43">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--48" value="1. new User document&lt;br&gt;2. use login Auth route&lt;br&gt;3. return User" style="rounded=1;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="390" y="125" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--22" target="jOxMLj2nNzEwI72JrV1--48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--50" value="1. create pre-prompt&lt;br&gt;2. create the prompt&lt;br&gt;3. get image from DALLE&lt;br&gt;4. create new image document&lt;br&gt;5. create new journey document&lt;br&gt;6. add image to journey&lt;br&gt;7. add journey to user" style="rounded=1;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="390" y="470" width="120" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--44" target="jOxMLj2nNzEwI72JrV1--50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.246;entryY=0.972;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--55" target="jOxMLj2nNzEwI72JrV1--44">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="220" y="600" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="145" y="590" />
+              <mxPoint x="145" y="550" />
+              <mxPoint x="224" y="550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--55" value="Re-generate&lt;br&gt;(scroll)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="20" y="550" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--56" target="jOxMLj2nNzEwI72JrV1--63">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="190" y="685" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--56" value="Re-prompt" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="20" y="640" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--57" target="jOxMLj2nNzEwI72JrV1--66">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--57" value="Fine-tune" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="20" y="735" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--63" value="Redirect&lt;br&gt;+ use values from journey" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="650" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--65" value="Prompt" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="730" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--66" value="Create prompt" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--65">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--67" value="Prompt" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="830" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--68" value="Create prompt" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--67">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--69" value="1. duplicate pre-prompt&lt;br&gt;2. add fine-tune options&lt;br&gt;3. add image to pre-prompt&lt;br&gt;4. create the prompt&lt;br&gt;5. get image from DALLE&lt;br&gt;6. create new image document&lt;br&gt;7. add image to journey&lt;br&gt;8. add prompt to journey" style="rounded=1;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="390" y="710" width="180" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--71" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.011;entryY=0.443;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--66" target="jOxMLj2nNzEwI72JrV1--69">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--73" target="jOxMLj2nNzEwI72JrV1--68">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--73" value="Make Variations" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="20" y="835" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--74" value="1. duplicate pre-prompt&lt;br&gt;2. add image to pre-prompt&lt;br&gt;3. create the prompt&lt;br&gt;4. get image from DALLE&lt;br&gt;5. create new image document&lt;br&gt;6. add image to journey" style="rounded=1;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="390" y="870" width="210" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--68" target="jOxMLj2nNzEwI72JrV1--74">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--79" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="10" y="440" as="sourcePoint" />
+            <mxPoint x="840" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--86" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--83" target="jOxMLj2nNzEwI72JrV1--85">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--83" value="Scroll" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="20" y="940" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--84" value="Prompt" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="980" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--85" value="Create prompt" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="jOxMLj2nNzEwI72JrV1--84">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--87" value="1. duplicate pre-prompt&lt;br&gt;2. add latest pre-prompt data&lt;br&gt;3. create the prompt&lt;br&gt;4. get image from DALLE&lt;br&gt;5. create new image document&lt;br&gt;6. add image to journey" style="rounded=1;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="390" y="990" width="210" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="jOxMLj2nNzEwI72JrV1--89" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.019;entryY=0.627;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="jOxMLj2nNzEwI72JrV1--85" target="jOxMLj2nNzEwI72JrV1--87">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
