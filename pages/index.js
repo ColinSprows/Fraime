@@ -1,116 +1,64 @@
-import Head from 'next/head'
 import Image from 'next/image'
+import React, { useState } from "react";
+import { Configuration, OpenAIApi } from 'openai'
 
-import styles from '@/styles/Home.module.css'
+const Home = () => {
+  const [isShown, setIsShown] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
+  const [moveDown, setMoveDown] = useState(false);
+  const [showStatic, setShowStatic] = useState(false);
+  const [prompt, setPrompt] = useState("")
+  const [result, setResult] = useState('')
 
+  const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY
+  const configuration = new Configuration({apiKey: apiKey});
+  const openai = new OpenAIApi(configuration);
 
-export default function Home() {
+  const generateImage = async () => {
+    const response = await openai.createImage({
+        prompt: prompt,
+        n: 4,
+        size: "512x512",
+        // max_tokens: 2200,
+    });
+    const urls = response.data.data.map(item => item.url);
+    setResult(urls);
+  };
+
+  const handleClick = () => {
+    generateImage();
+    setFadeOut(true);
+    setTimeout(() => {
+      setIsShown(false)
+    }, 300);
+    setTimeout(() => {
+      setMoveDown(true)
+    }, 600); 
+    setTimeout(() => {
+      setShowStatic(true)
+    }, 1000); 
+  }
+
   return (
     <>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+      <main>
+        <header></header>
+        <div className="body">
+          <div className='image-wrapper'>
+            {result.length > 0 ? result.map((url, index) => <img key={index} className='result-image' src={url || ""} alt={`result ${index}`} />) : ""}
           </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
+            <input placeholder="prompt"name="prompt" type="text" onChange={(event) => { setPrompt(event.target.value) }}/>
+            <button onClick={handleClick}> Generate </button>
+            <div>
+              <div>
+                <button>Reprompt</button>
+                <button>Reroll</button>
+              </div>
+            </div>
         </div>
       </main>
     </>
   )
 }
+
+export default Home
