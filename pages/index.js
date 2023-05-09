@@ -15,14 +15,15 @@ const Home = () => {
   const openai = new OpenAIApi(configuration);
 
   const generateImage = async () => {
-    const response = await openai.createImage({
-        prompt: prompt,
-        n: 4,
-        size: "512x512",
-        // max_tokens: 2200,
+    const response = await fetch('/api/generateImage', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt: prompt }),
     });
-    const urls = response.data.data.map(item => item.url);
-    setResult(urls);
+    const data = await response.json();
+    setResult(data.urls);
   };
 
   const handleClick = () => {
