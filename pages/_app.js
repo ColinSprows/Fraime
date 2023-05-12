@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Head from "next/head";
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle, { theme } from "../globalStyles";
+import Header from "../components/header";
 
 export const Wrapper = styled.div`
 	max-width: 1600px;
@@ -27,6 +28,7 @@ function MyApp({ Component, pageProps }) {
 			</Head>
 			<Wrapper>
 				<Container>
+					<Header	/>
 					<Component {...pageProps} />
 					<GlobalStyle />
 				</Container>
