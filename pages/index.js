@@ -1,10 +1,17 @@
 import Image from "next/image";
-import styles from "@/styles/Home.module.css";
+import styled from "styled-components";
+
+export const Main = styled.h3`
+	font-family: DMSerifDisplayItalic;
+	font-size: 5rem;
+`;
 
 export default function Home() {
 	return (
 		<>
-			<main></main>
+			<Main>
+				this should be inter
+			</Main>
 		</>
 	);
 }
