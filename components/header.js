@@ -68,7 +68,9 @@ export default function Header() {
             <Right>
                 <Divider />
                 <Login>Login</Login>
-                <StartCreating>Start Creating</StartCreating>
+                <Link href="/generate">
+                  <StartCreating>Start Creating</StartCreating>
+                </Link>
             </Right>
         </HeaderContainer>
     )

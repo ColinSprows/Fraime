@@ -10,6 +10,9 @@ export const theme = {
 };
 
 const GlobalStyle = createGlobalStyle`
+  html, body, #__next {
+    background: ${theme.colors.background};
+  }
   @font-face {
     font-family: InterThin;
     src: url('/fonts//Inter/Inter-Thin.ttf') format('truetype');

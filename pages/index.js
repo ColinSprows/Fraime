@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Link from "next/link";
 
 export const Wrapper = styled.div`
-	background-color: ${props => props.theme.colors.background};
 	height: calc(100vh - 4rem);
 	display: flex;
 `;
