@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styled from "styled-components";
+import Link from "next/link";
 
 export const Wrapper = styled.div`
 	background-color: ${props => props.theme.colors.background};
@@ -106,6 +107,7 @@ export const StartCreatingButton = styled.button`
 	font-size: clamp(1.25rem, 2vw, 2rem);
 	letter-spacing: -0.05em;
 	white-space: nowrap;
+	cursor: pointer;
 
 	@media (max-width: 768px) {
 		padding: 1rem 6rem;
@@ -145,9 +147,11 @@ export default function Home() {
 					</TextContainer>
 				</Left>
 				<Right>
-					<StartCreatingButton>
-						Start Creating
-					</StartCreatingButton>
+					<Link href="/generate">
+						<StartCreatingButton>
+							Start Creating
+						</StartCreatingButton>
+					</Link>
 				</Right>
 			</Container>
 		</Wrapper>

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const HeaderContainer = styled.div`
   background-color: ${props => props.theme.colors.header};
@@ -26,8 +27,10 @@ const Login = styled.button`
   background: none;
   border: none;
   font-weight: 600;
-  padding: 0rem 1rem;
+  padding: 0rem 2rem;
   align-self: center;
+  height: 100%;
+  cursor: pointer;
 `
 
 const StartCreating = styled.button`
@@ -36,30 +39,31 @@ const StartCreating = styled.button`
   border: none;
   padding: 0rem 2rem;
   color: white;
-  margin-left: 1rem;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `
 
 const Divider = styled.div`
   height: 100%;
   border-right: 1px solid black;
-  margin: 0 1rem;  // Adding margin to give some space around the divider
 `;
 
 export default function Header() {
     return (
         <HeaderContainer>
             <Left>
-                {/* <Image 
-                    src="/fraime-logo.svg" 
-                    alt="Fraime" 
-                    width={30}
-                    height={30}
-                /> */}
-                <h1>F</h1>
+              <Link href="/">
+                  {/* <Image 
+                      src="/fraime-logo.svg" 
+                      alt="Fraime" 
+                      width={30}
+                      height={30}
+                  /> */}
+                  <h1>F</h1>
+                </Link>
             </Left>
             <Right>
                 <Divider />
