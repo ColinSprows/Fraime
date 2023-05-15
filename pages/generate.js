@@ -77,7 +77,6 @@ export const StartCreatingButton = styled.button`
 		// padding: 1rem 6rem;
 		padding: 1rem 0rem;
 		width: 80vw;
-		margin-top: -2rem;
 	}
 `
 
@@ -101,8 +100,9 @@ export const Input = styled.input`
 		// width: unset;
 		// padding: 1rem 6rem;
 		padding: 1rem 0rem;
+		padding-left: 1rem;
 		width: 100%;
-		margin-top: -2rem;
+		margin-bottom: 1rem;
 	}
 `
 
