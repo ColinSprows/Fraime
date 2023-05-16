@@ -10,10 +10,14 @@ export const Wrapper = styled.div`
 	display: flex;
 `;
 
-export const Container = styled.div`
+export const StaticContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	padding: 0rem 4rem;
+	position: fixed;
+	bottom: 0;
+	margin-bottom: 2rem;
+	
 
 	@media (max-width: 768px) {
 		flex-direction: column;
@@ -38,7 +42,9 @@ export const Left = styled.div`
 
 	@media (max-width: 768px) {
 		width: 100vw;
-		padding: 0rem 2rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 `
 
@@ -73,8 +79,7 @@ export const StartCreatingButton = styled.button`
 	cursor: pointer;
 
 	@media (max-width: 768px) {
-		// width: unset;
-		// padding: 1rem 6rem;
+		max-width: 800px;
 		padding: 1rem 0rem;
 		width: 80vw;
 	}
@@ -97,16 +102,51 @@ export const Input = styled.input`
 	}
 
 	@media (max-width: 768px) {
-		// width: unset;
-		// padding: 1rem 6rem;
 		padding: 1rem 0rem;
 		padding-left: 1rem;
-		width: 100%;
+		width: 80vw;
 		margin-bottom: 1rem;
 	}
 `
 
 export const ImageContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: auto;
+
+	& > :first-child {
+		margin-top: 4rem;
+	}
+
+	& > :last-child {
+		margin-bottom: 8rem;
+	}
+
+	@media (max-width: 768px) {
+
+		& > :first-child {
+			margin-top: 0rem;
+		}
+
+		& > :last-child {
+			margin-bottom: 12rem;
+		}
+	}
+`
+
+export const ImageEl = styled.div`
+	width: 40vw;
+	height: 40vw;
+	position: relative;
+	margin: 2rem 0rem;
+
+
+	@media (max-width: 768px) {
+		width: 100vw;
+		height: 100vw;
+		margin: 0rem 0rem;
+	}
 `
 
 const GeneratePage = () => {
@@ -146,19 +186,22 @@ const GeneratePage = () => {
 
 	return (
 		<Wrapper>
-			<Container>
+			<ImageContainer>
+				{result.length > 0
+				? result.map((url, index) => (
+					<ImageEl key={index}>
+					<Image
+						key={index}
+						src={url || ""}
+						alt={`result ${index}`}
+						fill
+					/>
+					</ImageEl>
+				))
+				: ""}
+			</ImageContainer>
+			<StaticContainer>
 				<Left>
-					<ImageContainer>
-						{result.length > 0
-						? result.map((url, index) => (
-							<img
-								key={index}
-								src={url || ""}
-								alt={`result ${index}`}
-							/>
-						))
-						: ""}
-					</ImageContainer>
 					<Input
 						placeholder="prompt"
 						name="prompt"
@@ -169,11 +212,13 @@ const GeneratePage = () => {
 					/>
 				</Left>
 				<Right>
-					<StartCreatingButton onClick={handleClick}>
-							Generate
-					</StartCreatingButton>
+					<Link href="/discovery">
+						<StartCreatingButton onClick={handleClick}>
+								Generate
+						</StartCreatingButton>
+					</Link>
 				</Right>
-			</Container>
+			</StaticContainer>
 		</Wrapper>
 	);
 };

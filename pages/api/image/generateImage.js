@@ -10,7 +10,7 @@ export default async function (req, res) {
 
 		const response = await openai.createImage({
 			prompt: prompt,
-			n: 4,
+			n: 8,
 			size: "1024x1024",
 			// max_tokens: 2200,
 		});
