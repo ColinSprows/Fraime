@@ -36,6 +36,7 @@ export const Left = styled.div`
 	@media (max-width: 768px) {
 		width: 100vw;
 		padding: 0rem 2rem;
+		align-items: center;
 	}
 `
 
@@ -94,12 +95,37 @@ export const MainSerif = styled.h3`
 export const Sub = styled.h5`
 	font-family: InterExtraLight;
 	font-size: clamp(0.5rem, 3vw, 1rem);
+
+	@media (max-width: 768px) {
+		display: none;
+	}
 `;
+
+export const SubMobile = styled.h5`
+	font-family: InterExtraLight;
+	font-size: clamp(0.5rem, 3vw, 1rem);
+`;
+
+export const Bottom = styled.div`
+	display: flex;
+	align-items: flex-start;
+	flex-direction: column;
+	justify-content: center;
+	width: 100vw;
+	max-width: 800px;
+	align-items: center;
+
+	@media (min-width: 768px) {
+		display: none;
+	}
+`
 
 export const StartCreatingButton = styled.button`
     background-color: ${props => props.theme.colors.button};
     color: black;
-	padding: 1rem 8vw;
+	padding: 1rem 0rem;
+	width: 30vw;
+	max-width: 500px;
 	border: 1px solid black;
 	border-radius: 50px;
 	font-family: InterBlack;
@@ -109,8 +135,11 @@ export const StartCreatingButton = styled.button`
 	cursor: pointer;
 
 	@media (max-width: 768px) {
-		padding: 1rem 6rem;
-		margin-top: 1rem;
+		// width: unset;
+		// padding: 1rem 6rem;
+		padding: 1rem 0rem;
+		width: 80vw;
+		margin-top: -2rem;
 	}
 `
 
@@ -152,6 +181,13 @@ export default function Home() {
 						</StartCreatingButton>
 					</Link>
 				</Right>
+				<Bottom>
+					<SubMobile style={{width: '80vw', maxWidth: '615px', marginTop: '3rem'}}>
+						Make your mark on the art world with our personalized, AI-generated prints. 
+						Simply enter a prompt, and our algorithm creates one-of-a-kind print designs that are exclusive to you. 
+						Create a statement piece that is as personal as it is beautiful.
+					</SubMobile>
+				</Bottom>
 			</Container>
 		</Wrapper>
 	);

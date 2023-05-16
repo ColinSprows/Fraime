@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const HeaderContainer = styled.div`
   background-color: ${props => props.theme.colors.header};
@@ -52,26 +53,32 @@ const Divider = styled.div`
 `;
 
 export default function Header() {
-    return (
-        <HeaderContainer>
-            <Left>
-              <Link href="/">
-                  {/* <Image 
-                      src="/fraime-logo.svg" 
-                      alt="Fraime" 
-                      width={30}
-                      height={30}
-                  /> */}
-                  <h1>F</h1>
-                </Link>
-            </Left>
-            <Right>
-                <Divider />
-                <Login>Login</Login>
-                <Link href="/generate">
-                  <StartCreating>Start Creating</StartCreating>
-                </Link>
-            </Right>
-        </HeaderContainer>
-    )
+  const router = useRouter();
+  // Check if the current path is the homepage
+  const isHomepage = router.pathname === '/';
+
+  return (
+    <HeaderContainer>
+      <Left>
+        <Link href="/">
+          {/* <Image 
+              src="/fraime-logo.svg" 
+              alt="Fraime" 
+              width={30}
+              height={30}
+          /> */}
+          <h1>F</h1>
+        </Link>
+      </Left>
+      <Right>
+        <Divider />
+        <Login>Login</Login>
+        {isHomepage && (
+        <Link href="/generate">
+          <StartCreating>Start Creating</StartCreating>
+        </Link>
+        )}
+      </Right>
+    </HeaderContainer>
+  )
   }
