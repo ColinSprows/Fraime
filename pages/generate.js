@@ -212,11 +212,9 @@ const GeneratePage = () => {
 					/>
 				</Left>
 				<Right>
-					<Link href="/discovery">
-						<StartCreatingButton onClick={handleClick}>
-								Generate
-						</StartCreatingButton>
-					</Link>
+					<StartCreatingButton onClick={handleClick}>
+							Generate
+					</StartCreatingButton>
 				</Right>
 			</StaticContainer>
 		</Wrapper>
