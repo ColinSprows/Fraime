@@ -64,7 +64,7 @@ export const Right = styled.div`
 	}
 `
 
-export const StartCreatingButton = styled.button`
+export const GenerateButton = styled.button`
     background-color: ${props => props.theme.colors.button};
     color: black;
 	padding: 1rem 0rem;
@@ -213,11 +213,11 @@ const GeneratePage = () => {
 					/>
 				</Left>
 				<Right>
-					<StartCreatingButton 
+					<GenerateButton 
 					onClick={handleClick}
 					>
 							Generate
-					</StartCreatingButton>
+					</GenerateButton>
 				</Right>
 			</StaticContainer>
 		</Wrapper>
