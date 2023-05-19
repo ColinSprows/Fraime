@@ -19,11 +19,14 @@ export const Container = styled.div`
 `;
 
 function MyApp({ Component, pageProps }) {
-	const [session, setSession] = useState()
+	const [ session, setSession ] = useState()
+  const [ context, setContext ] = useState({
+    prompt: 'this is a test. a prompt might go here.'
+  });
 
 	return (
 		<>
-		<AppContext.Provider value={{ session, setSession }}>
+		<AppContext.Provider value={{ session, setSession, context, setContext }}>
 			<ThemeProvider theme={theme}>
 				<Head>
 					<title>Fraime</title>
