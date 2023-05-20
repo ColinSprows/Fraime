@@ -197,7 +197,7 @@ export const HoverButtons = styled.div`
 	left: 0;
 	width: 100%;
 	height: 100%;
-	padding: 10px; // Adjust the padding to move the top left button away from the edge.
+	padding: 10px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -250,7 +250,9 @@ export const ImageEl = styled.div`
 	margin: 2rem 0rem;
 
 	&:hover {
-		opacity: 0.8;
+		.generatedImage {
+			opacity: 0.8;
+		}
 	}
 
 	&:hover ${HoverButtons} {
@@ -262,6 +264,14 @@ export const ImageEl = styled.div`
 		height: 100vw;
 		margin: 0rem 0rem;
 	}
+`;
+
+export const GeneratedImage = styled(Image).attrs({
+    className: 'generatedImage',
+})`
+	opacity: 1;
+	transition: opacity 0.3s ease;
+	// border-radius: 12px;
 `;
 
 const DiscoveryPage = () => {
@@ -320,7 +330,7 @@ const DiscoveryPage = () => {
 				{result.length > 0
 					? result.map((url, index) => (
 							<ImageEl key={index}>
-								<Image key={index} src={url || ""} alt={`result ${index}`} fill />
+								<GeneratedImage key={index} src={url || ""} alt={`result ${index}`} fill />
 								<HoverButtons>
 									<Link href="/product">
 										<CenterButton>Buy</CenterButton>
