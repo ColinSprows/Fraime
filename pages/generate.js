@@ -73,6 +73,16 @@ export const GenerateButton = styled.button`
 	letter-spacing: -0.05em;
 	white-space: nowrap;
 	cursor: pointer;
+	transition: 0.2s;
+	will-change: transform;
+
+	&:hover {
+		letter-spacing: 0em;
+	}
+
+	&:active {
+		letter-spacing: -0.05em;
+	}
 
 	@media (max-width: 768px) {
 		max-width: 800px;
