@@ -61,7 +61,7 @@ export const Right = styled.div`
 	}
 `;
 
-export const GenerateButton = styled.button`
+export const RePromptButton = styled.button`
 	background-color: ${(props) => props.theme.colors.button};
 	color: black;
 	padding: 1rem 0rem;
@@ -74,6 +74,16 @@ export const GenerateButton = styled.button`
 	letter-spacing: -0.05em;
 	white-space: nowrap;
 	cursor: pointer;
+	transition: 0.2s;
+	will-change: transform;
+
+	&:hover {
+		letter-spacing: 0em;
+	}
+
+	&:active {
+		letter-spacing: -0.05em;
+	}
 
 	@media (max-width: 768px) {
 		max-width: 800px;
@@ -173,11 +183,71 @@ export const ImageContainer = styled.div`
 	}
 `;
 
+export const HoverButtons = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding: 10px; // Adjust the padding to move the top left button away from the edge.
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+`;
+
+export const CenterButton = styled.button`
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 30%;
+	font-family: InterBlack;
+	font-size: clamp(1.25rem, 2vw, 2rem);
+	letter-spacing: -0.05em;
+	white-space: nowrap;
+	cursor: pointer;
+	transform: translate(-50%, -50%);
+	background-color: ${(props) => props.theme.colors.button};
+	color: black;
+	border: 1px solid black;
+	border-radius: 50px;
+	padding: 1rem 0rem;
+	transition: 0.2s;
+	will-change: transform;
+
+	&:hover {
+		transform: translate(-51%, -51%) scale(1.03);
+		background: ${(props) => props.theme.colors.button};
+		box-shadow: 0.25rem 0.25rem black;
+	}
+
+	&:active {
+		transform: translate(-50%, -50%) scale(1);
+		box-shadow: none;
+	}
+`;
+
+export const TopRightButton = styled.div`
+	position: absolute;
+	top: 0;
+	right: 0;
+	// transform: translate(-10%, 20%); // to add some margin from top left edge
+`;
+
 export const ImageEl = styled.div`
 	width: 40vw;
 	height: 40vw;
 	position: relative;
 	margin: 2rem 0rem;
+
+	&:hover {
+		opacity: 0.8;
+	}
+
+	&:hover ${HoverButtons} {
+		opacity: 1;
+	}
 
 	@media (max-width: 768px) {
 		width: 100vw;
@@ -212,6 +282,10 @@ const DiscoveryPage = () => {
 		// Prevents hydration issues
 		setHasMounted(true);
 		// generateImage();
+		setResult([
+			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-2wi8dMzmEuyGAeyA9cg7Wjcy.png?st=2023-05-20T15%3A32%3A27Z&se=2023-05-20T17%3A32%3A27Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-20T01%3A47%3A58Z&ske=2023-05-21T01%3A47%3A58Z&sks=b&skv=2021-08-06&sig=m35sUnMgUDc4ILlhG5xbqcriWn%2BBE7Ou1wjX2cThpxM%3D&w=2048&q=7",
+			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-2wi8dMzmEuyGAeyA9cg7Wjcy.png?st=2023-05-20T15%3A32%3A27Z&se=2023-05-20T17%3A32%3A27Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-20T01%3A47%3A58Z&ske=2023-05-21T01%3A47%3A58Z&sks=b&skv=2021-08-06&sig=m35sUnMgUDc4ILlhG5xbqcriWn%2BBE7Ou1wjX2cThpxM%3D&w=2048&q=75",
+		]);
 		console.log("generateImage");
 	}, []);
 
@@ -231,6 +305,19 @@ const DiscoveryPage = () => {
 					? result.map((url, index) => (
 							<ImageEl key={index}>
 								<Image key={index} src={url || ""} alt={`result ${index}`} fill />
+								<HoverButtons>
+									<Link href="/product">
+										<CenterButton>Buy</CenterButton>
+									</Link>
+									<TopRightButton>
+										<Image
+											src="/page-flip.svg"
+											alt="page flip icon"
+											height={35}
+											width={35}
+										/>
+									</TopRightButton>
+								</HoverButtons>
 							</ImageEl>
 					  ))
 					: ""}
@@ -238,14 +325,14 @@ const DiscoveryPage = () => {
 			<StaticContainer>
 				<Left>
 					<Link href="/generate">
-						<GenerateButton>Re-Prompt</GenerateButton>
+						<RePromptButton>Re-Prompt</RePromptButton>
 					</Link>
 				</Left>
 				<Right>
 					<InputWrapper>
 						<Input placeholder={prompt} name="prompt" type="text" readOnly={true} />
 						<IconWrapper onClick={() => handleClick()}>
-							<Image src="/rotate-right-solid.svg" alt="rotate icon" fill />
+							<Image src="/repeat-solid.svg" alt="rotate icon" fill />
 						</IconWrapper>
 					</InputWrapper>
 				</Right>
