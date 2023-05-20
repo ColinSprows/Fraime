@@ -1,11 +1,9 @@
 import Image from "next/image";
 import React, { useState, useEffect, useContext } from "react";
-import AppContext from '@/components/AppContext';
+import AppContext from "@/components/AppContext";
 import { Configuration, OpenAIApi } from "openai";
 import styled, { keyframes } from "styled-components";
 import Link from "next/link";
-
-
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -19,7 +17,6 @@ export const StaticContainer = styled.div`
 	position: fixed;
 	bottom: 0;
 	margin-bottom: 2rem;
-	
 
 	@media (max-width: 768px) {
 		flex-direction: column;
@@ -32,7 +29,7 @@ export const StaticContainer = styled.div`
 		justify-content: center;
 		width: 100%;
 	}
-`
+`;
 
 export const Left = styled.div`
 	display: flex;
@@ -40,7 +37,6 @@ export const Left = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	width: 60vw;
-	max-width: 800px;
 
 	@media (max-width: 768px) {
 		width: 100vw;
@@ -48,15 +44,13 @@ export const Left = styled.div`
 		justify-content: center;
 		align-items: center;
 	}
-`
+`;
 
 export const Right = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: calc(40vw-8rem);
-	max-width: 600px;
-	
 
 	@media (max-width: 768px) {
 		width: 100vw;
@@ -64,13 +58,13 @@ export const Right = styled.div`
 		justify-content: center;
 		align-items: center;
 	}
-`
+`;
 
 export const GenerateButton = styled.button`
-    background-color: ${props => props.theme.colors.button};
-    color: black;
+	background-color: ${(props) => props.theme.colors.button};
+	color: black;
 	padding: 1rem 0rem;
-	width: ${({ generateExpand }) => (generateExpand ? '100vw' : '30vw')};
+	width: ${({ generateExpand }) => (generateExpand ? "100vw" : "30vw")};
 	max-width: 500px;
 	border: 1px solid black;
 	border-radius: 50px;
@@ -85,7 +79,7 @@ export const GenerateButton = styled.button`
 		padding: 1rem 0rem;
 		width: 80vw;
 	}
-`
+`;
 
 export const Input = styled.input`
 	color: black;
@@ -98,7 +92,7 @@ export const Input = styled.input`
 	font-size: clamp(1.25rem, 2vw, 2rem);
 	letter-spacing: -0.05em;
 	white-space: nowrap;
-	display: ${({ inputFade }) => (inputFade ? 'none' : 'flex')};
+	display: ${({ inputFade }) => (inputFade ? "none" : "flex")};
 
 	&::placeholder {
 		color: grey;
@@ -110,11 +104,10 @@ export const Input = styled.input`
 		width: 80vw;
 		margin-bottom: 1rem;
 	}
-`
+`;
 
 const GeneratePage = () => {
 	const { context, setContext } = useContext(AppContext);
-	console.log(context);
 	return (
 		<Wrapper>
 			<StaticContainer>
@@ -124,15 +117,13 @@ const GeneratePage = () => {
 						name="prompt"
 						type="text"
 						onChange={(event) => {
-							setContext({...context, prompt: event.target.value})
+							setContext({ ...context, prompt: event.target.value });
 						}}
 					/>
 				</Left>
 				<Right>
 					<Link href="/discovery">
-						<GenerateButton >
-							Generate
-						</GenerateButton>
+						<GenerateButton>Generate</GenerateButton>
 					</Link>
 				</Right>
 			</StaticContainer>

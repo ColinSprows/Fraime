@@ -1,9 +1,9 @@
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import AppContext from "@/components/AppContext";
 import { Configuration, OpenAIApi } from "openai";
 import styled, { keyframes } from "styled-components";
 import Link from "next/link";
-
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -12,12 +12,12 @@ export const Wrapper = styled.div`
 
 export const StaticContainer = styled.div`
 	display: flex;
+	width: 100%;
 	flex-direction: row;
 	padding: 0rem 4rem;
 	position: fixed;
 	bottom: 0;
 	margin-bottom: 2rem;
-	
 
 	@media (max-width: 768px) {
 		flex-direction: column;
@@ -30,15 +30,14 @@ export const StaticContainer = styled.div`
 		justify-content: center;
 		width: 100%;
 	}
-`
+`;
 
 export const Left = styled.div`
 	display: flex;
 	align-items: flex-start;
 	flex-direction: column;
 	justify-content: center;
-	width: 60vw;
-	max-width: 800px;
+	width: calc(40vw-8rem);
 
 	@media (max-width: 768px) {
 		width: 100vw;
@@ -46,15 +45,13 @@ export const Left = styled.div`
 		justify-content: center;
 		align-items: center;
 	}
-`
+`;
 
 export const Right = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: calc(40vw-8rem);
-	max-width: 600px;
-	
+	width: 60vw;
 
 	@media (max-width: 768px) {
 		width: 100vw;
@@ -62,13 +59,13 @@ export const Right = styled.div`
 		justify-content: center;
 		align-items: center;
 	}
-`
+`;
 
 export const GenerateButton = styled.button`
-    background-color: ${props => props.theme.colors.button};
-    color: black;
+	background-color: ${(props) => props.theme.colors.button};
+	color: black;
 	padding: 1rem 0rem;
-	width: ${({ generateExpand }) => (generateExpand ? '100vw' : '30vw')};
+	width: 30vw;
 	max-width: 500px;
 	border: 1px solid black;
 	border-radius: 50px;
@@ -82,13 +79,49 @@ export const GenerateButton = styled.button`
 		max-width: 800px;
 		padding: 1rem 0rem;
 		width: 80vw;
+		margin-bottom: 1rem;
 	}
-`
+`;
+
+export const InputWrapper = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+	position: relative;
+
+	@media (max-width: 768px) {
+		width: 100vw;
+		display: flex;
+		height: 100%;
+		justify-content: center;
+		align-items: center;
+	}
+`;
+
+export const IconWrapper = styled.div`
+	position: absolute;
+	width: 3vw;
+	height: 3vw;
+	right: 35px;
+	top: 50%;
+	transform: translateY(-50%);
+	cursor: pointer;
+
+	@media (max-width: 768px) {
+		width: 5vw;
+		height: 5vw;
+		min-width: 50px;
+		right: 12vw;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+`;
 
 export const Input = styled.input`
 	color: black;
 	padding: 1rem 0rem;
 	padding-left: 1.5rem;
+	padding-right: 1.5rem;
 	width: calc(100% - 1rem);
 	border: 1px solid black;
 	border-radius: 50px;
@@ -96,19 +129,24 @@ export const Input = styled.input`
 	font-size: clamp(1.25rem, 2vw, 2rem);
 	letter-spacing: -0.05em;
 	white-space: nowrap;
-	display: ${({ inputFade }) => (inputFade ? 'none' : 'flex')};
+	display: ${({ inputFade }) => (inputFade ? "none" : "flex")};
 
 	&::placeholder {
 		color: grey;
+	}
+
+	&[readonly] {
+		cursor: not-allowed;
+		pointer-events: none;
+		background-color: lightgray;
 	}
 
 	@media (max-width: 768px) {
 		padding: 1rem 0rem;
 		padding-left: 1rem;
 		width: 80vw;
-		margin-bottom: 1rem;
 	}
-`
+`;
 
 export const ImageContainer = styled.div`
 	display: flex;
@@ -125,7 +163,6 @@ export const ImageContainer = styled.div`
 	}
 
 	@media (max-width: 768px) {
-
 		& > :first-child {
 			margin-top: 0rem;
 		}
@@ -134,7 +171,7 @@ export const ImageContainer = styled.div`
 			margin-bottom: 12rem;
 		}
 	}
-`
+`;
 
 export const ImageEl = styled.div`
 	width: 40vw;
@@ -142,29 +179,19 @@ export const ImageEl = styled.div`
 	position: relative;
 	margin: 2rem 0rem;
 
-
 	@media (max-width: 768px) {
 		width: 100vw;
 		height: 100vw;
 		margin: 0rem 0rem;
 	}
-`
+`;
 
-const GeneratePage = () => {
+const DiscoveryPage = () => {
 	const [hasMounted, setHasMounted] = useState(false);
-	const [prompt, setPrompt] = useState("");
+	const { context, setContext } = useContext(AppContext);
+	const [prompt, setPrompt] = useState(context.prompt);
 	const [result, setResult] = useState("");
-	
 
-	useEffect(() => {
-		// Prevents hydration issues
-		setHasMounted(true);
-	  }, []);
-	
-	  if (!hasMounted) {
-		return null;
-	  }
-	
 	const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 	const configuration = new Configuration({ apiKey: apiKey });
 	const openai = new OpenAIApi(configuration);
@@ -181,47 +208,50 @@ const GeneratePage = () => {
 		setResult(data.urls);
 	};
 
+	useEffect(() => {
+		// Prevents hydration issues
+		setHasMounted(true);
+		// generateImage();
+		console.log("generateImage");
+	}, []);
+
+	if (!hasMounted) {
+		return null;
+	}
+
 	const handleClick = () => {
-		generateImage();
+		// generateImage();
+		console.log("clicked");
 	};
 
 	return (
 		<Wrapper>
 			<ImageContainer>
 				{result.length > 0
-				? result.map((url, index) => (
-					<ImageEl key={index}>
-					<Image
-						key={index}
-						src={url || ""}
-						alt={`result ${index}`}
-						fill
-					/>
-					</ImageEl>
-				))
-				: ""}
+					? result.map((url, index) => (
+							<ImageEl key={index}>
+								<Image key={index} src={url || ""} alt={`result ${index}`} fill />
+							</ImageEl>
+					  ))
+					: ""}
 			</ImageContainer>
 			<StaticContainer>
 				<Left>
-					<Input
-						placeholder="prompt"
-						name="prompt"
-						type="text"
-						onChange={(event) => {
-							setPrompt(event.target.value);
-						}}
-					/>
+					<Link href="/generate">
+						<GenerateButton>Re-Prompt</GenerateButton>
+					</Link>
 				</Left>
 				<Right>
-					<GenerateButton 
-					onClick={handleClick}
-					>
-							Generate
-					</GenerateButton>
+					<InputWrapper>
+						<Input placeholder={prompt} name="prompt" type="text" readOnly={true} />
+						<IconWrapper onClick={() => handleClick()}>
+							<Image src="/rotate-right-solid.svg" alt="rotate icon" fill />
+						</IconWrapper>
+					</InputWrapper>
 				</Right>
 			</StaticContainer>
 		</Wrapper>
 	);
 };
 
-export default GeneratePage;
+export default DiscoveryPage;
