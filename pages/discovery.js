@@ -4,11 +4,19 @@ import AppContext from "@/components/AppContext";
 import { Configuration, OpenAIApi } from "openai";
 import styled, { keyframes } from "styled-components";
 import Link from "next/link";
+import Loading from "../components/sub-components/loading";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
 	display: flex;
 `;
+
+export const LoadingContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+`
 
 export const StaticContainer = styled.div`
 	display: flex;
@@ -261,6 +269,7 @@ const DiscoveryPage = () => {
 	const { context, setContext } = useContext(AppContext);
 	const [prompt, setPrompt] = useState(context.prompt);
 	const [result, setResult] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
 	const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 	const configuration = new Configuration({ apiKey: apiKey });
@@ -276,15 +285,17 @@ const DiscoveryPage = () => {
 		});
 		const data = await response.json();
 		setResult(data.urls);
+		setIsLoading(false);
 	};
 
 	useEffect(() => {
 		// Prevents hydration issues
 		setHasMounted(true);
+		// setIsLoading(true);
 		// generateImage();
 		setResult([
-			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-2wi8dMzmEuyGAeyA9cg7Wjcy.png?st=2023-05-20T15%3A32%3A27Z&se=2023-05-20T17%3A32%3A27Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-20T01%3A47%3A58Z&ske=2023-05-21T01%3A47%3A58Z&sks=b&skv=2021-08-06&sig=m35sUnMgUDc4ILlhG5xbqcriWn%2BBE7Ou1wjX2cThpxM%3D&w=2048&q=7",
-			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-2wi8dMzmEuyGAeyA9cg7Wjcy.png?st=2023-05-20T15%3A32%3A27Z&se=2023-05-20T17%3A32%3A27Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-20T01%3A47%3A58Z&ske=2023-05-21T01%3A47%3A58Z&sks=b&skv=2021-08-06&sig=m35sUnMgUDc4ILlhG5xbqcriWn%2BBE7Ou1wjX2cThpxM%3D&w=2048&q=75",
+			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-enTokpPIKTcYJ89ZlSTjzeJe.png?st=2023-05-20T20:02:05Z&se=2023-05-20T22:02:05Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-20T09:52:26Z&ske=2023-05-21T09:52:26Z&sks=b&skv=2021-08-06&sig=AdOY3BDDzKQ3y697y2yl5yRtCdFuOzlvrOFq6sGLLso=&w=2048&q=75",
+			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-enTokpPIKTcYJ89ZlSTjzeJe.png?st=2023-05-20T20:02:05Z&se=2023-05-20T22:02:05Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-20T09:52:26Z&ske=2023-05-21T09:52:26Z&sks=b&skv=2021-08-06&sig=AdOY3BDDzKQ3y697y2yl5yRtCdFuOzlvrOFq6sGLLso=&w=2048&q=75",
 		]);
 		console.log("generateImage");
 	}, []);
@@ -300,6 +311,11 @@ const DiscoveryPage = () => {
 
 	return (
 		<Wrapper>
+			{isLoading ? (
+				<LoadingContainer>
+					<Loading />
+				</LoadingContainer>
+			) : (
 			<ImageContainer>
 				{result.length > 0
 					? result.map((url, index) => (
@@ -322,6 +338,7 @@ const DiscoveryPage = () => {
 					  ))
 					: ""}
 			</ImageContainer>
+			)}
 			<StaticContainer>
 				<Left>
 					<Link href="/generate">
