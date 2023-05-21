@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useState, useEffect, useContext } from "react";
-import ContextProvider from "../components/ContextProvider";
+import ContextProvider from "../context/ContextProvider";
 import { Configuration, OpenAIApi } from "openai";
 import styled, { keyframes } from "styled-components";
 import Link from "next/link";

@@ -2,7 +2,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import { useContext } from "react";
-import ContextProvider from "@/components/ContextProvider";
+import ContextProvider from "@/context/ContextProvider";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);

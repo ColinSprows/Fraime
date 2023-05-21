@@ -4,7 +4,7 @@ import Head from "next/head";
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle, { theme } from "../globalStyles";
 import Header from "../components/header";
-import { ContextProvider } from "@/components/ContextProvider";
+import { ContextProvider } from "@/context/ContextProvider";
 
 export const Wrapper = styled.div`
 	max-width: 1600px;
