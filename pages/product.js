@@ -9,6 +9,10 @@ export const Wrapper = styled.div`
 	@media (max-height: 696px) {
 		align-items: flex-start;
 	}
+
+	@media (max-width: 768px) {
+		align-items: flex-start;
+	}
 `;
 
 export const Left = styled.div`
@@ -174,6 +178,10 @@ export const BottomContainer = styled.div`
 	@media (max-height: 696px) {
 		margin-top: 2rem;
 	}
+
+	@media (max-width: 768px) {
+		margin-top: 2rem;
+	}
 `;
 
 export const BottomText = styled.h5`
@@ -200,7 +208,7 @@ export const BuyNowButton = styled.button`
     color: white;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   }
-  
+
   @media (max-width: 768px) {
     max-width: 800px;
     padding: 1rem 0rem;
