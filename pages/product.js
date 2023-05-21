@@ -181,35 +181,33 @@ export const BottomText = styled.h5`
 `;
 
 export const BuyNowButton = styled.button`
-	background-color: ${(props) => props.theme.colors.button};
-	color: black;
-	padding: 1rem 0rem;
-	width: 100%;
-	border: 1px solid black;
-	border-radius: 50px;
-	font-family: InterBlack;
-	font-size: clamp(1.25rem, 2vw, 2rem);
-	letter-spacing: -0.05em;
-	white-space: nowrap;
-	cursor: pointer;
-	margin-top: 2rem;
-	transition: 0.2s;
-	will-change: transform;
+  background-color: ${(props) => props.theme.colors.button};
+  color: black;
+  padding: 1rem 0rem;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 50px;
+  font-family: InterBlack;
+  font-size: clamp(1.25rem, 2vw, 2rem);
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  cursor: pointer;
+  margin-top: 2rem;
+  transition: 0.2s;
+  will-change: transform;
 
-	&:hover {
-		letter-spacing: 0em;
-	}
-
-	&:active {
-		letter-spacing: -0.05em;
-	}
-
-	@media (max-width: 768px) {
-		max-width: 800px;
-		padding: 1rem 0rem;
-		width: 80vw;
-	}
+  &:hover span {
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  }
+  
+  @media (max-width: 768px) {
+    max-width: 800px;
+    padding: 1rem 0rem;
+    width: 80vw;
+  }
 `;
+
 
 const ProductPage = () => {
 	const [selectedTab, setSelectedTab] = useState("Print");
@@ -411,7 +409,9 @@ const ProductPage = () => {
 						<BottomText>Add the prompt to the back of the print</BottomText>
 					</BottomContainer>
 				</BuyCard>
-				<BuyNowButton>Buy Now</BuyNowButton>
+				<BuyNowButton>
+					<span>Buy Now</span>
+				</BuyNowButton>
 			</Right>
 		</Wrapper>
 	);
