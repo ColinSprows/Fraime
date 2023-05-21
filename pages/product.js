@@ -5,6 +5,10 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
 	display: flex;
+
+	@media (max-height: 696px) {
+		align-items: flex-start;
+	}
 `;
 
 export const Left = styled.div`
@@ -35,37 +39,6 @@ export const Right = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-	}
-`;
-
-export const BuyNowButton = styled.button`
-	background-color: ${(props) => props.theme.colors.button};
-	color: black;
-	padding: 1rem 0rem;
-	width: 100%;
-	border: 1px solid black;
-	border-radius: 50px;
-	font-family: InterBlack;
-	font-size: clamp(1.25rem, 2vw, 2rem);
-	letter-spacing: -0.05em;
-	white-space: nowrap;
-	cursor: pointer;
-	margin-top: 2rem;
-	transition: 0.2s;
-	will-change: transform;
-
-	&:hover {
-		letter-spacing: 0em;
-	}
-
-	&:active {
-		letter-spacing: -0.05em;
-	}
-
-	@media (max-width: 768px) {
-		max-width: 800px;
-		padding: 1rem 0rem;
-		width: 80vw;
 	}
 `;
 
@@ -164,6 +137,7 @@ export const BodyContainer = styled.div`
 	height: calc(100% - 5rem);
 	display: flex;
 	flex-direction: column;
+	overflow-y: auto;
 `;
 
 export const BodySection = styled.div``;
@@ -196,10 +170,45 @@ export const BottomContainer = styled.div`
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+
+	@media (max-height: 696px) {
+		margin-top: 2rem;
+	}
 `;
 
 export const BottomText = styled.h5`
 	font-family: Inter;
+`;
+
+export const BuyNowButton = styled.button`
+	background-color: ${(props) => props.theme.colors.button};
+	color: black;
+	padding: 1rem 0rem;
+	width: 100%;
+	border: 1px solid black;
+	border-radius: 50px;
+	font-family: InterBlack;
+	font-size: clamp(1.25rem, 2vw, 2rem);
+	letter-spacing: -0.05em;
+	white-space: nowrap;
+	cursor: pointer;
+	margin-top: 2rem;
+	transition: 0.2s;
+	will-change: transform;
+
+	&:hover {
+		letter-spacing: 0em;
+	}
+
+	&:active {
+		letter-spacing: -0.05em;
+	}
+
+	@media (max-width: 768px) {
+		max-width: 800px;
+		padding: 1rem 0rem;
+		width: 80vw;
+	}
 `;
 
 const ProductPage = () => {
