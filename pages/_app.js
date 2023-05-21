@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import styled from "styled-components";
 import Head from "next/head";
 import { ThemeProvider } from 'styled-components';
-import GlobalStyle, { theme } from "../globalStyles";
+import GlobalStyle, { theme } from "../styles/globalStyles";
 import Header from "../components/header";
 import { ContextProvider } from "@/context/ContextProvider";
 
