@@ -2,7 +2,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import { useContext } from "react";
-import AppContext from "@/components/AppContext";
+import ContextProvider from "@/components/ContextProvider";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -158,7 +158,7 @@ export const StartCreatingButton = styled.button`
 `;
 
 export default function Home() {
-	const { context, setContext } = useContext(AppContext);
+	const { context, setContext } = useContext(ContextProvider);
 	console.log(context);
 
 	return (
