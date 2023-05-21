@@ -1,8 +1,7 @@
 import Image from "next/image";
-import React, { useState, useEffect, useContext } from "react";
-import ContextProvider from "../context/ContextProvider";
-import { Configuration, OpenAIApi } from "openai";
-import styled, { keyframes } from "styled-components";
+import React from "react";
+import { usePromptContext } from "../context/ContextProvider";
+import styled from "styled-components";
 import Link from "next/link";
 
 export const Wrapper = styled.div`
@@ -117,7 +116,7 @@ export const Input = styled.input`
 `;
 
 const GeneratePage = () => {
-	const { context, setContext } = useContext(ContextProvider);
+	const { context, setContext } = usePromptContext();
 	return (
 		<Wrapper>
 			<StaticContainer>

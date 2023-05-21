@@ -1,6 +1,6 @@
 import Image from "next/image";
-import React, { useState, useEffect, useContext } from "react";
-import ContextProvider from "@/context/ContextProvider";
+import React, { useState, useEffect } from "react";
+import { useImageContext, usePromptContext } from "../context/ContextProvider";
 import { Configuration, OpenAIApi } from "openai";
 import styled, { keyframes } from "styled-components";
 import Link from "next/link";
@@ -276,7 +276,8 @@ export const GeneratedImage = styled(Image).attrs({
 
 const DiscoveryPage = () => {
 	const [hasMounted, setHasMounted] = useState(false);
-	const { context, setContext } = useContext(ContextProvider);
+	const { context, setContext } = usePromptContext();
+	const { selectedImage, selectImage } = useImageContext();
 	const [prompt, setPrompt] = useState(context.prompt);
 	const [result, setResult] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -314,7 +315,8 @@ const DiscoveryPage = () => {
 		return null;
 	}
 
-	const handleBuyClick = () => {
+	const handleBuyClick = (url) => {
+		selectImage(url);
 	};
 
 	const handleFlipClick = () => {
@@ -339,8 +341,7 @@ const DiscoveryPage = () => {
 								<GeneratedImage key={index} src={url || ""} alt={`result ${index}`} fill />
 								<HoverButtons>
 									<Link href="/product">
-										<BuyButton onClick={() => handleBuyClick()}>Buy</BuyButton>
-									</Link>
+										<BuyButton onClick={() => handleBuyClick(url)}>Buy</BuyButton>									</Link>
 									<TopRightButton onClick={() => handleFlipClick()}>
 										<Image
 											src="/page-flip.svg"

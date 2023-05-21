@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useImageContext } from "../context/ContextProvider";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -12,13 +13,13 @@ export const Wrapper = styled.div`
 
 	@media (max-width: 768px) {
 		align-items: flex-start;
+		flex-direction: column;
 	}
 `;
 
 export const Left = styled.div`
 	display: flex;
-	align-items: flex-start;
-	flex-direction: column;
+	align-items: center;
 	justify-content: center;
 	width: 50%;
 
@@ -43,6 +44,7 @@ export const Right = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		padding: 2rem 2rem 2rem 2rem;
 	}
 `;
 
@@ -144,7 +146,13 @@ export const BodyContainer = styled.div`
 	overflow-y: auto;
 `;
 
-export const BodySection = styled.div``;
+export const BodySection = styled.div`
+	:last-child {
+		@media (max-width: 768px) {
+			margin-bottom: 2rem;
+		}
+	}
+`;
 
 export const BodySectionHeader = styled.h4`
 	font-family: Inter;
@@ -176,10 +184,6 @@ export const BottomContainer = styled.div`
 	align-items: center;
 
 	@media (max-height: 696px) {
-		margin-top: 2rem;
-	}
-
-	@media (max-width: 768px) {
 		margin-top: 2rem;
 	}
 `;
@@ -216,6 +220,12 @@ export const BuyNowButton = styled.button`
   }
 `;
 
+export const ImageContainer = styled.div`
+  width: 20vw;
+  height: 20vw;
+  position: relative;
+`
+
 
 const ProductPage = () => {
 	const [selectedTab, setSelectedTab] = useState("Print");
@@ -249,9 +259,15 @@ const ProductPage = () => {
 		setSelectedFrameColor(frameColor);
 	};
 
+	const { selectedImage } = useImageContext();
+
 	return (
 		<Wrapper>
-			<Left></Left>
+			<Left>
+				<ImageContainer>
+					{selectedImage && <Image src={selectedImage} alt="Selected product image" fill/>}
+				</ImageContainer>
+			</Left>
 			<Right>
 				<BuyCard>
 					<TopTabsContainer>
