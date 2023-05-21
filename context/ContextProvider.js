@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 
 const AppContext = createContext();
 const PromptContext = createContext();
@@ -13,7 +13,17 @@ export function ContextProvider({ children }) {
   const [context, setContext] = useState({ prompt: 'this is a test. a prompt might go here.' });
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const selectImage = (url) => setSelectedImage(url);
+  useEffect(() => {
+    const image = localStorage.getItem("selectedImage");
+    if (image) {
+      setSelectedImage(image);
+    }
+  }, []);
+
+  const selectImage = (url) => {
+    setSelectedImage(url);
+    localStorage.setItem("selectedImage", url);
+  };
 
   return (
     <AppContext.Provider value={{ session, setSession }}>
