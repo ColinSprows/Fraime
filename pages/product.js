@@ -229,8 +229,8 @@ export const BuyNowButton = styled.button`
 `;
 
 export const ImageContainer = styled.div`
-	width: 35vw;
-	height: 35vw;
+	width: 30vw;
+	height: 30vw;
 	position: relative;
 `;
 

@@ -349,6 +349,19 @@ const DiscoveryPage = () => {
 		console.log("generateImage");
 	}, []);
 
+	// to be called on click of Buy or on click of fine tune
+	const saveImage = async (url) => {
+		const response = await fetch("/api/image/saveImage", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ url: url }),
+		});
+		const data = await response.json();
+		console.log(data);
+	};
+
 	if (!hasMounted) {
 		return null;
 	}
@@ -360,19 +373,20 @@ const DiscoveryPage = () => {
 
 	const handleBuyClick = (url) => {
 		selectImage(url);
+		saveImage(url);
 	};
 
-	const handleFlipClick = (index) => {
-		// if (isFlipped.includes(index)) {
-		//     setIsFlipped(prevState => prevState.filter(item => item !== index));
-		// } else {
-		//     setIsFlipped(prevState => [...prevState, index]);
-		// }
-	};
+	// const handleFlipClick = (index) => {
+	// 	if (isFlipped.includes(index)) {
+	// 	    setIsFlipped(prevState => prevState.filter(item => item !== index));
+	// 	} else {
+	// 	    setIsFlipped(prevState => [...prevState, index]);
+	// 	}
+	// };
 
-	const handleFlipBackClick = (index) => {
-		setIsFlipped((prevState) => prevState.filter((item) => item !== index));
-	};
+	// const handleFlipBackClick = (index) => {
+	// 	setIsFlipped((prevState) => prevState.filter((item) => item !== index));
+	// };
 
 	return (
 		<Wrapper>
@@ -409,9 +423,9 @@ const DiscoveryPage = () => {
 								</Back> */}
 									{!isFlipped.includes(index) && (
 										<HoverButtons>
-											<Link href="/product">
-												<BuyButton onClick={() => handleBuyClick(url)}>Buy</BuyButton>
-											</Link>
+											{/* <Link href="/product"> */}
+											<BuyButton onClick={() => handleBuyClick(url)}>Buy</BuyButton>
+											{/* </Link> */}
 											{/* <TopRightButton onClick={() => handleFlipClick(index)}>
 											<Image
 												src="/page-flip.svg"
