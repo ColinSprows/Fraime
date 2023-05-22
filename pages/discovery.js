@@ -315,7 +315,7 @@ export const GeneratedImageBack = styled(Image)`
 const DiscoveryPage = () => {
 	const [hasMounted, setHasMounted] = useState(false);
 	const { promptInfo, setPromptInfo } = usePromptContext();
-	const { selectedImage, selectImage } = useImageContext();
+	const { selectedImage, setSelectedImage } = useImageContext();
 	const [prompt, setPrompt] = useState(promptInfo.prompt);
 	const [result, setResult] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -351,7 +351,6 @@ const DiscoveryPage = () => {
 
 	// to be called on click of Buy or on click of fine tune
 	const saveImage = async (url) => {
-		console.log(promptInfo.prompt_id);
 		const response = await fetch("/api/image/saveImage", {
 			method: "POST",
 			headers: {
@@ -360,7 +359,14 @@ const DiscoveryPage = () => {
 			body: JSON.stringify({ url: url, prompt_id: promptInfo.prompt_id }),
 		});
 		const data = await response.json();
-		console.log(data);
+		console.log(selectedImage);
+		console.log(data.image._id);
+		if (!data) {
+			return console.log("no data");
+		} else {
+			setSelectedImage({ url, image_id: data.image._id });
+			console.log("selectedImage", selectedImage);
+		}
 	};
 
 	if (!hasMounted) {
@@ -373,7 +379,6 @@ const DiscoveryPage = () => {
 	};
 
 	const handleBuyClick = (url) => {
-		selectImage(url);
 		saveImage(url);
 	};
 

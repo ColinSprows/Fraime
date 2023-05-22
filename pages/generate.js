@@ -124,7 +124,7 @@ const GeneratePage = () => {
 		const response = await fetch("/api/prompt/createPrompt", {
 			method: "POST",
 			headers: {
-				"`Co`ntent-Type": "application/json",
+				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(promptInfo.prompt),
 		});

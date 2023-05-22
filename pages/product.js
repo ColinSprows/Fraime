@@ -268,12 +268,25 @@ const ProductPage = () => {
 
 	const { selectedImage } = useImageContext();
 
+	const createOrder = async () => {
+		console.log("tbd");
+		const response = await fetch("/api/order/createOrder", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ url: url, prompt_id: promptInfo.prompt_id }),
+		});
+		const data = await response.json();
+		console.log(data);
+	};
+
 	return (
 		<Wrapper>
 			<Left>
 				<ImageContainer>
 					{selectedImage && (
-						<Image src={selectedImage} alt="Selected product image" fill />
+						<Image src={selectedImage.url} alt="Selected product image" fill />
 					)}
 				</ImageContainer>
 			</Left>

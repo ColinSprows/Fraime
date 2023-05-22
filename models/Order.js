@@ -1,11 +1,11 @@
 import { Schema, models, model, Types } from "mongoose";
 
 const orderSchema = new Schema({
-	user_id: {
-		type: Types.ObjectId,
-		required: true,
-		ref: "User",
-	},
+	// user_id: {
+	// 	type: Types.ObjectId,
+	// 	required: true,
+	// 	ref: "User",
+	// },
 	prompt_id: {
 		type: Types.ObjectId,
 		required: true,
