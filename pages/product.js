@@ -259,6 +259,14 @@ const ProductPage = () => {
 		setSelectedFrameColor(frameColor);
 	};
 
+  const handlePurchase = async () => {
+    const response = await fetch('/api/purchase', {
+      method: "POST"
+    })
+
+    console.log(response);
+  }
+
 	const { selectedImage } = useImageContext();
 
 	return (
@@ -433,9 +441,11 @@ const ProductPage = () => {
 						<BottomText>Add the prompt to the back of the print</BottomText>
 					</BottomContainer>
 				</BuyCard>
-				<BuyNowButton>
-					<span>Buy Now</span>
-				</BuyNowButton>
+
+          <BuyNowButton>
+            <span onClick={() => handlePurchase()}>Buy Now</span>
+          </BuyNowButton>
+
 			</Right>
 		</Wrapper>
 	);
