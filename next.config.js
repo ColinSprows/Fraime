@@ -11,9 +11,9 @@ const nextConfig = {
 			},
 			{
 				protocol: "https",
-				hostname: "drive.google.com",
+				hostname: "i.imgur.com",
 				port: "",
-				pathname: "/file/**",
+				pathname: "/**",
 			},
 		],
 	},

@@ -304,10 +304,7 @@ const DiscoveryPage = () => {
 		setHasMounted(true);
 		// setIsLoading(true);
 		// generateImage();
-		setResult([
-			"https://drive.google.com/file/d/1RjAXfQaFa1Im7zNb5G_digasdw8BKZyS/view?usp=sharing",
-			"https://drive.google.com/file/d/1RjAXfQaFa1Im7zNb5G_digasdw8BKZyS/view?usp=sharing",
-		]);
+		setResult(["https://i.imgur.com/E8QwDMM.png", "https://i.imgur.com/E8QwDMM.png"]);
 		console.log("generateImage");
 	}, []);
 
