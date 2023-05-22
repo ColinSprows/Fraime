@@ -16,7 +16,7 @@ export const LoadingContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-`
+`;
 
 export const StaticContainer = styled.div`
 	display: flex;
@@ -267,7 +267,7 @@ export const ImageEl = styled.div`
 `;
 
 export const GeneratedImage = styled(Image).attrs({
-    className: 'generatedImage',
+	className: "generatedImage",
 })`
 	opacity: 1;
 	transition: opacity 0.3s ease;
@@ -305,8 +305,8 @@ const DiscoveryPage = () => {
 		// setIsLoading(true);
 		// generateImage();
 		setResult([
-			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-mcyt5w8RDUJbLKugNZVcQ8gO.png?st=2023-05-21T16%3A22%3A00Z&se=2023-05-21T18%3A22%3A00Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-21T14%3A05%3A41Z&ske=2023-05-22T14%3A05%3A41Z&sks=b&skv=2021-08-06&sig=Wyu7mBXk5Lxk7SC7UTd2WPjot3Dd3wvVUhiyUGldWlQ%3D&w=1920&q=75",
-			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-lWtrA6xduE5zRlvDXCjPlg95.png?st=2023-05-21T16%3A22%3A00Z&se=2023-05-21T18%3A22%3A00Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-21T14%3A05%3A41Z&ske=2023-05-22T14%3A05%3A41Z&sks=b&skv=2021-08-06&sig=oX7vA2C31l3gdwtg2C3/ywSWtuIHxYSVyriUPeWgQAE%3D&w=1920&q=75",
+			"https://drive.google.com/file/d/1RjAXfQaFa1Im7zNb5G_digasdw8BKZyS/view?usp=sharing",
+			"https://drive.google.com/file/d/1RjAXfQaFa1Im7zNb5G_digasdw8BKZyS/view?usp=sharing",
 		]);
 		console.log("generateImage");
 	}, []);
@@ -319,8 +319,7 @@ const DiscoveryPage = () => {
 		selectImage(url);
 	};
 
-	const handleFlipClick = () => {
-	};
+	const handleFlipClick = () => {};
 
 	const handleReRollClick = () => {
 		// generateImage();
@@ -334,27 +333,33 @@ const DiscoveryPage = () => {
 					<Loading />
 				</LoadingContainer>
 			) : (
-			<ImageContainer>
-				{result.length > 0
-					? result.map((url, index) => (
-							<ImageEl key={index}>
-								<GeneratedImage key={index} src={url || ""} alt={`result ${index}`} fill />
-								<HoverButtons>
-									<Link href="/product">
-										<BuyButton onClick={() => handleBuyClick(url)}>Buy</BuyButton>									</Link>
-									<TopRightButton onClick={() => handleFlipClick()}>
-										<Image
-											src="/page-flip.svg"
-											alt="page flip icon"
-											height={35}
-											width={35}
-										/>
-									</TopRightButton>
-								</HoverButtons>
-							</ImageEl>
-					  ))
-					: ""}
-			</ImageContainer>
+				<ImageContainer>
+					{result.length > 0
+						? result.map((url, index) => (
+								<ImageEl key={index}>
+									<GeneratedImage
+										key={index}
+										src={url || ""}
+										alt={`result ${index}`}
+										fill
+									/>
+									<HoverButtons>
+										<Link href="/product">
+											<BuyButton onClick={() => handleBuyClick(url)}>Buy</BuyButton>{" "}
+										</Link>
+										<TopRightButton onClick={() => handleFlipClick()}>
+											<Image
+												src="/page-flip.svg"
+												alt="page flip icon"
+												height={35}
+												width={35}
+											/>
+										</TopRightButton>
+									</HoverButtons>
+								</ImageEl>
+						  ))
+						: ""}
+				</ImageContainer>
 			)}
 			<StaticContainer>
 				<Left>
