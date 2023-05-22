@@ -297,6 +297,8 @@ const DiscoveryPage = () => {
 		const data = await response.json();
 		setResult(data.urls);
 		setIsLoading(false);
+		// create new image document in mongoDB
+		// const newImage = await Image.create({
 	};
 
 	useEffect(() => {
@@ -316,7 +318,9 @@ const DiscoveryPage = () => {
 		selectImage(url);
 	};
 
-	const handleFlipClick = () => {};
+	const handleFlipClick = () => {
+		console.log("flipped");
+	};
 
 	const handleReRollClick = () => {
 		// generateImage();

@@ -193,39 +193,46 @@ export const BottomText = styled.h5`
 `;
 
 export const BuyNowButton = styled.button`
-  background-color: ${(props) => props.theme.colors.button};
-  color: black;
-  padding: 1rem 0rem;
-  width: 100%;
-  border: 1px solid black;
-  border-radius: 50px;
-  font-family: InterBlack;
-  font-size: clamp(1.25rem, 2vw, 2rem);
-  letter-spacing: -0.05em;
-  white-space: nowrap;
-  cursor: pointer;
-  margin-top: 2rem;
-  transition: 0.2s;
-  will-change: transform;
+	background-color: ${(props) => props.theme.colors.button};
+	color: black;
+	padding: 1rem 0rem;
+	width: 100%;
+	border: 1px solid black;
+	border-radius: 50px;
+	font-family: InterBlack;
+	font-size: clamp(1.25rem, 2vw, 2rem);
+	letter-spacing: -0.05em;
+	white-space: nowrap;
+	cursor: pointer;
+	margin-top: 2rem;
+	transition: 0.2s;
+	will-change: transform;
 
-  &:hover span {
-    color: white;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  }
+	&:hover {
+		letter-spacing: 0em;
+	}
 
-  @media (max-width: 768px) {
-    max-width: 800px;
-    padding: 1rem 0rem;
-    width: 80vw;
-  }
+	&:hover span {
+		color: white;
+		text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	}
+
+	&:active {
+		letter-spacing: -0.05em;
+	}
+
+	@media (max-width: 768px) {
+		max-width: 800px;
+		padding: 1rem 0rem;
+		width: 80vw;
+	}
 `;
 
 export const ImageContainer = styled.div`
-  width: 20vw;
-  height: 20vw;
-  position: relative;
-`
-
+	width: 35vw;
+	height: 35vw;
+	position: relative;
+`;
 
 const ProductPage = () => {
 	const [selectedTab, setSelectedTab] = useState("Print");
@@ -265,7 +272,9 @@ const ProductPage = () => {
 		<Wrapper>
 			<Left>
 				<ImageContainer>
-					{selectedImage && <Image src={selectedImage} alt="Selected product image" fill/>}
+					{selectedImage && (
+						<Image src={selectedImage} alt="Selected product image" fill />
+					)}
 				</ImageContainer>
 			</Left>
 			<Right>

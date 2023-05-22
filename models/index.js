@@ -1,7 +1,7 @@
-const User = require("./User");
-const Journey = require("./Journey");
-const Image = require("./Image");
-const Prompt = require("./Prompt");
-const Order = require("./Order");
+const UserModel = require("./User.js");
+const JourneyModel = require("./Journey.js");
+const ImageModel = require("./Image.js");
+const PromptModel = require("./Prompt.js").default;
+const OrderModel = require("./Order.js");
 
-module.exports = { User, Journey, Image, Prompt, Order };
+module.exports = { UserModel, JourneyModel, ImageModel, PromptModel, OrderModel };

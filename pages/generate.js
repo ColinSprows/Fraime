@@ -117,6 +117,21 @@ export const Input = styled.input`
 
 const GeneratePage = () => {
 	const { context, setContext } = usePromptContext();
+
+	// call to createPrompt api to save prompt in database
+	const savePrompt = async () => {
+		console.log(JSON.stringify(context.prompt));
+		const response = await fetch("/api/prompt/createPrompt", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(context.prompt),
+		});
+		const data = await response.json();
+		console.log(data);
+	};
+
 	return (
 		<Wrapper>
 			<StaticContainer>
@@ -131,9 +146,9 @@ const GeneratePage = () => {
 					/>
 				</Left>
 				<Right>
-					<Link href="/discovery">
-						<GenerateButton>Generate</GenerateButton>
-					</Link>
+					{/* <Link href="/discovery"> */}
+					<GenerateButton onClick={() => savePrompt()}>Generate</GenerateButton>
+					{/* </Link> */}
 				</Right>
 			</StaticContainer>
 		</Wrapper>

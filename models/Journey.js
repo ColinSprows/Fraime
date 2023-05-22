@@ -23,6 +23,6 @@ const journeySchema = new Schema({
 	},
 });
 
-const Journey = model("Journey", journeySchema);
+const JourneyModel = model("Journey", journeySchema);
 
-module.exports = Journey;
+module.exports = JourneyModel;
