@@ -2,10 +2,9 @@ import "@/styles/globals.css";
 import styled from "styled-components";
 import Head from "next/head";
 import { ThemeProvider } from 'styled-components';
-import GlobalStyle, { theme } from "../globalStyles";
+import GlobalStyle, { theme } from "../styles/globalStyles";
 import Header from "../components/header";
-import AppContext from "@/components/AppContext";
-import { useState } from "react";
+import { ContextProvider } from "@/context/ContextProvider";
 
 export const Wrapper = styled.div`
 	max-width: 1600px;
@@ -19,14 +18,9 @@ export const Container = styled.div`
 `;
 
 function MyApp({ Component, pageProps }) {
-	const [ session, setSession ] = useState()
-  const [ context, setContext ] = useState({
-    prompt: 'this is a test. a prompt might go here.'
-  });
-
 	return (
 		<>
-		<AppContext.Provider value={{ session, setSession, context, setContext }}>
+		<ContextProvider>
 			<ThemeProvider theme={theme}>
 				<Head>
 					<title>Fraime</title>
@@ -42,7 +36,7 @@ function MyApp({ Component, pageProps }) {
 					</Container>
 				</Wrapper>
 			</ThemeProvider>
-		</AppContext.Provider>
+		</ContextProvider>
 		</>
 	);
 }

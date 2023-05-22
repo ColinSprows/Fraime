@@ -1,14 +1,22 @@
 import Image from "next/image";
-import React, { useState, useEffect, useContext } from "react";
-import AppContext from "@/components/AppContext";
+import React, { useState, useEffect } from "react";
+import { useImageContext, usePromptContext } from "../context/ContextProvider";
 import { Configuration, OpenAIApi } from "openai";
 import styled, { keyframes } from "styled-components";
 import Link from "next/link";
+import Loading from "../components/sub-components/loading";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
 	display: flex;
 `;
+
+export const LoadingContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+`
 
 export const StaticContainer = styled.div`
 	display: flex;
@@ -189,7 +197,7 @@ export const HoverButtons = styled.div`
 	left: 0;
 	width: 100%;
 	height: 100%;
-	padding: 10px; // Adjust the padding to move the top left button away from the edge.
+	padding: 10px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -197,7 +205,7 @@ export const HoverButtons = styled.div`
 	transition: opacity 0.3s ease;
 `;
 
-export const CenterButton = styled.button`
+export const BuyButton = styled.button`
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -242,7 +250,9 @@ export const ImageEl = styled.div`
 	margin: 2rem 0rem;
 
 	&:hover {
-		opacity: 0.8;
+		.generatedImage {
+			opacity: 0.8;
+		}
 	}
 
 	&:hover ${HoverButtons} {
@@ -256,11 +266,21 @@ export const ImageEl = styled.div`
 	}
 `;
 
+export const GeneratedImage = styled(Image).attrs({
+    className: 'generatedImage',
+})`
+	opacity: 1;
+	transition: opacity 0.3s ease;
+	// border-radius: 12px;
+`;
+
 const DiscoveryPage = () => {
 	const [hasMounted, setHasMounted] = useState(false);
-	const { context, setContext } = useContext(AppContext);
+	const { context, setContext } = usePromptContext();
+	const { selectedImage, selectImage } = useImageContext();
 	const [prompt, setPrompt] = useState(context.prompt);
 	const [result, setResult] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
 	const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 	const configuration = new Configuration({ apiKey: apiKey });
@@ -276,15 +296,17 @@ const DiscoveryPage = () => {
 		});
 		const data = await response.json();
 		setResult(data.urls);
+		setIsLoading(false);
 	};
 
 	useEffect(() => {
 		// Prevents hydration issues
 		setHasMounted(true);
+		// setIsLoading(true);
 		// generateImage();
 		setResult([
-			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-2wi8dMzmEuyGAeyA9cg7Wjcy.png?st=2023-05-20T15%3A32%3A27Z&se=2023-05-20T17%3A32%3A27Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-20T01%3A47%3A58Z&ske=2023-05-21T01%3A47%3A58Z&sks=b&skv=2021-08-06&sig=m35sUnMgUDc4ILlhG5xbqcriWn%2BBE7Ou1wjX2cThpxM%3D&w=2048&q=7",
-			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-2wi8dMzmEuyGAeyA9cg7Wjcy.png?st=2023-05-20T15%3A32%3A27Z&se=2023-05-20T17%3A32%3A27Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-20T01%3A47%3A58Z&ske=2023-05-21T01%3A47%3A58Z&sks=b&skv=2021-08-06&sig=m35sUnMgUDc4ILlhG5xbqcriWn%2BBE7Ou1wjX2cThpxM%3D&w=2048&q=75",
+			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-mcyt5w8RDUJbLKugNZVcQ8gO.png?st=2023-05-21T16%3A22%3A00Z&se=2023-05-21T18%3A22%3A00Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-21T14%3A05%3A41Z&ske=2023-05-22T14%3A05%3A41Z&sks=b&skv=2021-08-06&sig=Wyu7mBXk5Lxk7SC7UTd2WPjot3Dd3wvVUhiyUGldWlQ%3D&w=1920&q=75",
+			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-lWtrA6xduE5zRlvDXCjPlg95.png?st=2023-05-21T16%3A22%3A00Z&se=2023-05-21T18%3A22%3A00Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-21T14%3A05%3A41Z&ske=2023-05-22T14%3A05%3A41Z&sks=b&skv=2021-08-06&sig=oX7vA2C31l3gdwtg2C3/ywSWtuIHxYSVyriUPeWgQAE%3D&w=1920&q=75",
 		]);
 		console.log("generateImage");
 	}, []);
@@ -293,23 +315,34 @@ const DiscoveryPage = () => {
 		return null;
 	}
 
-	const handleClick = () => {
+	const handleBuyClick = (url) => {
+		selectImage(url);
+	};
+
+	const handleFlipClick = () => {
+	};
+
+	const handleReRollClick = () => {
 		// generateImage();
 		console.log("clicked");
 	};
 
 	return (
 		<Wrapper>
+			{isLoading ? (
+				<LoadingContainer>
+					<Loading />
+				</LoadingContainer>
+			) : (
 			<ImageContainer>
 				{result.length > 0
 					? result.map((url, index) => (
 							<ImageEl key={index}>
-								<Image key={index} src={url || ""} alt={`result ${index}`} fill />
+								<GeneratedImage key={index} src={url || ""} alt={`result ${index}`} fill />
 								<HoverButtons>
 									<Link href="/product">
-										<CenterButton>Buy</CenterButton>
-									</Link>
-									<TopRightButton>
+										<BuyButton onClick={() => handleBuyClick(url)}>Buy</BuyButton>									</Link>
+									<TopRightButton onClick={() => handleFlipClick()}>
 										<Image
 											src="/page-flip.svg"
 											alt="page flip icon"
@@ -322,6 +355,7 @@ const DiscoveryPage = () => {
 					  ))
 					: ""}
 			</ImageContainer>
+			)}
 			<StaticContainer>
 				<Left>
 					<Link href="/generate">
@@ -331,7 +365,7 @@ const DiscoveryPage = () => {
 				<Right>
 					<InputWrapper>
 						<Input placeholder={prompt} name="prompt" type="text" readOnly={true} />
-						<IconWrapper onClick={() => handleClick()}>
+						<IconWrapper onClick={() => handleReRollClick()}>
 							<Image src="/repeat-solid.svg" alt="rotate icon" fill />
 						</IconWrapper>
 					</InputWrapper>
