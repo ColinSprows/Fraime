@@ -146,9 +146,9 @@ const GeneratePage = () => {
 					/>
 				</Left>
 				<Right>
-					{/* <Link href="/discovery"> */}
-					<GenerateButton onClick={() => savePrompt()}>Generate</GenerateButton>
-					{/* </Link> */}
+					<Link href="/discovery">
+						<GenerateButton onClick={() => savePrompt()}>Generate</GenerateButton>
+					</Link>
 				</Right>
 			</StaticContainer>
 		</Wrapper>

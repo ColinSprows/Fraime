@@ -1,4 +1,4 @@
-const { Schema, model, Types } = require("mongoose");
+import { Schema, models, model, Types } from "mongoose";
 
 const orderSchema = new Schema({
 	user_id: {
@@ -34,6 +34,6 @@ const orderSchema = new Schema({
 	},
 });
 
-const OrderModel = model("Order", orderSchema);
+// const OrderModel = model("Order", orderSchema);
 
-module.exports = OrderModel;
+export default models.OrderModel || model("OrderModel", orderSchema);

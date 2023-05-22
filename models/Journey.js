@@ -1,4 +1,4 @@
-const { Schema, model, Types } = require("mongoose");
+import { Schema, model, Types, models } from "mongoose";
 
 const journeySchema = new Schema({
 	image_ids: [
@@ -23,6 +23,6 @@ const journeySchema = new Schema({
 	},
 });
 
-const JourneyModel = model("Journey", journeySchema);
+// const JourneyModel = model("Journey", journeySchema);
 
-module.exports = JourneyModel;
+export default models.JourneyModel || model("JourneyModel", journeySchema);
