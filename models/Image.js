@@ -7,6 +7,7 @@ const imageSchema = new Schema({
 	},
 	prompt_id: {
 		type: Types.ObjectId,
+		required: true,
 		ref: "Prompt",
 	},
 	liked: {

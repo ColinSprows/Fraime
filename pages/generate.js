@@ -116,20 +116,21 @@ export const Input = styled.input`
 `;
 
 const GeneratePage = () => {
-	const { context, setContext } = usePromptContext();
+	const { promptInfo, setPromptInfo } = usePromptContext();
 
 	// call to createPrompt api to save prompt in database
 	const savePrompt = async () => {
-		console.log(JSON.stringify(context.prompt));
+		console.log(JSON.stringify(promptInfo.prompt));
 		const response = await fetch("/api/prompt/createPrompt", {
 			method: "POST",
 			headers: {
-				"Content-Type": "application/json",
+				"`Co`ntent-Type": "application/json",
 			},
-			body: JSON.stringify(context.prompt),
+			body: JSON.stringify(promptInfo.prompt),
 		});
 		const data = await response.json();
 		console.log(data);
+		setPromptInfo({ ...promptInfo, prompt_id: data.prompt._id });
 	};
 
 	return (
@@ -141,7 +142,7 @@ const GeneratePage = () => {
 						name="prompt"
 						type="text"
 						onChange={(event) => {
-							setContext({ ...context, prompt: event.target.value });
+							setPromptInfo({ ...promptInfo, prompt: event.target.value });
 						}}
 					/>
 				</Left>
