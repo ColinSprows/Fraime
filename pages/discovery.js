@@ -4,6 +4,7 @@ import { useImageContext, usePromptContext } from "../context/ContextProvider";
 import { Configuration, OpenAIApi } from "openai";
 import styled from "styled-components";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Loading from "../components/sub-components/loading";
 
 export const Wrapper = styled.div`
@@ -16,7 +17,7 @@ export const LoadingContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-`
+`;
 
 export const StaticContainer = styled.div`
 	display: flex;
@@ -281,9 +282,9 @@ export const Back = styled.div`
 `;
 
 export const FlipBackButton = styled.button`
-    position: absolute;
-    top: 10px;
-    right: 10px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
 `;
 
 export const BackPromptContainer = styled.div`
@@ -291,13 +292,13 @@ export const BackPromptContainer = styled.div`
 `;
 
 export const BackPrompt = styled.h3`
-    font-family: InterBold;
+	font-family: InterBold;
 	font-size: clamp(1.25rem, 2vw, 2rem);
 	color: black;
 `;
 
 export const GeneratedImage = styled(Image).attrs({
-    className: 'generatedImage',
+	className: "generatedImage",
 })`
 	opacity: 1;
 	transition: opacity 0.3s ease;
@@ -313,13 +314,13 @@ export const GeneratedImageBack = styled(Image)`
 `;
 
 const DiscoveryPage = () => {
-	const [hasMounted, setHasMounted] = useState(false);
-	const { context, setContext } = usePromptContext();
-	const { selectedImage, selectImage } = useImageContext();
-	const [prompt, setPrompt] = useState(context.prompt);
+	const { promptInfo, setPromptInfo } = usePromptContext();
+	const { selectedImage, setSelectedImage } = useImageContext();
+	const [prompt, setPrompt] = useState(promptInfo.prompt);
 	const [result, setResult] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [isFlipped, setIsFlipped] = useState([]);
+	const [hasMounted, setHasMounted] = useState(false);
 
 	const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 	const configuration = new Configuration({ apiKey: apiKey });
@@ -341,39 +342,70 @@ const DiscoveryPage = () => {
 	useEffect(() => {
 		// Prevents hydration issues
 		setHasMounted(true);
-		// setIsLoading(true);
-		// generateImage();
-		setResult([
-			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-dtdODKrRemg6jRI2U5VHniSO.png?st=2023-05-22T15%3A50%3A49Z&se=2023-05-22T17%3A50%3A49Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-22T07%3A56%3A10Z&ske=2023-05-23T07%3A56%3A10Z&sks=b&skv=2021-08-06&sig=qq/TFacl4bLHpLZJa2ei2/FvAepKSw6kcJ2EJ3NvX8E%3D&w=2048&q=75",
-			"https://oaidalleapiprodscus.blob.core.windows.net/private/org-sMYqIiwDshw3aO1opcm1AbvS/user-vtY89k69nBTPMZUF63doQkH7/img-4qsbRDOZpWzTdCTkS8bZaA0d.png?st=2023-05-22T15%3A50%3A48Z&se=2023-05-22T17%3A50%3A48Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-05-22T07%3A56%3A10Z&ske=2023-05-23T07%3A56%3A10Z&sks=b&skv=2021-08-06&sig=TBZeu1ERaimHBiuFZQori2JSRjDvn21bVC1m62OpPgE%3D&w=2048&q=75",
-		]);
-		console.log("generateImage");
 	}, []);
 
-	if (!hasMounted) {
-		return null;
-	}
+	useEffect(() => {
+		// setIsLoading(true);
+		// generateImage();
+		setResult(["https://i.imgur.com/E8QwDMM.png", "https://i.imgur.com/E8QwDMM.png"]);
+	}, [hasMounted]);
+
+	// to be called on click of Buy or on click of fine tune
+	const saveImage = async (url) => {
+		const response = await fetch("/api/image/saveImage", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ url: url, prompt_id: promptInfo.prompt_id }),
+		});
+		const data = await response.json();
+		console.log(data.image._id);
+		setSelectedImage({ url, image_id: data.image._id });
+
+		const journeyResponse = await fetch("/api/journey/createJourney", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				image_id: data.image._id,
+				prompt_id: promptInfo.prompt_id,
+			}),
+		});
+		const journeyData = await journeyResponse.json();
+		console.log(journeyData);
+	};
+
+	// to check that selectedImage is updated due to async nature nature of setSelectedImage
+	// useEffect(() => {
+	// 	console.log(selectedImage);
+	// }, [selectedImage]);
 
 	const handleReRollClick = () => {
 		// generateImage();
 		console.log("clicked");
 	};
 
-	const handleBuyClick = (url) => {
-		selectImage(url);
+	const router = useRouter();
+
+	// handles routing after async function instead of Link
+	const handleBuyClick = async (url) => {
+		await saveImage(url);
+		// router.push("/product");
 	};
 
-	const handleFlipClick = (index) => {
-        if (isFlipped.includes(index)) {
-            setIsFlipped(prevState => prevState.filter(item => item !== index));
-        } else {
-            setIsFlipped(prevState => [...prevState, index]);
-        }
-    };
+	// const handleFlipClick = (index) => {
+	// 	if (isFlipped.includes(index)) {
+	// 	    setIsFlipped(prevState => prevState.filter(item => item !== index));
+	// 	} else {
+	// 	    setIsFlipped(prevState => [...prevState, index]);
+	// 	}
+	// };
 
-	const handleFlipBackClick = (index) => {
-        setIsFlipped(prevState => prevState.filter(item => item !== index));
-    };
+	// const handleFlipBackClick = (index) => {
+	// 	setIsFlipped((prevState) => prevState.filter((item) => item !== index));
+	// };
 
 	return (
 		<Wrapper>
@@ -382,16 +414,21 @@ const DiscoveryPage = () => {
 					<Loading />
 				</LoadingContainer>
 			) : (
-			<ImageContainer>
-				{result.length > 0
-					? result.map((url, index) => (
-							<ImageEl key={index} flipped={isFlipped.includes(index)}>
-								<GeneratedImage key={index} src={url || ""} alt={`result ${index}`} fill />
-								{/* <Back>
+				<ImageContainer>
+					{result.length > 0
+						? result.map((url, index) => (
+								<ImageEl key={index} flipped={isFlipped.includes(index)}>
+									<GeneratedImage
+										key={index}
+										src={url || ""}
+										alt={`result ${index}`}
+										fill
+									/>
+									{/* <Back>
 									{isFlipped.includes(index) && (
 										<div>
 											<GeneratedImageBack key={index} src={url || ""} alt={`result ${index}`} fill />							
-											<BackPromptContainer><BackPrompt>{context.prompt}</BackPrompt></BackPromptContainer>
+											<BackPromptContainer><BackPrompt>{promptInfo.prompt}</BackPrompt></BackPromptContainer>
 											<TopRightButton onClick={() => handleFlipBackClick(index)}>
 												<Image
 													src="/page-flip.svg"
@@ -403,12 +440,12 @@ const DiscoveryPage = () => {
 										</div>
 									)}
 								</Back> */}
-								{!isFlipped.includes(index) && (
-									<HoverButtons>
-										<Link href="/product">
+									{!isFlipped.includes(index) && (
+										<HoverButtons>
+											{/* <Link href="/product"> */}
 											<BuyButton onClick={() => handleBuyClick(url)}>Buy</BuyButton>
-										</Link>
-										{/* <TopRightButton onClick={() => handleFlipClick(index)}>
+											{/* </Link> */}
+											{/* <TopRightButton onClick={() => handleFlipClick(index)}>
 											<Image
 												src="/page-flip.svg"
 												alt="page flip icon"
@@ -416,12 +453,12 @@ const DiscoveryPage = () => {
 												width={35}
 											/>
 										</TopRightButton> */}
-									</HoverButtons>
-								)}
-							</ImageEl>
-					  ))
-					: ""}
-			</ImageContainer>
+										</HoverButtons>
+									)}
+								</ImageEl>
+						  ))
+						: ""}
+				</ImageContainer>
 			)}
 			<StaticContainer>
 				<Left>

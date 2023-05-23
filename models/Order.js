@@ -1,11 +1,11 @@
-const { Schema, model, Types } = require("mongoose");
+import { Schema, models, model, Types } from "mongoose";
 
 const orderSchema = new Schema({
-	user_id: {
-		type: Types.ObjectId,
-		required: true,
-		ref: "User",
-	},
+	// user_id: {
+	// 	type: Types.ObjectId,
+	// 	required: true,
+	// 	ref: "User",
+	// },
 	prompt_id: {
 		type: Types.ObjectId,
 		required: true,
@@ -32,8 +32,12 @@ const orderSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	paper_type: {
+		type: String,
+		required: true,
+	},
 });
 
-const Order = model("Order", orderSchema);
+// const OrderModel = model("Order", orderSchema);
 
-module.exports = Order;
+export default models.OrderModel || model("OrderModel", orderSchema);

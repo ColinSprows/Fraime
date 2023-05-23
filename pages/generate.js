@@ -116,7 +116,23 @@ export const Input = styled.input`
 `;
 
 const GeneratePage = () => {
-	const { context, setContext } = usePromptContext();
+	const { promptInfo, setPromptInfo } = usePromptContext();
+
+	// call to createPrompt api to save prompt in database
+	const savePrompt = async () => {
+		console.log(JSON.stringify(promptInfo.prompt));
+		const response = await fetch("/api/prompt/createPrompt", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(promptInfo.prompt),
+		});
+		const data = await response.json();
+		console.log(data);
+		setPromptInfo({ ...promptInfo, prompt_id: data.prompt._id });
+	};
+
 	return (
 		<Wrapper>
 			<StaticContainer>
@@ -126,13 +142,13 @@ const GeneratePage = () => {
 						name="prompt"
 						type="text"
 						onChange={(event) => {
-							setContext({ ...context, prompt: event.target.value });
+							setPromptInfo({ ...promptInfo, prompt: event.target.value });
 						}}
 					/>
 				</Left>
 				<Right>
 					<Link href="/discovery">
-						<GenerateButton>Generate</GenerateButton>
+						<GenerateButton onClick={() => savePrompt()}>Generate</GenerateButton>
 					</Link>
 				</Right>
 			</StaticContainer>

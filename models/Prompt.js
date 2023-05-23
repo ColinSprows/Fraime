@@ -1,21 +1,18 @@
-const { Schema, model, Types } = require("mongoose");
+import { Schema, models, model, Types } from "mongoose";
 
 const promptSchema = new Schema({
-	user_id: {
-		type: Types.ObjectId,
-		required: true,
-		ref: "User",
-	},
+	// user_id: {
+	// 	type: Types.ObjectId,
+	// 	ref: "User",
+	// },
 	user_selections: [
 		{
 			type: String,
 		},
 	],
-	user_text_inputs: [
-		{
-			type: String,
-		},
-	],
+	user_text_inputs: {
+		type: String,
+	},
 	pre_prompt: {
 		type: String,
 	},
@@ -35,6 +32,6 @@ promptSchema.pre("validate", function (next) {
 	next();
 });
 
-const Prompt = model("Prompt", promptSchema);
+// const PromptModel = model("Prompt", promptSchema);
 
-module.exports = Prompt;
+export default models.PromptModel || model("PromptModel", promptSchema);

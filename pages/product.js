@@ -1,7 +1,7 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useImageContext } from "../context/ContextProvider";
+import { useImageContext, usePromptContext } from "../context/ContextProvider";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -193,46 +193,53 @@ export const BottomText = styled.h5`
 `;
 
 export const BuyNowButton = styled.button`
-  background-color: ${(props) => props.theme.colors.button};
-  color: black;
-  padding: 1rem 0rem;
-  width: 100%;
-  border: 1px solid black;
-  border-radius: 50px;
-  font-family: InterBlack;
-  font-size: clamp(1.25rem, 2vw, 2rem);
-  letter-spacing: -0.05em;
-  white-space: nowrap;
-  cursor: pointer;
-  margin-top: 2rem;
-  transition: 0.2s;
-  will-change: transform;
+	background-color: ${(props) => props.theme.colors.button};
+	color: black;
+	padding: 1rem 0rem;
+	width: 100%;
+	border: 1px solid black;
+	border-radius: 50px;
+	font-family: InterBlack;
+	font-size: clamp(1.25rem, 2vw, 2rem);
+	letter-spacing: -0.05em;
+	white-space: nowrap;
+	cursor: pointer;
+	margin-top: 2rem;
+	transition: 0.2s;
+	will-change: transform;
 
-  &:hover span {
-    color: white;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  }
+	&:hover {
+		letter-spacing: 0em;
+	}
 
-  @media (max-width: 768px) {
-    max-width: 800px;
-    padding: 1rem 0rem;
-    width: 80vw;
-  }
+	&:hover span {
+		color: white;
+		text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	}
+
+	&:active {
+		letter-spacing: -0.05em;
+	}
+
+	@media (max-width: 768px) {
+		max-width: 800px;
+		padding: 1rem 0rem;
+		width: 80vw;
+	}
 `;
 
 export const ImageContainer = styled.div`
-  width: 20vw;
-  height: 20vw;
-  position: relative;
-`
-
+	width: 30vw;
+	height: 30vw;
+	position: relative;
+`;
 
 const ProductPage = () => {
 	const [selectedTab, setSelectedTab] = useState("Print");
 	const [selectedPrintSize, setSelectedPrintSize] = useState('12"x12"');
-	const [selectedFrameOption, setSelectedFrameOption] = useState("Frame");
 	const [selectedPaperType, setSelectedPaperType] = useState("Glossy");
-	const [selectedFrameType, setSelectedFrameType] = useState('1"');
+	const [selectedFrameOption, setSelectedFrameOption] = useState("Frame");
+	const [selectedFrameWidth, setSelectedFrameWidth] = useState('1"');
 	const [selectedFrameColor, setSelectedFrameColor] = useState("Black");
 
 	const handleTabClick = (tabName) => {
@@ -251,8 +258,8 @@ const ProductPage = () => {
 		setSelectedPaperType(paperType);
 	};
 
-	const handleFrameTypeClick = (frameType) => {
-		setSelectedFrameType(frameType);
+	const handleFrameWidthClick = (FrameWidth) => {
+		setSelectedFrameWidth(FrameWidth);
 	};
 
 	const handleFrameColorClick = (frameColor) => {
@@ -260,12 +267,54 @@ const ProductPage = () => {
 	};
 
 	const { selectedImage } = useImageContext();
+	const { promptInfo } = usePromptContext();
+
+	useEffect(() => {
+		console.log(selectedImage);
+	}, []);
+
+	const calculateFinishedSize = () => {
+		const printSize = selectedPrintSize.trim().split("x");
+		const printWidth = parseInt(printSize[0].replace(/"/g, ""), 10);
+		const printHeight = parseInt(printSize[1].replace(/"/g, ""), 10);
+		const FrameWidth = parseInt(selectedFrameWidth.replace(/"/g, ""), 10);
+
+		const finishedWidth = printWidth + FrameWidth * 2;
+		const finishedHeight = printHeight + FrameWidth * 2;
+
+		return {
+			width: finishedWidth,
+			height: finishedHeight,
+		};
+	};
+
+	const createOrder = async () => {
+		const response = await fetch("/api/order/createOrder", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				prompt_id: promptInfo.prompt_id,
+				image_id: selectedImage.image_id,
+				print_type: selectedTab,
+				print_size: selectedPrintSize,
+				paper_type: selectedPaperType,
+				framing_options:
+					selectedFrameOption + ", " + selectedFrameWidth + ", " + selectedFrameColor,
+			}),
+		});
+		const data = await response.json();
+		console.log(data);
+	};
 
 	return (
 		<Wrapper>
 			<Left>
 				<ImageContainer>
-					{selectedImage && <Image src={selectedImage} alt="Selected product image" fill/>}
+					{selectedImage && (
+						<Image src={selectedImage.url} alt="Selected product image" fill />
+					)}
 				</ImageContainer>
 			</Left>
 			<Right>
@@ -319,7 +368,10 @@ const ProductPage = () => {
 									18"x18"
 								</PrintSizeButton>
 							</PrintSizeButtonContainer>
-							<PrintSizeFinishedSize>Finished Size: 16"x12"</PrintSizeFinishedSize>
+							<PrintSizeFinishedSize>
+								Finished Size: {calculateFinishedSize().height}"x
+								{calculateFinishedSize().width}"
+							</PrintSizeFinishedSize>
 						</PrintSizeContainer>
 						<FramingOptionsContainer>
 							<FramingOptionsButton
@@ -371,29 +423,29 @@ const ProductPage = () => {
 							</BodySectionButtonContainer>
 						</BodySection>
 						<BodySection>
-							<BodySectionHeader>Frame Type:</BodySectionHeader>
+							<BodySectionHeader>Frame Width:</BodySectionHeader>
 							<BodySectionButtonContainer>
 								<BodySectionButton
-									selected={selectedFrameType === '1"'}
-									onClick={() => handleFrameTypeClick('1"')}
+									selected={selectedFrameWidth === '1"'}
+									onClick={() => handleFrameWidthClick('1"')}
 								>
 									1"
 								</BodySectionButton>
 								<BodySectionButton
-									selected={selectedFrameType === '2"'}
-									onClick={() => handleFrameTypeClick('2"')}
+									selected={selectedFrameWidth === '2"'}
+									onClick={() => handleFrameWidthClick('2"')}
 								>
 									2"
 								</BodySectionButton>
 								<BodySectionButton
-									selected={selectedFrameType === '3"'}
-									onClick={() => handleFrameTypeClick('3"')}
+									selected={selectedFrameWidth === '3"'}
+									onClick={() => handleFrameWidthClick('3"')}
 								>
 									3"
 								</BodySectionButton>
 								<BodySectionButton
-									selected={selectedFrameType === '4"'}
-									onClick={() => handleFrameTypeClick('4"')}
+									selected={selectedFrameWidth === '4"'}
+									onClick={() => handleFrameWidthClick('4"')}
 								>
 									4"
 								</BodySectionButton>
@@ -433,7 +485,7 @@ const ProductPage = () => {
 						<BottomText>Add the prompt to the back of the print</BottomText>
 					</BottomContainer>
 				</BuyCard>
-				<BuyNowButton>
+				<BuyNowButton onClick={() => createOrder()}>
 					<span>Buy Now</span>
 				</BuyNowButton>
 			</Right>

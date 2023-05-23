@@ -4,34 +4,46 @@ const AppContext = createContext();
 const PromptContext = createContext();
 const ImageContext = createContext();
 
-export function useAppContext() { return useContext(AppContext) }
-export function usePromptContext() { return useContext(PromptContext) }
-export function useImageContext() { return useContext(ImageContext) }
+export function useAppContext() {
+	return useContext(AppContext);
+}
+export function usePromptContext() {
+	return useContext(PromptContext);
+}
+export function useImageContext() {
+	return useContext(ImageContext);
+}
 
 export function ContextProvider({ children }) {
-  const [session, setSession] = useState(null);
-  const [context, setContext] = useState({ prompt: 'this is a test. a prompt might go here.' });
-  const [selectedImage, setSelectedImage] = useState(null);
+	const [session, setSession] = useState(null);
+	const [promptInfo, setPromptInfo] = useState({
+		prompt: "this is a test. a prompt might go here.",
+		prompt_id: "646beeab7ef876f7926a6dd9",
+	});
+	const [selectedImage, setSelectedImage] = useState({
+		url: "https://i.imgur.com/2iwDsuM.jpeg",
+		image_id: "646beeab7ef876f7926a6dd9",
+	});
 
-  useEffect(() => {
-    const image = localStorage.getItem("selectedImage");
-    if (image) {
-      setSelectedImage(image);
-    }
-  }, []);
+	// useEffect(() => {
+	// 	const image = localStorage.getItem("selectedImage");
+	// 	if (image) {
+	// 		setSelectedImage(image);
+	// 	}
+	// }, []);
 
-  const selectImage = (url) => {
-    setSelectedImage(url);
-    localStorage.setItem("selectedImage", url);
-  };
+	// const selectImage = (url) => {
+	// 	setSelectedImage(url);
+	// 	localStorage.setItem("selectedImage", url);
+	// };
 
-  return (
-    <AppContext.Provider value={{ session, setSession }}>
-      <PromptContext.Provider value={{ context, setContext }}>
-        <ImageContext.Provider value={{ selectedImage, selectImage }}>
-          {children}
-        </ImageContext.Provider>
-      </PromptContext.Provider>
-    </AppContext.Provider>
-  );
+	return (
+		<AppContext.Provider value={{ session, setSession }}>
+			<PromptContext.Provider value={{ promptInfo, setPromptInfo }}>
+				<ImageContext.Provider value={{ selectedImage, setSelectedImage }}>
+					{children}
+				</ImageContext.Provider>
+			</PromptContext.Provider>
+		</AppContext.Provider>
+	);
 }
