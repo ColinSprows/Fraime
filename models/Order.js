@@ -32,6 +32,10 @@ const orderSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	paper_type: {
+		type: String,
+		required: true,
+	},
 });
 
 // const OrderModel = model("Order", orderSchema);

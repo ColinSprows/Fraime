@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useImageContext } from "../context/ContextProvider";
+import { useImageContext, usePromptContext } from "../context/ContextProvider";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -237,8 +237,8 @@ export const ImageContainer = styled.div`
 const ProductPage = () => {
 	const [selectedTab, setSelectedTab] = useState("Print");
 	const [selectedPrintSize, setSelectedPrintSize] = useState('12"x12"');
-	const [selectedFrameOption, setSelectedFrameOption] = useState("Frame");
 	const [selectedPaperType, setSelectedPaperType] = useState("Glossy");
+	const [selectedFrameOption, setSelectedFrameOption] = useState("Frame");
 	const [selectedFrameType, setSelectedFrameType] = useState('1"');
 	const [selectedFrameColor, setSelectedFrameColor] = useState("Black");
 
@@ -267,22 +267,26 @@ const ProductPage = () => {
 	};
 
 	const { selectedImage } = useImageContext();
+	const { promptInfo } = usePromptContext();
 
 	useEffect(() => {
 		console.log(selectedImage);
 	}, []);
 
 	const createOrder = async () => {
-		console.log("tbd");
 		const response = await fetch("/api/order/createOrder", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				url: url,
 				prompt_id: promptInfo.prompt_id,
 				image_id: selectedImage.image_id,
+				print_type: selectedTab,
+				print_size: selectedPrintSize,
+				paper_type: selectedPaperType,
+				framing_options:
+					selectedFrameOption + ", " + selectedFrameType + ", " + selectedFrameColor,
 			}),
 		});
 		const data = await response.json();
@@ -463,7 +467,7 @@ const ProductPage = () => {
 						<BottomText>Add the prompt to the back of the print</BottomText>
 					</BottomContainer>
 				</BuyCard>
-				<BuyNowButton>
+				<BuyNowButton onClick={() => createOrder()}>
 					<span>Buy Now</span>
 				</BuyNowButton>
 			</Right>

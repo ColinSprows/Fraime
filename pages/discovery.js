@@ -314,13 +314,13 @@ export const GeneratedImageBack = styled(Image)`
 `;
 
 const DiscoveryPage = () => {
-	const [hasMounted, setHasMounted] = useState(false);
 	const { promptInfo, setPromptInfo } = usePromptContext();
 	const { selectedImage, setSelectedImage } = useImageContext();
 	const [prompt, setPrompt] = useState(promptInfo.prompt);
 	const [result, setResult] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [isFlipped, setIsFlipped] = useState([]);
+	const [hasMounted, setHasMounted] = useState(false);
 
 	const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 	const configuration = new Configuration({ apiKey: apiKey });
@@ -337,18 +337,18 @@ const DiscoveryPage = () => {
 		const data = await response.json();
 		setResult(data.urls);
 		setIsLoading(false);
-		// create new image document in mongoDB
-		// const newImage = await Image.create({
 	};
 
 	useEffect(() => {
 		// Prevents hydration issues
 		setHasMounted(true);
+	}, []);
+
+	useEffect(() => {
 		// setIsLoading(true);
 		// generateImage();
 		setResult(["https://i.imgur.com/E8QwDMM.png", "https://i.imgur.com/E8QwDMM.png"]);
-		console.log("generateImage");
-	}, []);
+	}, [hasMounted]);
 
 	// to be called on click of Buy or on click of fine tune
 	const saveImage = async (url) => {
@@ -360,23 +360,13 @@ const DiscoveryPage = () => {
 			body: JSON.stringify({ url: url, prompt_id: promptInfo.prompt_id }),
 		});
 		const data = await response.json();
-		console.log(selectedImage);
-		console.log(data.image._id);
-		if (!data) {
-			return console.log("no data");
-		} else {
-			setSelectedImage({ url, image_id: data.image._id });
-		}
+		setSelectedImage({ url, image_id: data.image._id });
 	};
 
 	// to check that selectedImage is updated due to async nature nature of setSelectedImage
-	useEffect(() => {
-		console.log(selectedImage);
-	}, [selectedImage]);
-
-	if (!hasMounted) {
-		return null;
-	}
+	// useEffect(() => {
+	// 	console.log(selectedImage);
+	// }, [selectedImage]);
 
 	const handleReRollClick = () => {
 		// generateImage();
