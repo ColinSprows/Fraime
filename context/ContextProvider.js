@@ -22,7 +22,7 @@ export function ContextProvider({ children }) {
 	});
 	const [selectedImage, setSelectedImage] = useState({
 		url: "https://i.imgur.com/2iwDsuM.jpeg",
-		image_id: null,
+		image_id: "646beeab7ef876f7926a6dd9",
 	});
 
 	// useEffect(() => {

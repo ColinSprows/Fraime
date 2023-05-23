@@ -239,7 +239,7 @@ const ProductPage = () => {
 	const [selectedPrintSize, setSelectedPrintSize] = useState('12"x12"');
 	const [selectedPaperType, setSelectedPaperType] = useState("Glossy");
 	const [selectedFrameOption, setSelectedFrameOption] = useState("Frame");
-	const [selectedFrameType, setSelectedFrameType] = useState('1"');
+	const [selectedFrameWidth, setSelectedFrameWidth] = useState('1"');
 	const [selectedFrameColor, setSelectedFrameColor] = useState("Black");
 
 	const handleTabClick = (tabName) => {
@@ -258,8 +258,8 @@ const ProductPage = () => {
 		setSelectedPaperType(paperType);
 	};
 
-	const handleFrameTypeClick = (frameType) => {
-		setSelectedFrameType(frameType);
+	const handleFrameWidthClick = (FrameWidth) => {
+		setSelectedFrameWidth(FrameWidth);
 	};
 
 	const handleFrameColorClick = (frameColor) => {
@@ -277,10 +277,10 @@ const ProductPage = () => {
 		const printSize = selectedPrintSize.trim().split("x");
 		const printWidth = parseInt(printSize[0].replace(/"/g, ""), 10);
 		const printHeight = parseInt(printSize[1].replace(/"/g, ""), 10);
-		const frameType = parseInt(selectedFrameType.replace(/"/g, ""), 10);
+		const FrameWidth = parseInt(selectedFrameWidth.replace(/"/g, ""), 10);
 
-		const finishedWidth = printWidth + frameType * 2;
-		const finishedHeight = printHeight + frameType * 2;
+		const finishedWidth = printWidth + FrameWidth * 2;
+		const finishedHeight = printHeight + FrameWidth * 2;
 
 		return {
 			width: finishedWidth,
@@ -301,7 +301,7 @@ const ProductPage = () => {
 				print_size: selectedPrintSize,
 				paper_type: selectedPaperType,
 				framing_options:
-					selectedFrameOption + ", " + selectedFrameType + ", " + selectedFrameColor,
+					selectedFrameOption + ", " + selectedFrameWidth + ", " + selectedFrameColor,
 			}),
 		});
 		const data = await response.json();
@@ -423,29 +423,29 @@ const ProductPage = () => {
 							</BodySectionButtonContainer>
 						</BodySection>
 						<BodySection>
-							<BodySectionHeader>Frame Type:</BodySectionHeader>
+							<BodySectionHeader>Frame Width:</BodySectionHeader>
 							<BodySectionButtonContainer>
 								<BodySectionButton
-									selected={selectedFrameType === '1"'}
-									onClick={() => handleFrameTypeClick('1"')}
+									selected={selectedFrameWidth === '1"'}
+									onClick={() => handleFrameWidthClick('1"')}
 								>
 									1"
 								</BodySectionButton>
 								<BodySectionButton
-									selected={selectedFrameType === '2"'}
-									onClick={() => handleFrameTypeClick('2"')}
+									selected={selectedFrameWidth === '2"'}
+									onClick={() => handleFrameWidthClick('2"')}
 								>
 									2"
 								</BodySectionButton>
 								<BodySectionButton
-									selected={selectedFrameType === '3"'}
-									onClick={() => handleFrameTypeClick('3"')}
+									selected={selectedFrameWidth === '3"'}
+									onClick={() => handleFrameWidthClick('3"')}
 								>
 									3"
 								</BodySectionButton>
 								<BodySectionButton
-									selected={selectedFrameType === '4"'}
-									onClick={() => handleFrameTypeClick('4"')}
+									selected={selectedFrameWidth === '4"'}
+									onClick={() => handleFrameWidthClick('4"')}
 								>
 									4"
 								</BodySectionButton>
