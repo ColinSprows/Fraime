@@ -8,7 +8,7 @@ export default async function (req, res) {
 		console.log(req.body);
 
 		const newOrder = await OrderModel.create({
-			promt_id: req.body.promt_id,
+			prompt_id: req.body.prompt_id,
 			image_id: req.body.image_id,
 			print_type: req.body.print_type,
 			print_size: req.body.print_size,

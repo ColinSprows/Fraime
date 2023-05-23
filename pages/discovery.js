@@ -360,6 +360,7 @@ const DiscoveryPage = () => {
 			body: JSON.stringify({ url: url, prompt_id: promptInfo.prompt_id }),
 		});
 		const data = await response.json();
+		console.log(data.image._id);
 		setSelectedImage({ url, image_id: data.image._id });
 	};
 

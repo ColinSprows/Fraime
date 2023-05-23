@@ -273,6 +273,21 @@ const ProductPage = () => {
 		console.log(selectedImage);
 	}, []);
 
+	const calculateFinishedSize = () => {
+		const printSize = selectedPrintSize.trim().split("x");
+		const printWidth = parseInt(printSize[0].replace(/"/g, ""), 10);
+		const printHeight = parseInt(printSize[1].replace(/"/g, ""), 10);
+		const frameType = parseInt(selectedFrameType.replace(/"/g, ""), 10);
+
+		const finishedWidth = printWidth + frameType * 2;
+		const finishedHeight = printHeight + frameType * 2;
+
+		return {
+			width: finishedWidth,
+			height: finishedHeight,
+		};
+	};
+
 	const createOrder = async () => {
 		const response = await fetch("/api/order/createOrder", {
 			method: "POST",
@@ -353,7 +368,10 @@ const ProductPage = () => {
 									18"x18"
 								</PrintSizeButton>
 							</PrintSizeButtonContainer>
-							<PrintSizeFinishedSize>Finished Size: 16"x12"</PrintSizeFinishedSize>
+							<PrintSizeFinishedSize>
+								Finished Size: {calculateFinishedSize().height}"x
+								{calculateFinishedSize().width}"
+							</PrintSizeFinishedSize>
 						</PrintSizeContainer>
 						<FramingOptionsContainer>
 							<FramingOptionsButton
