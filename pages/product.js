@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useImageContext } from "../context/ContextProvider";
 
@@ -268,6 +268,10 @@ const ProductPage = () => {
 
 	const { selectedImage } = useImageContext();
 
+	useEffect(() => {
+		console.log(selectedImage);
+	}, []);
+
 	const createOrder = async () => {
 		console.log("tbd");
 		const response = await fetch("/api/order/createOrder", {
@@ -275,7 +279,11 @@ const ProductPage = () => {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ url: url, prompt_id: promptInfo.prompt_id }),
+			body: JSON.stringify({
+				url: url,
+				prompt_id: promptInfo.prompt_id,
+				image_id: selectedImage.image_id,
+			}),
 		});
 		const data = await response.json();
 		console.log(data);

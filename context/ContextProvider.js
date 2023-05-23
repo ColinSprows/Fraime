@@ -21,7 +21,7 @@ export function ContextProvider({ children }) {
 		prompt_id: "646beeab7ef876f7926a6dd9",
 	});
 	const [selectedImage, setSelectedImage] = useState({
-		url: null,
+		url: "https://i.imgur.com/2iwDsuM.jpeg",
 		image_id: null,
 	});
 

@@ -4,6 +4,7 @@ import { useImageContext, usePromptContext } from "../context/ContextProvider";
 import { Configuration, OpenAIApi } from "openai";
 import styled from "styled-components";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Loading from "../components/sub-components/loading";
 
 export const Wrapper = styled.div`
@@ -365,9 +366,13 @@ const DiscoveryPage = () => {
 			return console.log("no data");
 		} else {
 			setSelectedImage({ url, image_id: data.image._id });
-			console.log("selectedImage", selectedImage);
 		}
 	};
+
+	// to check that selectedImage is updated due to async nature nature of setSelectedImage
+	useEffect(() => {
+		console.log(selectedImage);
+	}, [selectedImage]);
 
 	if (!hasMounted) {
 		return null;
@@ -378,8 +383,12 @@ const DiscoveryPage = () => {
 		console.log("clicked");
 	};
 
-	const handleBuyClick = (url) => {
-		saveImage(url);
+	const router = useRouter();
+
+	// handles routing after async function instead of Link
+	const handleBuyClick = async (url) => {
+		await saveImage(url);
+		router.push("/product");
 	};
 
 	// const handleFlipClick = (index) => {
