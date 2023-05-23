@@ -362,6 +362,19 @@ const DiscoveryPage = () => {
 		const data = await response.json();
 		console.log(data.image._id);
 		setSelectedImage({ url, image_id: data.image._id });
+
+		const journeyResponse = await fetch("/api/journey/createJourney", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				image_id: data.image._id,
+				prompt_id: promptInfo.prompt_id,
+			}),
+		});
+		const journeyData = await journeyResponse.json();
+		console.log(journeyData);
 	};
 
 	// to check that selectedImage is updated due to async nature nature of setSelectedImage
@@ -379,7 +392,7 @@ const DiscoveryPage = () => {
 	// handles routing after async function instead of Link
 	const handleBuyClick = async (url) => {
 		await saveImage(url);
-		router.push("/product");
+		// router.push("/product");
 	};
 
 	// const handleFlipClick = (index) => {
