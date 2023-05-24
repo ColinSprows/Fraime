@@ -392,7 +392,7 @@ const DiscoveryPage = () => {
 	// handles routing after async function instead of Link
 	const handleBuyClick = async (url) => {
 		await saveImage(url);
-		// router.push("/product");
+		router.push("/product");
 	};
 
 	// const handleFlipClick = (index) => {
@@ -470,7 +470,7 @@ const DiscoveryPage = () => {
 					<InputWrapper>
 						<Input placeholder={prompt} name="prompt" type="text" readOnly={true} />
 						<IconWrapper onClick={() => handleReRollClick()}>
-							<Image src="/repeat-solid.svg" alt="rotate icon" fill />
+							<Image src="/icons/repeat-solid.svg" alt="rotate icon" fill />
 						</IconWrapper>
 					</InputWrapper>
 				</Right>
