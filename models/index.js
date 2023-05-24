@@ -1,7 +1,9 @@
-const User = require("./User");
-const Journey = require("./Journey");
-const Image = require("./Image");
-const Prompt = require("./Prompt");
-const Order = require("./Order");
+// import UserModel from "./User.js";
+// import JourneyModel from "./Journey.js";
+// import ImageModel from "./Image.js";
+// import PromptModel from "./Prompt.js";
+// import OrderModel from "./Order.js";
 
-module.exports = { User, Journey, Image, Prompt, Order };
+// export default { UserModel, JourneyModel, ImageModel, PromptModel, OrderModel };
+
+// issues with exports, use individual model files instead
