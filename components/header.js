@@ -32,6 +32,7 @@ const Login = styled.button`
   align-self: center;
   height: 100%;
   cursor: pointer;
+  color: black;
 `
 
 const StartCreating = styled.button`
