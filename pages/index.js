@@ -81,6 +81,7 @@ export const Main = styled.h3`
 	white-space: nowrap;
 	font-weight: 100;
 	line-height: 0.9;
+	color: black;
 `;
 
 export const MainSerif = styled.h3`
@@ -89,11 +90,13 @@ export const MainSerif = styled.h3`
 	line-height: 0.85;
 	font-weight: 100;
 	text-align: center;
+	color: black;
 `;
 
 export const Sub = styled.h5`
 	font-family: InterExtraLight;
 	font-size: clamp(0.5rem, 3vw, 1rem);
+	color: black;
 
 	@media (max-width: 768px) {
 		display: none;
@@ -103,6 +106,7 @@ export const Sub = styled.h5`
 export const SubMobile = styled.h5`
 	font-family: InterExtraLight;
 	font-size: clamp(0.5rem, 3vw, 1rem);
+	color: black;
 `;
 
 export const Bottom = styled.div`
