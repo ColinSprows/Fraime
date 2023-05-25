@@ -68,7 +68,7 @@ export default function Header() {
               width={30}
               height={30}
           /> */}
-          <h1>F</h1>
+          <h1 style={{color: "black"}}>F</h1>
         </Link>
       </Left>
       <Right>

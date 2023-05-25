@@ -113,6 +113,7 @@ export const PrintSizeFinishedSize = styled.h5`
 	font-family: Inter;
 	font-size: 0.75rem;
 	margin: 0.5rem 0.75rem;
+	color: black;
 `;
 
 export const FramingOptionsContainer = styled.div`
