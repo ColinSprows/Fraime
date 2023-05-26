@@ -2,6 +2,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useImageContext, usePromptContext } from "../context/ContextProvider";
+import { set } from "mongoose";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -242,9 +243,9 @@ const ProductPage = () => {
 	const [selectedFrameWidth, setSelectedFrameWidth] = useState('1"');
 	const [selectedFrameColor, setSelectedFrameColor] = useState("Black");
 	const [selectedMatWidth, setSelectedMatWidth] = useState('.5"');
-	const [isFrameWidthVisible, setIsFrameWidthVisible] = useState(true);
-	const [isFrameColorVisible, setIsFrameColorVisible] = useState(true);
-	const [isMatWidthVisible, setIsMatWidthVisible] = useState(false);
+	const [selectedMatColor, setSelectedMatColor] = useState("White");
+	const [areFramingOptionsVisible, setAreFramingOptionsVisible] = useState(true);
+	const [isMatVisible, setIsMatVisible] = useState(false);
 
 	const handleTabClick = (tabName) => {
 		setSelectedPrintFormatTab(tabName);
@@ -259,24 +260,20 @@ const ProductPage = () => {
 
 		switch (framingOption) {
 			case "Frame":
-				setIsFrameWidthVisible(true);
-				setIsFrameColorVisible(true);
-				setIsMatWidthVisible(false);
+				setAreFramingOptionsVisible(true);
+				setIsMatVisible(false);
 				break;
 			case "Frame + Mat":
-				setIsFrameWidthVisible(true);
-				setIsFrameColorVisible(true);
-				setIsMatWidthVisible(true);
+				setAreFramingOptionsVisible(true);
+				setIsMatVisible(true);
 				break;
 			case "No Frame":
-				setIsFrameWidthVisible(false);
-				setIsFrameColorVisible(false);
-				setIsMatWidthVisible(false);
+				setAreFramingOptionsVisible(false);
+				setIsMatVisible(false);
 				break;
 			default:
-				setIsFrameWidthVisible(true);
-				setIsFrameColorVisible(true);
-				setIsMatWidthVisible(false);
+				setAreFramingOptionsVisible(true);
+				setIsMatVisible(false);
 				break;
 		}
 	};
@@ -297,6 +294,10 @@ const ProductPage = () => {
 		setSelectedMatWidth(matWidth);
 	};
 
+	const handleMatColorClick = (matColor) => {
+		setSelectedMatColor(matColor);
+	};
+
 	const { selectedImage } = useImageContext();
 	const { promptInfo } = usePromptContext();
 
@@ -310,11 +311,11 @@ const ProductPage = () => {
 		const printHeight = parseInt(printSize[1].replace(/"/g, ""), 10);
 		let frameWidth = 0;
 		let matWidth = 0;
-		if (isMatWidthVisible) {
+		if (isMatVisible) {
 			matWidth = parseFloat(selectedMatWidth.replace(/"/g, ""), 10);
 		}
 
-		if (isFrameWidthVisible) {
+		if (areFramingOptionsVisible) {
 			frameWidth = parseFloat(selectedFrameWidth.replace(/"/g, ""), 10);
 		}
 
@@ -328,6 +329,14 @@ const ProductPage = () => {
 	};
 
 	const createOrder = async () => {
+		const framingOptions = areFramingOptionsVisible
+			? selectedFrameWidth + ", " + selectedFrameColor
+			: "No Frame";
+
+		const matOptions = isMatVisible
+			? selectedMatWidth + ", " + selectedMatColor
+			: "No Mat";
+
 		const response = await fetch("/api/order/createOrder", {
 			method: "POST",
 			headers: {
@@ -339,8 +348,9 @@ const ProductPage = () => {
 				print_type: selectedPrintFormatTab,
 				print_size: selectedPrintSize,
 				paper_type: selectedPaperType,
-				framing_options:
-					selectedFrameOption + ", " + selectedFrameWidth + ", " + selectedFrameColor,
+				framing_type: selectedFrameOption,
+				framing_options: framingOptions,
+				mat_options: matOptions,
 			}),
 		});
 		const data = await response.json();
@@ -461,7 +471,7 @@ const ProductPage = () => {
 								</BodySectionButton>
 							</BodySectionButtonContainer>
 						</BodySection>
-						{isFrameWidthVisible && (
+						{areFramingOptionsVisible && (
 							<BodySection>
 								<BodySectionHeader>Frame Width:</BodySectionHeader>
 								<BodySectionButtonContainer>
@@ -492,7 +502,7 @@ const ProductPage = () => {
 								</BodySectionButtonContainer>
 							</BodySection>
 						)}
-						{isFrameColorVisible && (
+						{areFramingOptionsVisible && (
 							<BodySection>
 								<BodySectionHeader>Frame Color:</BodySectionHeader>
 								<BodySectionButtonContainer>
@@ -523,7 +533,7 @@ const ProductPage = () => {
 								</BodySectionButtonContainer>
 							</BodySection>
 						)}
-						{isMatWidthVisible && (
+						{isMatVisible && (
 							<BodySection>
 								<BodySectionHeader>Mat Width:</BodySectionHeader>
 								<BodySectionButtonContainer>
@@ -550,6 +560,37 @@ const ProductPage = () => {
 										onClick={() => handleMatWidthClick('2"')}
 									>
 										2"
+									</BodySectionButton>
+								</BodySectionButtonContainer>
+							</BodySection>
+						)}
+						{isMatVisible && (
+							<BodySection>
+								<BodySectionHeader>Mat Width:</BodySectionHeader>
+								<BodySectionButtonContainer>
+									<BodySectionButton
+										selected={selectedMatColor === "White"}
+										onClick={() => handleMatColorClick("White")}
+									>
+										White
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedMatColor === "Black"}
+										onClick={() => handleMatColorClick("Black")}
+									>
+										Black
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedMatColor === "Cream"}
+										onClick={() => handleMatColorClick("Cream")}
+									>
+										Cream
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedMatColor === "Tan"}
+										onClick={() => handleMatColorClick("Tan")}
+									>
+										Black
 									</BodySectionButton>
 								</BodySectionButtonContainer>
 							</BodySection>

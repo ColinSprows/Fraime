@@ -14,6 +14,8 @@ export default async function (req, res) {
 			print_size: req.body.print_size,
 			paper_type: req.body.paper_type,
 			framing_options: req.body.framing_options,
+			framing_type: req.body.framing_type,
+			mat_options: req.body.mat_options,
 			status: "pending",
 		});
 
