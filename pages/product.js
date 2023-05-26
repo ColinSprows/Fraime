@@ -242,6 +242,7 @@ const ProductPage = () => {
 	const [selectedPostcardSize, setSelectedPostcardSize] = useState('4"x4"');
 	const [selectedPaperType, setSelectedPaperType] = useState("Glossy");
 	const [selectedFrameOption, setSelectedFrameOption] = useState("Frame");
+	const [selectedPrintFrameOption, setSelectedPrintFrameOption] = useState("Frame");
 	const [selectedFrameWidth, setSelectedFrameWidth] = useState('1"');
 	const [selectedFrameColor, setSelectedFrameColor] = useState("Black");
 	const [selectedMatWidth, setSelectedMatWidth] = useState('.5"');
@@ -260,8 +261,7 @@ const ProductPage = () => {
 				setPrintSizeVisible(true);
 				setPosterSizeVisible(false);
 				setPostcardSizeVisible(false);
-				handleFramingOptionsClick("Frame");
-
+				handleFramingOptionsClick(selectedPrintFrameOption);
 				break;
 			case "Poster":
 				setPrintSizeVisible(false);
@@ -288,6 +288,13 @@ const ProductPage = () => {
 	const handlePostcardSizeClick = (Size) => {
 		setSelectedPostcardSize(Size);
 	};
+
+	useEffect(() => {
+		if (selectedProductTypeTab === "Print") {
+			setSelectedPrintFrameOption(selectedFrameOption);
+			console.log(selectedPrintFrameOption);
+		}
+	}, [selectedFrameOption]);
 
 	const handleFramingOptionsClick = (framingOption) => {
 		setSelectedFrameOption(framingOption);
@@ -331,9 +338,9 @@ const ProductPage = () => {
 	const { selectedImage } = useImageContext();
 	const { promptInfo } = usePromptContext();
 
-	useEffect(() => {
-		console.log(selectedImage);
-	}, []);
+	// useEffect(() => {
+	// 	console.log(selectedImage);
+	// }, []);
 
 	const calculateFinishedSize = () => {
 		let selectedSize = "";
