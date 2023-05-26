@@ -25,6 +25,7 @@ import {
 	BuyNowButton,
 	ImageContainer,
 } from "../styles/styledComponents/productPageStyle";
+import BodySectionOptions from "@/components/sub-components/productPageComponents/productDetailSelectionSections";
 
 const ProductPage = () => {
 	// Tab states
@@ -219,10 +220,15 @@ const ProductPage = () => {
 			}),
 		});
 		const data = await response.json();
-		// console.log(data);
+		console.log(data);
 	};
 
 	// Props to be passed to each Body Section component
+	const paperTypeOptions = ["Glossy", "Matte", "Textured", "Semi-Gloss"];
+	const frameWidthOptions = ['1"', '2"', '3"', '4"'];
+	const frameColorOptions = ["Black", "White", "Natural", "Walnut"];
+	const matWidthOptions = ['.5"', '1"', '1.5"', '2"'];
+	const matColorOptions = ["Black", "White", "Cream", "Tan"];
 
 	return (
 		<Wrapper>
@@ -392,163 +398,48 @@ const ProductPage = () => {
 							</FramingOptionsButton>
 						</FramingOptionsContainer>
 						{/* Main body for product selections, depending on which framing option is selected */}
-						<BodySection>
-							{/* Available for all framing options and product types */}
-							<BodySectionHeader>Paper Type:</BodySectionHeader>
-							<BodySectionButtonContainer>
-								<BodySectionButton
-									selected={selectedPaperType === "Glossy"}
-									onClick={() => handlePaperTypeClick("Glossy")}
-								>
-									Glossy
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedPaperType === "Matte"}
-									onClick={() => handlePaperTypeClick("Matte")}
-								>
-									Matte
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedPaperType === "Textured"}
-									onClick={() => handlePaperTypeClick("Textured")}
-								>
-									Textured
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedPaperType === "Semi-Gloss"}
-									onClick={() => handlePaperTypeClick("Semi-Gloss")}
-								>
-									Semi-Gloss
-								</BodySectionButton>
-							</BodySectionButtonContainer>
-						</BodySection>
+						{/* Available for all framing options and product types */}
+						<BodySectionOptions
+							header="Paper Type:"
+							options={paperTypeOptions}
+							selectedOption={selectedPaperType}
+							handleClick={handlePaperTypeClick}
+						/>
 						{/* This state is set on click of framing option tab so that the the frame detail options only display when the appropriate framing option is selected*/}
 						{framingDetailOptionsVisible && (
-							<BodySection>
-								<BodySectionHeader>Frame Width:</BodySectionHeader>
-								<BodySectionButtonContainer>
-									<BodySectionButton
-										selected={selectedFrameWidth === '1"'}
-										onClick={() => handleFrameWidthClick('1"')}
-									>
-										1"
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedFrameWidth === '2"'}
-										onClick={() => handleFrameWidthClick('2"')}
-									>
-										2"
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedFrameWidth === '3"'}
-										onClick={() => handleFrameWidthClick('3"')}
-									>
-										3"
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedFrameWidth === '4"'}
-										onClick={() => handleFrameWidthClick('4"')}
-									>
-										4"
-									</BodySectionButton>
-								</BodySectionButtonContainer>
-							</BodySection>
+							<BodySectionOptions
+								header="Frame Width:"
+								options={frameWidthOptions}
+								selectedOption={selectedFrameWidth}
+								handleClick={handleFrameWidthClick}
+							/>
 						)}
 						{/* Same as above */}
 						{framingDetailOptionsVisible && (
-							<BodySection>
-								<BodySectionHeader>Frame Color:</BodySectionHeader>
-								<BodySectionButtonContainer>
-									<BodySectionButton
-										selected={selectedFrameColor === "Black"}
-										onClick={() => handleFrameColorClick("Black")}
-									>
-										Black
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedFrameColor === "White"}
-										onClick={() => handleFrameColorClick("White")}
-									>
-										White
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedFrameColor === "Natural"}
-										onClick={() => handleFrameColorClick("Natural")}
-									>
-										Natural
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedFrameColor === "Walnut"}
-										onClick={() => handleFrameColorClick("Walnut")}
-									>
-										Walnut
-									</BodySectionButton>
-								</BodySectionButtonContainer>
-							</BodySection>
+							<BodySectionOptions
+								header="Frame Color:"
+								options={frameColorOptions}
+								selectedOption={selectedFrameColor}
+								handleClick={handleFrameColorClick}
+							/>
 						)}
 						{/* Same as above, but for mat details depending on if Frame + Mat is selected as the framing option */}
 						{matDetailOptionsVisible && (
-							<BodySection>
-								<BodySectionHeader>Mat Width:</BodySectionHeader>
-								<BodySectionButtonContainer>
-									<BodySectionButton
-										selected={selectedMatWidth === '.5"'}
-										onClick={() => handleMatWidthClick('.5"')}
-									>
-										.5"
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedMatWidth === '1"'}
-										onClick={() => handleMatWidthClick('1"')}
-									>
-										1"
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedMatWidth === '1.5"'}
-										onClick={() => handleMatWidthClick('1.5"')}
-									>
-										1.5"
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedMatWidth === '2"'}
-										onClick={() => handleMatWidthClick('2"')}
-									>
-										2"
-									</BodySectionButton>
-								</BodySectionButtonContainer>
-							</BodySection>
+							<BodySectionOptions
+								header="Mat Width:"
+								options={matWidthOptions}
+								selectedOption={selectedMatWidth}
+								handleClick={handleMatWidthClick}
+							/>
 						)}
 						{/* Same as above */}
 						{matDetailOptionsVisible && (
-							<BodySection>
-								<BodySectionHeader>Mat Width:</BodySectionHeader>
-								<BodySectionButtonContainer>
-									<BodySectionButton
-										selected={selectedMatColor === "White"}
-										onClick={() => handleMatColorClick("White")}
-									>
-										White
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedMatColor === "Black"}
-										onClick={() => handleMatColorClick("Black")}
-									>
-										Black
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedMatColor === "Cream"}
-										onClick={() => handleMatColorClick("Cream")}
-									>
-										Cream
-									</BodySectionButton>
-									<BodySectionButton
-										selected={selectedMatColor === "Tan"}
-										onClick={() => handleMatColorClick("Tan")}
-									>
-										Black
-									</BodySectionButton>
-								</BodySectionButtonContainer>
-							</BodySection>
+							<BodySectionOptions
+								header="Mat Color:"
+								options={matColorOptions}
+								selectedOption={selectedMatColor}
+								handleClick={handleMatColorClick}
+							/>
 						)}
 					</BodyContainer>
 					{/* Are we doing this? */}
