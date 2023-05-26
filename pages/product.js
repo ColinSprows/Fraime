@@ -235,15 +235,19 @@ export const ImageContainer = styled.div`
 `;
 
 const ProductPage = () => {
-	const [selectedTab, setSelectedTab] = useState("Print");
+	const [selectedPrintFormatTab, setSelectedPrintFormatTab] = useState("Print");
 	const [selectedPrintSize, setSelectedPrintSize] = useState('12"x12"');
 	const [selectedPaperType, setSelectedPaperType] = useState("Glossy");
 	const [selectedFrameOption, setSelectedFrameOption] = useState("Frame");
 	const [selectedFrameWidth, setSelectedFrameWidth] = useState('1"');
 	const [selectedFrameColor, setSelectedFrameColor] = useState("Black");
+	const [selectedMatWidth, setSelectedMatWidth] = useState('.5"');
+	const [isFrameWidthVisible, setIsFrameWidthVisible] = useState(true);
+	const [isFrameColorVisible, setIsFrameColorVisible] = useState(true);
+	const [isMatWidthVisible, setIsMatWidthVisible] = useState(false);
 
 	const handleTabClick = (tabName) => {
-		setSelectedTab(tabName);
+		setSelectedPrintFormatTab(tabName);
 	};
 
 	const handlePrintSizeClick = (printSize) => {
@@ -252,6 +256,29 @@ const ProductPage = () => {
 
 	const handleFramingOptionsClick = (framingOption) => {
 		setSelectedFrameOption(framingOption);
+
+		switch (framingOption) {
+			case "Frame":
+				setIsFrameWidthVisible(true);
+				setIsFrameColorVisible(true);
+				setIsMatWidthVisible(false);
+				break;
+			case "Frame + Mat":
+				setIsFrameWidthVisible(true);
+				setIsFrameColorVisible(true);
+				setIsMatWidthVisible(true);
+				break;
+			case "No Frame":
+				setIsFrameWidthVisible(false);
+				setIsFrameColorVisible(false);
+				setIsMatWidthVisible(false);
+				break;
+			default:
+				setIsFrameWidthVisible(true);
+				setIsFrameColorVisible(true);
+				setIsMatWidthVisible(false);
+				break;
+		}
 	};
 
 	const handlePaperTypeClick = (paperType) => {
@@ -266,6 +293,10 @@ const ProductPage = () => {
 		setSelectedFrameColor(frameColor);
 	};
 
+	const handleMatWidthClick = (matWidth) => {
+		setSelectedMatWidth(matWidth);
+	};
+
 	const { selectedImage } = useImageContext();
 	const { promptInfo } = usePromptContext();
 
@@ -277,10 +308,18 @@ const ProductPage = () => {
 		const printSize = selectedPrintSize.trim().split("x");
 		const printWidth = parseInt(printSize[0].replace(/"/g, ""), 10);
 		const printHeight = parseInt(printSize[1].replace(/"/g, ""), 10);
-		const FrameWidth = parseInt(selectedFrameWidth.replace(/"/g, ""), 10);
+		let frameWidth = 0;
+		let matWidth = 0;
+		if (isMatWidthVisible) {
+			matWidth = parseFloat(selectedMatWidth.replace(/"/g, ""), 10);
+		}
 
-		const finishedWidth = printWidth + FrameWidth * 2;
-		const finishedHeight = printHeight + FrameWidth * 2;
+		if (isFrameWidthVisible) {
+			frameWidth = parseFloat(selectedFrameWidth.replace(/"/g, ""), 10);
+		}
+
+		const finishedWidth = printWidth + frameWidth * 2 + matWidth * 2;
+		const finishedHeight = printHeight + frameWidth * 2 + matWidth * 2;
 
 		return {
 			width: finishedWidth,
@@ -297,7 +336,7 @@ const ProductPage = () => {
 			body: JSON.stringify({
 				prompt_id: promptInfo.prompt_id,
 				image_id: selectedImage.image_id,
-				print_type: selectedTab,
+				print_type: selectedPrintFormatTab,
 				print_size: selectedPrintSize,
 				paper_type: selectedPaperType,
 				framing_options:
@@ -321,19 +360,19 @@ const ProductPage = () => {
 				<BuyCard>
 					<TopTabsContainer>
 						<TabButtons
-							selected={selectedTab === "Print"}
+							selected={selectedPrintFormatTab === "Print"}
 							onClick={() => handleTabClick("Print")}
 						>
 							Print
 						</TabButtons>
 						<TabButtons
-							selected={selectedTab === "Poster"}
+							selected={selectedPrintFormatTab === "Poster"}
 							onClick={() => handleTabClick("Poster")}
 						>
 							Poster
 						</TabButtons>
 						<TabButtons
-							selected={selectedTab === "Postcard"}
+							selected={selectedPrintFormatTab === "Postcard"}
 							onClick={() => handleTabClick("Postcard")}
 						>
 							Postcard
@@ -422,64 +461,99 @@ const ProductPage = () => {
 								</BodySectionButton>
 							</BodySectionButtonContainer>
 						</BodySection>
-						<BodySection>
-							<BodySectionHeader>Frame Width:</BodySectionHeader>
-							<BodySectionButtonContainer>
-								<BodySectionButton
-									selected={selectedFrameWidth === '1"'}
-									onClick={() => handleFrameWidthClick('1"')}
-								>
-									1"
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameWidth === '2"'}
-									onClick={() => handleFrameWidthClick('2"')}
-								>
-									2"
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameWidth === '3"'}
-									onClick={() => handleFrameWidthClick('3"')}
-								>
-									3"
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameWidth === '4"'}
-									onClick={() => handleFrameWidthClick('4"')}
-								>
-									4"
-								</BodySectionButton>
-							</BodySectionButtonContainer>
-						</BodySection>
-						<BodySection>
-							<BodySectionHeader>Frame Color:</BodySectionHeader>
-							<BodySectionButtonContainer>
-								<BodySectionButton
-									selected={selectedFrameColor === "Black"}
-									onClick={() => handleFrameColorClick("Black")}
-								>
-									Black
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameColor === "White"}
-									onClick={() => handleFrameColorClick("White")}
-								>
-									White
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameColor === "Natural"}
-									onClick={() => handleFrameColorClick("Natural")}
-								>
-									Natural
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameColor === "Walnut"}
-									onClick={() => handleFrameColorClick("Walnut")}
-								>
-									Walnut
-								</BodySectionButton>
-							</BodySectionButtonContainer>
-						</BodySection>
+						{isFrameWidthVisible && (
+							<BodySection>
+								<BodySectionHeader>Frame Width:</BodySectionHeader>
+								<BodySectionButtonContainer>
+									<BodySectionButton
+										selected={selectedFrameWidth === '1"'}
+										onClick={() => handleFrameWidthClick('1"')}
+									>
+										1"
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedFrameWidth === '2"'}
+										onClick={() => handleFrameWidthClick('2"')}
+									>
+										2"
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedFrameWidth === '3"'}
+										onClick={() => handleFrameWidthClick('3"')}
+									>
+										3"
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedFrameWidth === '4"'}
+										onClick={() => handleFrameWidthClick('4"')}
+									>
+										4"
+									</BodySectionButton>
+								</BodySectionButtonContainer>
+							</BodySection>
+						)}
+						{isFrameColorVisible && (
+							<BodySection>
+								<BodySectionHeader>Frame Color:</BodySectionHeader>
+								<BodySectionButtonContainer>
+									<BodySectionButton
+										selected={selectedFrameColor === "Black"}
+										onClick={() => handleFrameColorClick("Black")}
+									>
+										Black
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedFrameColor === "White"}
+										onClick={() => handleFrameColorClick("White")}
+									>
+										White
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedFrameColor === "Natural"}
+										onClick={() => handleFrameColorClick("Natural")}
+									>
+										Natural
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedFrameColor === "Walnut"}
+										onClick={() => handleFrameColorClick("Walnut")}
+									>
+										Walnut
+									</BodySectionButton>
+								</BodySectionButtonContainer>
+							</BodySection>
+						)}
+						{isMatWidthVisible && (
+							<BodySection>
+								<BodySectionHeader>Mat Width:</BodySectionHeader>
+								<BodySectionButtonContainer>
+									<BodySectionButton
+										selected={selectedMatWidth === '.5"'}
+										onClick={() => handleMatWidthClick('.5"')}
+									>
+										.5"
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedMatWidth === '1"'}
+										onClick={() => handleMatWidthClick('1"')}
+									>
+										1"
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedMatWidth === '1.5"'}
+										onClick={() => handleMatWidthClick('1.5"')}
+									>
+										1.5"
+									</BodySectionButton>
+									<BodySectionButton
+										selected={selectedMatWidth === '2"'}
+										onClick={() => handleMatWidthClick('2"')}
+									>
+										2"
+									</BodySectionButton>
+								</BodySectionButtonContainer>
+							</BodySection>
+						)}
 					</BodyContainer>
 					<BottomContainer>
 						<BottomText>Add the prompt to the back of the print</BottomText>
