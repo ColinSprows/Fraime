@@ -83,23 +83,23 @@ export const TabButtons = styled.button`
 	}
 `;
 
-export const PrintSizeContainer = styled.div`
+export const SizeContainer = styled.div`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 `;
 
-export const PrintSizeHeader = styled.h4`
+export const SizeHeader = styled.h4`
 	font-family: Inter;
 	margin: 0.5rem 0.75rem;
 `;
 
-export const PrintSizeButtonContainer = styled.div`
+export const SizeButtonContainer = styled.div`
 	display: flex;
 	justify-content: space-evenly;
 `;
 
-export const PrintSizeButton = styled.button`
+export const SizeButton = styled.button`
 	font-family: Inter;
 	background: ${(props) => (props.selected ? "black" : "transparent")};
 	color: ${(props) => (props.selected ? "white" : "black")};
@@ -110,7 +110,7 @@ export const PrintSizeButton = styled.button`
 	cursor: pointer;
 `;
 
-export const PrintSizeFinishedSize = styled.h5`
+export const SizeFinishedSize = styled.h5`
 	font-family: Inter;
 	font-size: 0.75rem;
 	margin: 0.5rem 0.75rem;
@@ -236,8 +236,10 @@ export const ImageContainer = styled.div`
 `;
 
 const ProductPage = () => {
-	const [selectedPrintFormatTab, setSelectedPrintFormatTab] = useState("Print");
+	const [selectedProductTypeTab, setSelectedProductTypeTab] = useState("Print");
 	const [selectedPrintSize, setSelectedPrintSize] = useState('12"x12"');
+	const [selectedPosterSize, setSelectedPosterSize] = useState('10"x10"');
+	const [selectedPostcardSize, setSelectedPostcardSize] = useState('4"x4"');
 	const [selectedPaperType, setSelectedPaperType] = useState("Glossy");
 	const [selectedFrameOption, setSelectedFrameOption] = useState("Frame");
 	const [selectedFrameWidth, setSelectedFrameWidth] = useState('1"');
@@ -246,13 +248,41 @@ const ProductPage = () => {
 	const [selectedMatColor, setSelectedMatColor] = useState("White");
 	const [areFramingOptionsVisible, setAreFramingOptionsVisible] = useState(true);
 	const [isMatVisible, setIsMatVisible] = useState(false);
+	const [isPrintSizeVisible, setPrintSizeVisible] = useState(true);
+	const [isPosterSizeVisible, setPosterSizeVisible] = useState(false);
+	const [isPostcardSizeVisible, setPostcardSizeVisible] = useState(false);
 
 	const handleTabClick = (tabName) => {
-		setSelectedPrintFormatTab(tabName);
+		setSelectedProductTypeTab(tabName);
+
+		switch (tabName) {
+			case "Print":
+				setPrintSizeVisible(true);
+				setPosterSizeVisible(false);
+				setPostcardSizeVisible(false);
+				break;
+			case "Poster":
+				setPrintSizeVisible(false);
+				setPosterSizeVisible(true);
+				setPostcardSizeVisible(false);
+				break;
+			case "Postcard":
+				setPrintSizeVisible(false);
+				setPosterSizeVisible(false);
+				setPostcardSizeVisible(true);
+				break;
+		}
 	};
 
-	const handlePrintSizeClick = (printSize) => {
-		setSelectedPrintSize(printSize);
+	const handlePrintSizeClick = (Size) => {
+		setSelectedPrintSize(Size);
+	};
+
+	const handlePosterSizeClick = (Size) => {
+		setSelectedPosterSize(Size);
+	};
+	const handlePostcardSizeClick = (Size) => {
+		setSelectedPostcardSize(Size);
 	};
 
 	const handleFramingOptionsClick = (framingOption) => {
@@ -269,10 +299,6 @@ const ProductPage = () => {
 				break;
 			case "No Frame":
 				setAreFramingOptionsVisible(false);
-				setIsMatVisible(false);
-				break;
-			default:
-				setAreFramingOptionsVisible(true);
 				setIsMatVisible(false);
 				break;
 		}
@@ -306,9 +332,19 @@ const ProductPage = () => {
 	}, []);
 
 	const calculateFinishedSize = () => {
-		const printSize = selectedPrintSize.trim().split("x");
-		const printWidth = parseInt(printSize[0].replace(/"/g, ""), 10);
-		const printHeight = parseInt(printSize[1].replace(/"/g, ""), 10);
+		// define selected size based on which product type is selected
+		let selectedSize = "";
+		if (selectedProductTypeTab === "Print") {
+			selectedSize = selectedPrintSize;
+		} else if (selectedProductTypeTab === "Poster") {
+			selectedSize = selectedPosterSize;
+		} else if (selectedProductTypeTab === "Postcard") {
+			selectedSize = selectedPostcardSize;
+		}
+
+		const size = selectedSize.trim().split("x");
+		const printWidth = parseInt(size[0].replace(/"/g, ""), 10);
+		const printHeight = parseInt(size[1].replace(/"/g, ""), 10);
 		let frameWidth = 0;
 		let matWidth = 0;
 		if (isMatVisible) {
@@ -345,8 +381,8 @@ const ProductPage = () => {
 			body: JSON.stringify({
 				prompt_id: promptInfo.prompt_id,
 				image_id: selectedImage.image_id,
-				print_type: selectedPrintFormatTab,
-				print_size: selectedPrintSize,
+				product_type: selectedProductTypeTab,
+				product_size: selectedSize,
 				paper_type: selectedPaperType,
 				framing_type: selectedFrameOption,
 				framing_options: framingOptions,
@@ -370,58 +406,131 @@ const ProductPage = () => {
 				<BuyCard>
 					<TopTabsContainer>
 						<TabButtons
-							selected={selectedPrintFormatTab === "Print"}
+							selected={selectedProductTypeTab === "Print"}
 							onClick={() => handleTabClick("Print")}
 						>
 							Print
 						</TabButtons>
 						<TabButtons
-							selected={selectedPrintFormatTab === "Poster"}
+							selected={selectedProductTypeTab === "Poster"}
 							onClick={() => handleTabClick("Poster")}
 						>
 							Poster
 						</TabButtons>
 						<TabButtons
-							selected={selectedPrintFormatTab === "Postcard"}
+							selected={selectedProductTypeTab === "Postcard"}
 							onClick={() => handleTabClick("Postcard")}
 						>
 							Postcard
 						</TabButtons>
 					</TopTabsContainer>
 					<BodyContainer>
-						<PrintSizeContainer>
-							<PrintSizeHeader>Print Size:</PrintSizeHeader>
-							<PrintSizeButtonContainer>
-								<PrintSizeButton
-									selected={selectedPrintSize === '12"x12"'}
-									onClick={() => handlePrintSizeClick('12"x12"')}
-								>
-									12"x12"
-								</PrintSizeButton>
-								<PrintSizeButton
-									selected={selectedPrintSize === '14"x14"'}
-									onClick={() => handlePrintSizeClick('14"x14"')}
-								>
-									14"x14"
-								</PrintSizeButton>
-								<PrintSizeButton
-									selected={selectedPrintSize === '16"x16"'}
-									onClick={() => handlePrintSizeClick('16"x16"')}
-								>
-									16"x16"
-								</PrintSizeButton>
-								<PrintSizeButton
-									selected={selectedPrintSize === '18"x18"'}
-									onClick={() => handlePrintSizeClick('18"x18"')}
-								>
-									18"x18"
-								</PrintSizeButton>
-							</PrintSizeButtonContainer>
-							<PrintSizeFinishedSize>
-								Finished Size: {calculateFinishedSize().height}"x
-								{calculateFinishedSize().width}"
-							</PrintSizeFinishedSize>
-						</PrintSizeContainer>
+						{isPrintSizeVisible && (
+							<SizeContainer>
+								<SizeHeader>Print Size:</SizeHeader>
+								<SizeButtonContainer>
+									<SizeButton
+										selected={selectedPrintSize === '12"x12"'}
+										onClick={() => handlePrintSizeClick('12"x12"')}
+									>
+										12"x12"
+									</SizeButton>
+									<SizeButton
+										selected={selectedPrintSize === '14"x14"'}
+										onClick={() => handlePrintSizeClick('14"x14"')}
+									>
+										14"x14"
+									</SizeButton>
+									<SizeButton
+										selected={selectedPrintSize === '16"x16"'}
+										onClick={() => handlePrintSizeClick('16"x16"')}
+									>
+										16"x16"
+									</SizeButton>
+									<SizeButton
+										selected={selectedPrintSize === '18"x18"'}
+										onClick={() => handlePrintSizeClick('18"x18"')}
+									>
+										18"x18"
+									</SizeButton>
+								</SizeButtonContainer>
+								<SizeFinishedSize>
+									Finished Size: {calculateFinishedSize().height}"x
+									{calculateFinishedSize().width}"
+								</SizeFinishedSize>
+							</SizeContainer>
+						)}
+						{isPosterSizeVisible && (
+							<SizeContainer>
+								<SizeHeader>Poster Size:</SizeHeader>
+								<SizeButtonContainer>
+									<SizeButton
+										selected={selectedPosterSize === '10"x10"'}
+										onClick={() => handlePosterSizeClick('10"x10"')}
+									>
+										10"x10"
+									</SizeButton>
+									<SizeButton
+										selected={selectedPosterSize === '12"x12"'}
+										onClick={() => handlePosterSizeClick('12"x12"')}
+									>
+										12"x12"
+									</SizeButton>
+									<SizeButton
+										selected={selectedPosterSize === '14"x14"'}
+										onClick={() => handlePosterSizeClick('14"x14"')}
+									>
+										14"x14"
+									</SizeButton>
+									<SizeButton
+										selected={selectedPosterSize === '16"x16"'}
+										onClick={() => handlePosterSizeClick('16"x16"')}
+									>
+										16"x16"
+									</SizeButton>
+								</SizeButtonContainer>
+								<SizeFinishedSize>
+									Finished Size: {calculateFinishedSize().height}"x
+									{calculateFinishedSize().width}"
+								</SizeFinishedSize>
+							</SizeContainer>
+						)}
+						{isPostcardSizeVisible && (
+							<SizeContainer>
+								<SizeHeader>Postcard Size:</SizeHeader>
+								<SizeButtonContainer>
+									<SizeButton
+										selected={selectedPostcardSize === '4"x4"'}
+										onClick={() => handlePostcardSizeClick('4"x4"')}
+									>
+										4"x4"
+									</SizeButton>
+									<SizeButton
+										selected={selectedPostcardSize === '5"x5"'}
+										onClick={() => handlePostcardSizeClick('5"x5"')}
+									>
+										5"x5"
+									</SizeButton>
+									<SizeButton
+										selected={selectedPostcardSize === '6"x6"'}
+										onClick={() => handlePostcardSizeClick('6"x6"')}
+									>
+										6"x6"
+									</SizeButton>
+									<SizeButton
+										selected={selectedPostcardSize === '8"x8"'}
+										onClick={() => handlePostcardSizeClick('8"x8"')}
+									>
+										8"x8"
+									</SizeButton>
+								</SizeButtonContainer>
+								<SizeFinishedSize>
+									Finished Size: {calculateFinishedSize().height}"x
+									{calculateFinishedSize().width}"
+								</SizeFinishedSize>
+							</SizeContainer>
+						)}
+
 						<FramingOptionsContainer>
 							<FramingOptionsButton
 								selected={selectedFrameOption === "Frame"}

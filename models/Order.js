@@ -32,11 +32,11 @@ const orderSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	print_type: {
+	product_type: {
 		type: String,
 		required: true,
 	},
-	print_size: {
+	product_size: {
 		type: String,
 		required: true,
 	},

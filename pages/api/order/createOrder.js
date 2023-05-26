@@ -10,8 +10,8 @@ export default async function (req, res) {
 		const newOrder = await OrderModel.create({
 			prompt_id: req.body.prompt_id,
 			image_id: req.body.image_id,
-			print_type: req.body.print_type,
-			print_size: req.body.print_size,
+			product_type: req.body.product_type,
+			product_size: req.body.product_size,
 			paper_type: req.body.paper_type,
 			framing_options: req.body.framing_options,
 			framing_type: req.body.framing_type,
