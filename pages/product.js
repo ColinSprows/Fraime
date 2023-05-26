@@ -217,8 +217,8 @@ const ProductPage = () => {
 
 	// Props to be passed to each Body Section component
 	const printSizeOptions = ['12"x12"', '14"x14"', '16"x16"', '18"x18"'];
-	const posterSizeOptions = ['10"x10"', '12"x12"', '`14`"x`14`"', '16"x16"'];
-	const postcardSizeOptions = ['4"x4"', '5"x5"', '`6`"x`6`"', '8"x8"'];
+	const posterSizeOptions = ['10"x10"', '12"x12"', '14"x14"', '16"x16"'];
+	const postcardSizeOptions = ['4"x4"', '5"x5"', '6"x6"', '8"x8"'];
 
 	const paperTypeOptions = ["Glossy", "Matte", "Textured", "Semi-Gloss"];
 	const frameWidthOptions = ['1"', '2"', '3"', '4"'];
