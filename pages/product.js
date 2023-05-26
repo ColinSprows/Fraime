@@ -260,16 +260,20 @@ const ProductPage = () => {
 				setPrintSizeVisible(true);
 				setPosterSizeVisible(false);
 				setPostcardSizeVisible(false);
+				handleFramingOptionsClick("Frame");
+
 				break;
 			case "Poster":
 				setPrintSizeVisible(false);
 				setPosterSizeVisible(true);
 				setPostcardSizeVisible(false);
+				handleFramingOptionsClick("No Frame");
 				break;
 			case "Postcard":
 				setPrintSizeVisible(false);
 				setPosterSizeVisible(false);
 				setPostcardSizeVisible(true);
+				handleFramingOptionsClick("No Frame");
 				break;
 		}
 	};
@@ -332,7 +336,6 @@ const ProductPage = () => {
 	}, []);
 
 	const calculateFinishedSize = () => {
-		// define selected size based on which product type is selected
 		let selectedSize = "";
 		if (selectedProductTypeTab === "Print") {
 			selectedSize = selectedPrintSize;
@@ -372,6 +375,15 @@ const ProductPage = () => {
 		const matOptions = isMatVisible
 			? selectedMatWidth + ", " + selectedMatColor
 			: "No Mat";
+
+		let selectedSize = "";
+		if (selectedProductTypeTab === "Print") {
+			selectedSize = selectedPrintSize;
+		} else if (selectedProductTypeTab === "Poster") {
+			selectedSize = selectedPosterSize;
+		} else if (selectedProductTypeTab === "Postcard") {
+			selectedSize = selectedPostcardSize;
+		}
 
 		const response = await fetch("/api/order/createOrder", {
 			method: "POST",
@@ -530,20 +542,23 @@ const ProductPage = () => {
 								</SizeFinishedSize>
 							</SizeContainer>
 						)}
-
 						<FramingOptionsContainer>
-							<FramingOptionsButton
-								selected={selectedFrameOption === "Frame"}
-								onClick={() => handleFramingOptionsClick("Frame")}
-							>
-								Frame
-							</FramingOptionsButton>
-							<FramingOptionsButton
-								selected={selectedFrameOption === "Frame + Mat"}
-								onClick={() => handleFramingOptionsClick("Frame + Mat")}
-							>
-								Frame + Mat
-							</FramingOptionsButton>
+							{selectedProductTypeTab === "Print" && (
+								<>
+									<FramingOptionsButton
+										selected={selectedFrameOption === "Frame"}
+										onClick={() => handleFramingOptionsClick("Frame")}
+									>
+										Frame
+									</FramingOptionsButton>
+									<FramingOptionsButton
+										selected={selectedFrameOption === "Frame + Mat"}
+										onClick={() => handleFramingOptionsClick("Frame + Mat")}
+									>
+										Frame + Mat
+									</FramingOptionsButton>
+								</>
+							)}
 							<FramingOptionsButton
 								selected={selectedFrameOption === "No Frame"}
 								onClick={() => handleFramingOptionsClick("No Frame")}
