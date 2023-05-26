@@ -1,295 +1,200 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useImageContext, usePromptContext } from "../context/ContextProvider";
-
-export const Wrapper = styled.div`
-	height: calc(100vh - 4rem);
-	display: flex;
-
-	@media (max-height: 696px) {
-		align-items: flex-start;
-	}
-
-	@media (max-width: 768px) {
-		align-items: flex-start;
-		flex-direction: column;
-	}
-`;
-
-export const Left = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 50%;
-
-	@media (max-width: 768px) {
-		width: 100vw;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-`;
-
-export const Right = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	width: 50%;
-	padding: 2rem 2rem 2rem 0rem;
-
-	@media (max-width: 768px) {
-		width: 100vw;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 2rem 2rem 2rem 2rem;
-	}
-`;
-
-export const BuyCard = styled.div`
-	width: 100%;
-	height: 100%;
-	border: 1px solid black;
-	border-radius: 25px;
-`;
-
-export const TopTabsContainer = styled.div`
-	width: 100%;
-	height: 2.5rem;
-	border-bottom: 1px solid black;
-	display: flex;
-	justify-content: space-around;
-`;
-
-export const TabButtons = styled.button`
-	width: 100%;
-	height: 100%;
-	background: ${(props) => (props.selected ? "black" : "transparent")};
-	color: ${(props) => (props.selected ? "white" : "black")};
-	border: none;
-	cursor: pointer;
-	border-left: 1px solid black;
-
-	&:first-child {
-		border-top-left-radius: 24px;
-		border-left: none;
-	}
-
-	&:last-child {
-		border-top-right-radius: 24px;
-	}
-`;
-
-export const PrintSizeContainer = styled.div`
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-`;
-
-export const PrintSizeHeader = styled.h4`
-	font-family: Inter;
-	margin: 0.5rem 0.75rem;
-`;
-
-export const PrintSizeButtonContainer = styled.div`
-	display: flex;
-	justify-content: space-evenly;
-`;
-
-export const PrintSizeButton = styled.button`
-	font-family: Inter;
-	background: ${(props) => (props.selected ? "black" : "transparent")};
-	color: ${(props) => (props.selected ? "white" : "black")};
-	border: 1px solid black;
-	border-radius: 24px;
-	padding: 0.5rem 0rem;
-	width: 20%;
-	cursor: pointer;
-`;
-
-export const PrintSizeFinishedSize = styled.h5`
-	font-family: Inter;
-	font-size: 0.75rem;
-	margin: 0.5rem 0.75rem;
-	color: black;
-`;
-
-export const FramingOptionsContainer = styled.div`
-	width: 100%;
-	height: 3rem;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-	display: flex;
-	justify-content: space-around;
-`;
-
-export const FramingOptionsButton = styled.button`
-	width: 100%;
-	height: 2.9rem;
-	background: ${(props) => (props.selected ? "black" : "transparent")};
-	color: ${(props) => (props.selected ? "white" : "black")};
-	border: none;
-	cursor: pointer;
-	border-left: 1px solid black;
-
-	&:first-child {
-		border-left: none;
-	}
-`;
-
-export const BodyContainer = styled.div`
-	width: 100%;
-	height: calc(100% - 5rem);
-	display: flex;
-	flex-direction: column;
-	overflow-y: auto;
-`;
-
-export const BodySection = styled.div`
-	:last-child {
-		@media (max-width: 768px) {
-			margin-bottom: 2rem;
-		}
-	}
-`;
-
-export const BodySectionHeader = styled.h4`
-	font-family: Inter;
-	margin: 0.5rem 0.75rem;
-`;
-
-export const BodySectionButtonContainer = styled.div`
-	display: flex;
-	justify-content: space-evenly;
-`;
-
-export const BodySectionButton = styled.button`
-	font-family: Inter;
-	background: ${(props) => (props.selected ? "black" : "transparent")};
-	color: ${(props) => (props.selected ? "white" : "black")};
-	border: 1px solid black;
-	border-radius: 24px;
-	padding: 0.5rem 0rem;
-	width: 20%;
-	cursor: pointer;
-`;
-
-export const BottomContainer = styled.div`
-	width: 100%;
-	height: 2.5rem;
-	border-top: 1px solid black;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-
-	@media (max-height: 696px) {
-		margin-top: 2rem;
-	}
-`;
-
-export const BottomText = styled.h5`
-	font-family: Inter;
-`;
-
-export const BuyNowButton = styled.button`
-	background-color: ${(props) => props.theme.colors.button};
-	color: black;
-	padding: 1rem 0rem;
-	width: 100%;
-	border: 1px solid black;
-	border-radius: 50px;
-	font-family: InterBlack;
-	font-size: clamp(1.25rem, 2vw, 2rem);
-	letter-spacing: -0.05em;
-	white-space: nowrap;
-	cursor: pointer;
-	margin-top: 2rem;
-	transition: 0.2s;
-	will-change: transform;
-
-	&:hover {
-		letter-spacing: 0em;
-	}
-
-	&:hover span {
-		color: white;
-		text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-	}
-
-	&:active {
-		letter-spacing: -0.05em;
-	}
-
-	@media (max-width: 768px) {
-		max-width: 800px;
-		padding: 1rem 0rem;
-		width: 80vw;
-	}
-`;
-
-export const ImageContainer = styled.div`
-	width: 30vw;
-	height: 30vw;
-	position: relative;
-`;
+import {
+	Wrapper,
+	Left,
+	Right,
+	BuyCard,
+	TopTabsContainer,
+	TabButtons,
+	FramingOptionsTabContainer,
+	FramingOptionsTab,
+	BodyContainer,
+	BottomContainer,
+	BottomText,
+	BuyNowButton,
+	ImageContainer,
+} from "../styles/styledComponents/productPageStyle";
+import ProductDetailOptions from "@/components/sub-components/productPageComponents/productDetailOptions";
+import SizeDetailOptions from "@/components/sub-components/productPageComponents/sizeDetailOptions";
 
 const ProductPage = () => {
-	const [selectedTab, setSelectedTab] = useState("Print");
-	const [selectedPrintSize, setSelectedPrintSize] = useState('12"x12"');
-	const [selectedPaperType, setSelectedPaperType] = useState("Glossy");
+	// Tab states
+	const [selectedProductTypeTab, setSelectedProductTypeTab] = useState("Print");
 	const [selectedFrameOption, setSelectedFrameOption] = useState("Frame");
+	const [selectedPrintFrameOption, setSelectedPrintFrameOption] = useState("Frame");
+
+	// Size states for different product types
+	const [selectedPrintSize, setSelectedPrintSize] = useState('12"x12"');
+	const [selectedPosterSize, setSelectedPosterSize] = useState('10"x10"');
+	const [selectedPostcardSize, setSelectedPostcardSize] = useState('4"x4"');
+
+	// Product selections
+	const [selectedPaperType, setSelectedPaperType] = useState("Glossy");
 	const [selectedFrameWidth, setSelectedFrameWidth] = useState('1"');
 	const [selectedFrameColor, setSelectedFrameColor] = useState("Black");
+	const [selectedMatWidth, setSelectedMatWidth] = useState('.5"');
+	const [selectedMatColor, setSelectedMatColor] = useState("Black");
 
+	// Visibility states
+	const [framingDetailOptionsVisible, setFramingDetailOptionsVisible] = useState(true);
+	const [matDetailOptionsVisible, setMatDetailOptionsVisible] = useState(false);
+	const [isPrintSizeVisible, setPrintSizeVisible] = useState(true);
+	const [isPosterSizeVisible, setPosterSizeVisible] = useState(false);
+	const [isPostcardSizeVisible, setPostcardSizeVisible] = useState(false);
+
+	// Image and Prompt context brought forward through user journey
+	const { selectedImage } = useImageContext();
+	const { promptInfo } = usePromptContext();
+
+	// Click handler for product type tabs that assigns visibility states for size options and framing options
 	const handleTabClick = (tabName) => {
-		setSelectedTab(tabName);
+		setSelectedProductTypeTab(tabName);
+
+		switch (tabName) {
+			case "Print":
+				setPrintSizeVisible(true);
+				setPosterSizeVisible(false);
+				setPostcardSizeVisible(false);
+				handleFramingOptionsClick(selectedPrintFrameOption);
+				break;
+			case "Poster":
+				setPrintSizeVisible(false);
+				setPosterSizeVisible(true);
+				setPostcardSizeVisible(false);
+				handleFramingOptionsClick("No Frame");
+				break;
+			case "Postcard":
+				setPrintSizeVisible(false);
+				setPosterSizeVisible(false);
+				setPostcardSizeVisible(true);
+				handleFramingOptionsClick("No Frame");
+				break;
+		}
 	};
 
-	const handlePrintSizeClick = (printSize) => {
-		setSelectedPrintSize(printSize);
+	// Click handlers for size options, depending on product type
+	const handlePrintSizeClick = (Size) => {
+		setSelectedPrintSize(Size);
+	};
+	const handlePosterSizeClick = (Size) => {
+		setSelectedPosterSize(Size);
+	};
+	const handlePostcardSizeClick = (Size) => {
+		setSelectedPostcardSize(Size);
 	};
 
+	// Click handler for framing options that assigns visibility states for framing details and mat details depending on the framing option selected
 	const handleFramingOptionsClick = (framingOption) => {
 		setSelectedFrameOption(framingOption);
+
+		switch (framingOption) {
+			case "Frame":
+				setFramingDetailOptionsVisible(true);
+				setMatDetailOptionsVisible(false);
+				break;
+			case "Frame + Mat":
+				setFramingDetailOptionsVisible(true);
+				setMatDetailOptionsVisible(true);
+				break;
+			case "No Frame":
+				setFramingDetailOptionsVisible(false);
+				setMatDetailOptionsVisible(false);
+				break;
+		}
 	};
 
+	// As Print has more framing options than the other two product types, a particular state storing Prints framing options selection is needed
+	// This use effect updates the selected framing option for Print when a Framing Option is clicked and the selected tab is Print
+	// This way, if the User selects Print again, their previous framing option selected will be displayed
+	useEffect(() => {
+		if (selectedProductTypeTab === "Print") {
+			setSelectedPrintFrameOption(selectedFrameOption);
+		}
+	}, [selectedFrameOption]);
+
+	// Click handlers for product detail selections
+	// Paper types
 	const handlePaperTypeClick = (paperType) => {
 		setSelectedPaperType(paperType);
 	};
 
+	// Frame Details
 	const handleFrameWidthClick = (FrameWidth) => {
 		setSelectedFrameWidth(FrameWidth);
 	};
-
 	const handleFrameColorClick = (frameColor) => {
 		setSelectedFrameColor(frameColor);
 	};
 
-	const { selectedImage } = useImageContext();
-	const { promptInfo } = usePromptContext();
+	// Mat Details
+	const handleMatWidthClick = (matWidth) => {
+		setSelectedMatWidth(matWidth);
+	};
+	const handleMatColorClick = (matColor) => {
+		setSelectedMatColor(matColor);
+	};
 
-	useEffect(() => {
-		console.log(selectedImage);
-	}, []);
+	// useEffect on selectedImage to check if the image context is being passed through correctly
+	// useEffect(() => {
+	// 	console.log(selectedImage);
+	// }, []);
 
+	// Function to calculate the finished size of the product depending on size selected, frame width selected, and mat width selected
 	const calculateFinishedSize = () => {
-		const printSize = selectedPrintSize.trim().split("x");
-		const printWidth = parseInt(printSize[0].replace(/"/g, ""), 10);
-		const printHeight = parseInt(printSize[1].replace(/"/g, ""), 10);
-		const FrameWidth = parseInt(selectedFrameWidth.replace(/"/g, ""), 10);
+		let selectedSize = "";
+		if (selectedProductTypeTab === "Print") {
+			selectedSize = selectedPrintSize;
+		} else if (selectedProductTypeTab === "Poster") {
+			selectedSize = selectedPosterSize;
+		} else if (selectedProductTypeTab === "Postcard") {
+			selectedSize = selectedPostcardSize;
+		}
 
-		const finishedWidth = printWidth + FrameWidth * 2;
-		const finishedHeight = printHeight + FrameWidth * 2;
+		// Splits selected size into two (width and height), necessary if non-square prints are eventually offered
+		const size = selectedSize.trim().split("x");
+		const printWidth = parseInt(size[0].replace(/"/g, ""), 10);
+		const printHeight = parseInt(size[1].replace(/"/g, ""), 10);
+		let frameWidth = 0;
+		let matWidth = 0;
+		// Conditional logic to use frame and mat widths only if they are visible
+		if (framingDetailOptionsVisible) {
+			frameWidth = parseFloat(selectedFrameWidth.replace(/"/g, ""), 10);
+		}
+		if (matDetailOptionsVisible) {
+			matWidth = parseFloat(selectedMatWidth.replace(/"/g, ""), 10);
+		}
 
+		// Returning final calculations
 		return {
-			width: finishedWidth,
-			height: finishedHeight,
+			width: printWidth + frameWidth * 2 + matWidth * 2,
+			height: printHeight + frameWidth * 2 + matWidth * 2,
 		};
 	};
 
+	// Fetch request to create Order document in database to be used with Stripe
 	const createOrder = async () => {
+		// Conditional logic to determine if framing and mat details are sent in the body of the request
+		const framingOptions = framingDetailOptionsVisible
+			? selectedFrameWidth + ", " + selectedFrameColor
+			: "No Frame";
+
+		const matOptions = matDetailOptionsVisible
+			? selectedMatWidth + ", " + selectedMatColor
+			: "No Mat";
+
+		// Conditional logic to determine which size state is sent in the body of the request
+		let selectedSize = "";
+		if (selectedProductTypeTab === "Print") {
+			selectedSize = selectedPrintSize;
+		} else if (selectedProductTypeTab === "Poster") {
+			selectedSize = selectedPosterSize;
+		} else if (selectedProductTypeTab === "Postcard") {
+			selectedSize = selectedPostcardSize;
+		}
+
+		// The actual fetch request utilizing prompt and image context and all selected options via states and conditional logic above
 		const response = await fetch("/api/order/createOrder", {
 			method: "POST",
 			headers: {
@@ -298,194 +203,169 @@ const ProductPage = () => {
 			body: JSON.stringify({
 				prompt_id: promptInfo.prompt_id,
 				image_id: selectedImage.image_id,
-				print_type: selectedTab,
-				print_size: selectedPrintSize,
+				product_type: selectedProductTypeTab,
+				product_size: selectedSize,
 				paper_type: selectedPaperType,
-				framing_options:
-					selectedFrameOption + ", " + selectedFrameWidth + ", " + selectedFrameColor,
+				framing_type: selectedFrameOption,
+				framing_options: framingOptions,
+				mat_options: matOptions,
 			}),
 		});
 		const data = await response.json();
 		console.log(data);
 	};
 
+	// Props to be passed to each Body Section component
+	const printSizeOptions = ['12"x12"', '14"x14"', '16"x16"', '18"x18"'];
+	const posterSizeOptions = ['10"x10"', '12"x12"', '14"x14"', '16"x16"'];
+	const postcardSizeOptions = ['4"x4"', '5"x5"', '6"x6"', '8"x8"'];
+
+	const paperTypeOptions = ["Glossy", "Matte", "Textured", "Semi-Gloss"];
+	const frameWidthOptions = ['1"', '2"', '3"', '4"'];
+	const frameColorOptions = ["Black", "White", "Natural", "Walnut"];
+	const matWidthOptions = ['.5"', '1"', '1.5"', '2"'];
+	const matColorOptions = ["Black", "White", "Cream", "Tan"];
+
 	return (
 		<Wrapper>
 			<Left>
 				<ImageContainer>
-					{selectedImage && (
-						<Image src={selectedImage.url} alt="Selected product image" fill />
-					)}
+					{/* Using Image Context to display image selected on Discovery page */}
+					<Image src={selectedImage.url} alt="Selected product image" fill />
 				</ImageContainer>
 			</Left>
 			<Right>
 				<BuyCard>
+					{/* Tabs for product type with relevant click handler and state requirements */}
 					<TopTabsContainer>
 						<TabButtons
-							selected={selectedTab === "Print"}
+							selected={selectedProductTypeTab === "Print"}
 							onClick={() => handleTabClick("Print")}
 						>
 							Print
 						</TabButtons>
 						<TabButtons
-							selected={selectedTab === "Poster"}
+							selected={selectedProductTypeTab === "Poster"}
 							onClick={() => handleTabClick("Poster")}
 						>
 							Poster
 						</TabButtons>
 						<TabButtons
-							selected={selectedTab === "Postcard"}
+							selected={selectedProductTypeTab === "Postcard"}
 							onClick={() => handleTabClick("Postcard")}
 						>
 							Postcard
 						</TabButtons>
 					</TopTabsContainer>
 					<BodyContainer>
-						<PrintSizeContainer>
-							<PrintSizeHeader>Print Size:</PrintSizeHeader>
-							<PrintSizeButtonContainer>
-								<PrintSizeButton
-									selected={selectedPrintSize === '12"x12"'}
-									onClick={() => handlePrintSizeClick('12"x12"')}
-								>
-									12"x12"
-								</PrintSizeButton>
-								<PrintSizeButton
-									selected={selectedPrintSize === '14"x14"'}
-									onClick={() => handlePrintSizeClick('14"x14"')}
-								>
-									14"x14"
-								</PrintSizeButton>
-								<PrintSizeButton
-									selected={selectedPrintSize === '16"x16"'}
-									onClick={() => handlePrintSizeClick('16"x16"')}
-								>
-									16"x16"
-								</PrintSizeButton>
-								<PrintSizeButton
-									selected={selectedPrintSize === '18"x18"'}
-									onClick={() => handlePrintSizeClick('18"x18"')}
-								>
-									18"x18"
-								</PrintSizeButton>
-							</PrintSizeButtonContainer>
-							<PrintSizeFinishedSize>
-								Finished Size: {calculateFinishedSize().height}"x
-								{calculateFinishedSize().width}"
-							</PrintSizeFinishedSize>
-						</PrintSizeContainer>
-						<FramingOptionsContainer>
-							<FramingOptionsButton
-								selected={selectedFrameOption === "Frame"}
-								onClick={() => handleFramingOptionsClick("Frame")}
-							>
-								Frame
-							</FramingOptionsButton>
-							<FramingOptionsButton
-								selected={selectedFrameOption === "Frame + Mat"}
-								onClick={() => handleFramingOptionsClick("Frame + Mat")}
-							>
-								Frame + Mat
-							</FramingOptionsButton>
-							<FramingOptionsButton
+						{/* Conditional logic to display relevant size options depending on product type selected */}
+						{/* Print sizes */}
+						{isPrintSizeVisible && (
+							<SizeDetailOptions
+								header="Print Size:"
+								options={printSizeOptions}
+								selectedOption={selectedPrintSize}
+								handleClick={handlePrintSizeClick}
+								calculate={calculateFinishedSize}
+							/>
+						)}
+						{/* Poster sizes */}
+						{isPosterSizeVisible && (
+							<SizeDetailOptions
+								header="Poster Size:"
+								options={posterSizeOptions}
+								selectedOption={selectedPosterSize}
+								handleClick={handlePosterSizeClick}
+								calculate={calculateFinishedSize}
+							/>
+						)}
+						{/* Postcard sizes */}
+						{isPostcardSizeVisible && (
+							<SizeDetailOptions
+								header="Postcard Size:"
+								options={postcardSizeOptions}
+								selectedOption={selectedPostcardSize}
+								handleClick={handlePostcardSizeClick}
+								calculate={calculateFinishedSize}
+							/>
+						)}
+						<FramingOptionsTabContainer>
+							{/* Conditional logic to show framing options depending on selected product type. These two only for prints */}
+							{selectedProductTypeTab === "Print" && (
+								<>
+									<FramingOptionsTab
+										selected={selectedFrameOption === "Frame"}
+										onClick={() => handleFramingOptionsClick("Frame")}
+									>
+										Frame
+									</FramingOptionsTab>
+									<FramingOptionsTab
+										selected={selectedFrameOption === "Frame + Mat"}
+										onClick={() => handleFramingOptionsClick("Frame + Mat")}
+									>
+										Frame + Mat
+									</FramingOptionsTab>
+								</>
+							)}
+							{/* Available for all product types */}
+							<FramingOptionsTab
 								selected={selectedFrameOption === "No Frame"}
 								onClick={() => handleFramingOptionsClick("No Frame")}
 							>
 								No Frame
-							</FramingOptionsButton>
-						</FramingOptionsContainer>
-						<BodySection>
-							<BodySectionHeader>Paper Type:</BodySectionHeader>
-							<BodySectionButtonContainer>
-								<BodySectionButton
-									selected={selectedPaperType === "Glossy"}
-									onClick={() => handlePaperTypeClick("Glossy")}
-								>
-									Glossy
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedPaperType === "Matte"}
-									onClick={() => handlePaperTypeClick("Matte")}
-								>
-									Matte
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedPaperType === "Textured"}
-									onClick={() => handlePaperTypeClick("Textured")}
-								>
-									Textured
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedPaperType === "Semi-Gloss"}
-									onClick={() => handlePaperTypeClick("Semi-Gloss")}
-								>
-									Semi-Gloss
-								</BodySectionButton>
-							</BodySectionButtonContainer>
-						</BodySection>
-						<BodySection>
-							<BodySectionHeader>Frame Width:</BodySectionHeader>
-							<BodySectionButtonContainer>
-								<BodySectionButton
-									selected={selectedFrameWidth === '1"'}
-									onClick={() => handleFrameWidthClick('1"')}
-								>
-									1"
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameWidth === '2"'}
-									onClick={() => handleFrameWidthClick('2"')}
-								>
-									2"
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameWidth === '3"'}
-									onClick={() => handleFrameWidthClick('3"')}
-								>
-									3"
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameWidth === '4"'}
-									onClick={() => handleFrameWidthClick('4"')}
-								>
-									4"
-								</BodySectionButton>
-							</BodySectionButtonContainer>
-						</BodySection>
-						<BodySection>
-							<BodySectionHeader>Frame Color:</BodySectionHeader>
-							<BodySectionButtonContainer>
-								<BodySectionButton
-									selected={selectedFrameColor === "Black"}
-									onClick={() => handleFrameColorClick("Black")}
-								>
-									Black
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameColor === "White"}
-									onClick={() => handleFrameColorClick("White")}
-								>
-									White
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameColor === "Natural"}
-									onClick={() => handleFrameColorClick("Natural")}
-								>
-									Natural
-								</BodySectionButton>
-								<BodySectionButton
-									selected={selectedFrameColor === "Walnut"}
-									onClick={() => handleFrameColorClick("Walnut")}
-								>
-									Walnut
-								</BodySectionButton>
-							</BodySectionButtonContainer>
-						</BodySection>
+							</FramingOptionsTab>
+						</FramingOptionsTabContainer>
+						{/* Main body for product selections, depending on which framing option is selected */}
+						{/* Available for all framing options and product types */}
+						<ProductDetailOptions
+							header="Paper Type:"
+							options={paperTypeOptions}
+							selectedOption={selectedPaperType}
+							handleClick={handlePaperTypeClick}
+						/>
+						{/* This state is set on click of framing option tab so that the the frame detail options only display when the appropriate framing option is selected*/}
+						{framingDetailOptionsVisible && (
+							<ProductDetailOptions
+								header="Frame Width:"
+								options={frameWidthOptions}
+								selectedOption={selectedFrameWidth}
+								handleClick={handleFrameWidthClick}
+							/>
+						)}
+						{/* Same as above */}
+						{framingDetailOptionsVisible && (
+							<ProductDetailOptions
+								header="Frame Color:"
+								options={frameColorOptions}
+								selectedOption={selectedFrameColor}
+								handleClick={handleFrameColorClick}
+							/>
+						)}
+						{/* Same as above, but for mat details depending on if Frame + Mat is selected as the framing option */}
+						{matDetailOptionsVisible && (
+							<ProductDetailOptions
+								header="Mat Width:"
+								options={matWidthOptions}
+								selectedOption={selectedMatWidth}
+								handleClick={handleMatWidthClick}
+							/>
+						)}
+						{/* Same as above */}
+						{matDetailOptionsVisible && (
+							<ProductDetailOptions
+								header="Mat Color:"
+								options={matColorOptions}
+								selectedOption={selectedMatColor}
+								handleClick={handleMatColorClick}
+							/>
+						)}
 					</BodyContainer>
+					{/* Are we doing this? */}
 					<BottomContainer>
 						<BottomText>Add the prompt to the back of the print</BottomText>
 					</BottomContainer>
 				</BuyCard>
+				{/* Button that makes the Fetch request (will eventually also redirect to checkout page) */}
 				<BuyNowButton onClick={() => createOrder()}>
 					<span>Buy Now</span>
 				</BuyNowButton>

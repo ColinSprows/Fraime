@@ -20,15 +20,23 @@ const orderSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	framing_type: {
+		type: String,
+		required: true,
+	},
 	framing_options: {
 		type: String,
 		required: true,
 	},
-	print_type: {
+	mat_options: {
 		type: String,
 		required: true,
 	},
-	print_size: {
+	product_type: {
+		type: String,
+		required: true,
+	},
+	product_size: {
 		type: String,
 		required: true,
 	},
