@@ -85,34 +85,13 @@ export const SizeContainer = styled.div`
 	flex-direction: column;
 `;
 
-export const SizeHeader = styled.h4`
-	font-family: Inter;
-	margin: 0.5rem 0.75rem;
-`;
-
-export const SizeButtonContainer = styled.div`
-	display: flex;
-	justify-content: space-evenly;
-`;
-
-export const SizeButton = styled.button`
-	font-family: Inter;
-	background: ${(props) => (props.selected ? "black" : "transparent")};
-	color: ${(props) => (props.selected ? "white" : "black")};
-	border: 1px solid black;
-	border-radius: 24px;
-	padding: 0.5rem 0rem;
-	width: 20%;
-	cursor: pointer;
-`;
-
 export const FinishedSize = styled.h5`
 	font-family: Inter;
 	font-size: 0.75rem;
 	margin: 0.5rem 0.75rem;
 `;
 
-export const FramingOptionsContainer = styled.div`
+export const FramingOptionsTabContainer = styled.div`
 	width: 100%;
 	height: 3rem;
 	border-top: 1px solid black;
@@ -121,7 +100,7 @@ export const FramingOptionsContainer = styled.div`
 	justify-content: space-around;
 `;
 
-export const FramingOptionsButton = styled.button`
+export const FramingOptionsTab = styled.button`
 	width: 100%;
 	height: 2.9rem;
 	background: ${(props) => (props.selected ? "black" : "transparent")};

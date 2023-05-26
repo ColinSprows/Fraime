@@ -1,33 +1,17 @@
 import {
-	Wrapper,
-	Left,
-	Right,
-	BuyCard,
-	TopTabsContainer,
-	TabButtons,
-	SizeContainer,
-	SizeHeader,
-	SizeButtonContainer,
-	SizeButton,
-	FinishedSize,
-	FramingOptionsContainer,
-	FramingOptionsButton,
-	BodyContainer,
 	BodySection,
 	BodySectionHeader,
 	BodySectionButtonContainer,
 	BodySectionButton,
-	BottomContainer,
-	BottomText,
-	BuyNowButton,
-	ImageContainer,
 } from "../../../styles/styledComponents/productPageStyle";
 
-function BodySectionOptions({ header, options, selectedOption, handleClick }) {
+// Props for necessary details, passed as props from product.js
+function ProductDetailOptions({ header, options, selectedOption, handleClick }) {
 	return (
 		<BodySection>
 			<BodySectionHeader>{header}</BodySectionHeader>
 			<BodySectionButtonContainer>
+				{/* Mapping through arrays */}
 				{options.map((option) => (
 					<BodySectionButton
 						key={option}
@@ -42,4 +26,4 @@ function BodySectionOptions({ header, options, selectedOption, handleClick }) {
 	);
 }
 
-export default BodySectionOptions;
+export default ProductDetailOptions;

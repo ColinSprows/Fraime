@@ -8,24 +8,16 @@ import {
 	BuyCard,
 	TopTabsContainer,
 	TabButtons,
-	SizeContainer,
-	SizeHeader,
-	SizeButtonContainer,
-	SizeButton,
-	FinishedSize,
-	FramingOptionsContainer,
-	FramingOptionsButton,
+	FramingOptionsTabContainer,
+	FramingOptionsTab,
 	BodyContainer,
-	BodySection,
-	BodySectionHeader,
-	BodySectionButtonContainer,
-	BodySectionButton,
 	BottomContainer,
 	BottomText,
 	BuyNowButton,
 	ImageContainer,
 } from "../styles/styledComponents/productPageStyle";
-import BodySectionOptions from "@/components/sub-components/productPageComponents/productDetailSelectionSections";
+import ProductDetailOptions from "@/components/sub-components/productPageComponents/productDetailOptions";
+import SizeDetailOptions from "@/components/sub-components/productPageComponents/sizeDetailOptions";
 
 const ProductPage = () => {
 	// Tab states
@@ -43,7 +35,7 @@ const ProductPage = () => {
 	const [selectedFrameWidth, setSelectedFrameWidth] = useState('1"');
 	const [selectedFrameColor, setSelectedFrameColor] = useState("Black");
 	const [selectedMatWidth, setSelectedMatWidth] = useState('.5"');
-	const [selectedMatColor, setSelectedMatColor] = useState("White");
+	const [selectedMatColor, setSelectedMatColor] = useState("Black");
 
 	// Visibility states
 	const [framingDetailOptionsVisible, setFramingDetailOptionsVisible] = useState(true);
@@ -224,6 +216,10 @@ const ProductPage = () => {
 	};
 
 	// Props to be passed to each Body Section component
+	const printSizeOptions = ['12"x12"', '14"x14"', '16"x16"', '18"x18"'];
+	const posterSizeOptions = ['10"x10"', '12"x12"', '`14`"x`14`"', '16"x16"'];
+	const postcardSizeOptions = ['4"x4"', '5"x5"', '`6`"x`6`"', '8"x8"'];
+
 	const paperTypeOptions = ["Glossy", "Matte", "Textured", "Semi-Gloss"];
 	const frameWidthOptions = ['1"', '2"', '3"', '4"'];
 	const frameColorOptions = ["Black", "White", "Natural", "Walnut"];
@@ -265,141 +261,63 @@ const ProductPage = () => {
 						{/* Conditional logic to display relevant size options depending on product type selected */}
 						{/* Print sizes */}
 						{isPrintSizeVisible && (
-							<SizeContainer>
-								<SizeHeader>Print Size:</SizeHeader>
-								<SizeButtonContainer>
-									<SizeButton
-										selected={selectedPrintSize === '12"x12"'}
-										onClick={() => handlePrintSizeClick('12"x12"')}
-									>
-										12"x12"
-									</SizeButton>
-									<SizeButton
-										selected={selectedPrintSize === '14"x14"'}
-										onClick={() => handlePrintSizeClick('14"x14"')}
-									>
-										14"x14"
-									</SizeButton>
-									<SizeButton
-										selected={selectedPrintSize === '16"x16"'}
-										onClick={() => handlePrintSizeClick('16"x16"')}
-									>
-										16"x16"
-									</SizeButton>
-									<SizeButton
-										selected={selectedPrintSize === '18"x18"'}
-										onClick={() => handlePrintSizeClick('18"x18"')}
-									>
-										18"x18"
-									</SizeButton>
-								</SizeButtonContainer>
-								<FinishedSize>
-									Finished Size: {calculateFinishedSize().height}"x
-									{calculateFinishedSize().width}"
-								</FinishedSize>
-							</SizeContainer>
+							<SizeDetailOptions
+								header="Print Size:"
+								options={printSizeOptions}
+								selectedOption={selectedPrintSize}
+								handleClick={handlePrintSizeClick}
+								calculate={calculateFinishedSize}
+							/>
 						)}
 						{/* Poster sizes */}
 						{isPosterSizeVisible && (
-							<SizeContainer>
-								<SizeHeader>Poster Size:</SizeHeader>
-								<SizeButtonContainer>
-									<SizeButton
-										selected={selectedPosterSize === '10"x10"'}
-										onClick={() => handlePosterSizeClick('10"x10"')}
-									>
-										10"x10"
-									</SizeButton>
-									<SizeButton
-										selected={selectedPosterSize === '12"x12"'}
-										onClick={() => handlePosterSizeClick('12"x12"')}
-									>
-										12"x12"
-									</SizeButton>
-									<SizeButton
-										selected={selectedPosterSize === '14"x14"'}
-										onClick={() => handlePosterSizeClick('14"x14"')}
-									>
-										14"x14"
-									</SizeButton>
-									<SizeButton
-										selected={selectedPosterSize === '16"x16"'}
-										onClick={() => handlePosterSizeClick('16"x16"')}
-									>
-										16"x16"
-									</SizeButton>
-								</SizeButtonContainer>
-								<FinishedSize>
-									Finished Size: {calculateFinishedSize().height}"x
-									{calculateFinishedSize().width}"
-								</FinishedSize>
-							</SizeContainer>
+							<SizeDetailOptions
+								header="Poster Size:"
+								options={posterSizeOptions}
+								selectedOption={selectedPosterSize}
+								handleClick={handlePosterSizeClick}
+								calculate={calculateFinishedSize}
+							/>
 						)}
 						{/* Postcard sizes */}
 						{isPostcardSizeVisible && (
-							<SizeContainer>
-								<SizeHeader>Postcard Size:</SizeHeader>
-								<SizeButtonContainer>
-									<SizeButton
-										selected={selectedPostcardSize === '4"x4"'}
-										onClick={() => handlePostcardSizeClick('4"x4"')}
-									>
-										4"x4"
-									</SizeButton>
-									<SizeButton
-										selected={selectedPostcardSize === '5"x5"'}
-										onClick={() => handlePostcardSizeClick('5"x5"')}
-									>
-										5"x5"
-									</SizeButton>
-									<SizeButton
-										selected={selectedPostcardSize === '6"x6"'}
-										onClick={() => handlePostcardSizeClick('6"x6"')}
-									>
-										6"x6"
-									</SizeButton>
-									<SizeButton
-										selected={selectedPostcardSize === '8"x8"'}
-										onClick={() => handlePostcardSizeClick('8"x8"')}
-									>
-										8"x8"
-									</SizeButton>
-								</SizeButtonContainer>
-								<FinishedSize>
-									Finished Size: {calculateFinishedSize().height}"x
-									{calculateFinishedSize().width}"
-								</FinishedSize>
-							</SizeContainer>
+							<SizeDetailOptions
+								header="Postcard Size:"
+								options={postcardSizeOptions}
+								selectedOption={selectedPostcardSize}
+								handleClick={handlePostcardSizeClick}
+								calculate={calculateFinishedSize}
+							/>
 						)}
-						<FramingOptionsContainer>
+						<FramingOptionsTabContainer>
 							{/* Conditional logic to show framing options depending on selected product type. These two only for prints */}
 							{selectedProductTypeTab === "Print" && (
 								<>
-									<FramingOptionsButton
+									<FramingOptionsTab
 										selected={selectedFrameOption === "Frame"}
 										onClick={() => handleFramingOptionsClick("Frame")}
 									>
 										Frame
-									</FramingOptionsButton>
-									<FramingOptionsButton
+									</FramingOptionsTab>
+									<FramingOptionsTab
 										selected={selectedFrameOption === "Frame + Mat"}
 										onClick={() => handleFramingOptionsClick("Frame + Mat")}
 									>
 										Frame + Mat
-									</FramingOptionsButton>
+									</FramingOptionsTab>
 								</>
 							)}
 							{/* Available for all product types */}
-							<FramingOptionsButton
+							<FramingOptionsTab
 								selected={selectedFrameOption === "No Frame"}
 								onClick={() => handleFramingOptionsClick("No Frame")}
 							>
 								No Frame
-							</FramingOptionsButton>
-						</FramingOptionsContainer>
+							</FramingOptionsTab>
+						</FramingOptionsTabContainer>
 						{/* Main body for product selections, depending on which framing option is selected */}
 						{/* Available for all framing options and product types */}
-						<BodySectionOptions
+						<ProductDetailOptions
 							header="Paper Type:"
 							options={paperTypeOptions}
 							selectedOption={selectedPaperType}
@@ -407,7 +325,7 @@ const ProductPage = () => {
 						/>
 						{/* This state is set on click of framing option tab so that the the frame detail options only display when the appropriate framing option is selected*/}
 						{framingDetailOptionsVisible && (
-							<BodySectionOptions
+							<ProductDetailOptions
 								header="Frame Width:"
 								options={frameWidthOptions}
 								selectedOption={selectedFrameWidth}
@@ -416,7 +334,7 @@ const ProductPage = () => {
 						)}
 						{/* Same as above */}
 						{framingDetailOptionsVisible && (
-							<BodySectionOptions
+							<ProductDetailOptions
 								header="Frame Color:"
 								options={frameColorOptions}
 								selectedOption={selectedFrameColor}
@@ -425,7 +343,7 @@ const ProductPage = () => {
 						)}
 						{/* Same as above, but for mat details depending on if Frame + Mat is selected as the framing option */}
 						{matDetailOptionsVisible && (
-							<BodySectionOptions
+							<ProductDetailOptions
 								header="Mat Width:"
 								options={matWidthOptions}
 								selectedOption={selectedMatWidth}
@@ -434,7 +352,7 @@ const ProductPage = () => {
 						)}
 						{/* Same as above */}
 						{matDetailOptionsVisible && (
-							<BodySectionOptions
+							<ProductDetailOptions
 								header="Mat Color:"
 								options={matColorOptions}
 								selectedOption={selectedMatColor}
