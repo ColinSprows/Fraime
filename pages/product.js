@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useImageContext, usePromptContext } from "../context/ContextProvider";
 import {
@@ -213,7 +213,7 @@ const ProductPage = () => {
 			}),
 		});
 		const data = await response.json();
-		console.log(data);
+		return data.order._id;
 	};
 
 	// Props to be passed to each Body Section component
@@ -227,7 +227,7 @@ const ProductPage = () => {
 	const matWidthOptions = ['.5"', '1"', '1.5"', '2"'];
 	const matColorOptions = ["Black", "White", "Cream", "Tan"];
 
-  const router = useRouter();
+	const router = useRouter();
 
 	return (
 		<Wrapper>
@@ -369,11 +369,13 @@ const ProductPage = () => {
 					</BottomContainer>
 				</BuyCard>
 				{/* Button that makes the Fetch request (will eventually also redirect to checkout page) */}
-				<BuyNowButton onClick={async () => {
-            createOrder()
-            router.push('/purchase');
-          }}
-        >
+				<BuyNowButton
+					onClick={async () => {
+						const orderId = await createOrder();
+						console.log(orderId);
+						router.push(`/purchase/${orderId}`);
+					}}
+				>
 					<span>Buy Now</span>
 				</BuyNowButton>
 			</Right>
