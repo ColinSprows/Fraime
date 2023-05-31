@@ -101,6 +101,7 @@ export const Input = styled.input`
 	font-size: clamp(1.25rem, 2vw, 2rem);
 	letter-spacing: -0.05em;
 	white-space: nowrap;
+	background: white;
 
 	&::placeholder {
 		color: grey;
