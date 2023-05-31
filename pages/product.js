@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from "react";
 import { useImageContext, usePromptContext } from "../context/ContextProvider";
 import {
@@ -226,6 +227,8 @@ const ProductPage = () => {
 	const matWidthOptions = ['.5"', '1"', '1.5"', '2"'];
 	const matColorOptions = ["Black", "White", "Cream", "Tan"];
 
+  const router = useRouter();
+
 	return (
 		<Wrapper>
 			<Left>
@@ -366,7 +369,11 @@ const ProductPage = () => {
 					</BottomContainer>
 				</BuyCard>
 				{/* Button that makes the Fetch request (will eventually also redirect to checkout page) */}
-				<BuyNowButton onClick={() => createOrder()}>
+				<BuyNowButton onClick={async () => {
+            createOrder()
+            router.push('/purchase');
+          }}
+        >
 					<span>Buy Now</span>
 				</BuyNowButton>
 			</Right>

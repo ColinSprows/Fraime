@@ -2,19 +2,22 @@ import React from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
-import CheckoutForm from "../components/CheckoutForm";
+import CheckoutForm from "../components/checkoutForm/CheckoutForm";
+
+// REFERENCE
+// https://stripe.com/docs/payments/quickstart
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
-export default function Purchase() {
+function Purchase() {
   const [clientSecret, setClientSecret] = React.useState("");
 
   React.useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch("/api/create-payment-intent", {
+    fetch("/api/purchase", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
@@ -41,3 +44,5 @@ export default function Purchase() {
     </div>
   );
 }
+
+export default Purchase;
