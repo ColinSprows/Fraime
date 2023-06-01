@@ -1,11 +1,16 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import { useImageContext, usePromptContext } from "../context/ContextProvider";
+import {
+	useImageContext,
+	usePromptContext,
+	useJourneyContext,
+} from "../context/ContextProvider";
 import { Configuration, OpenAIApi } from "openai";
 import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Loading from "../components/sub-components/loading";
+import { set } from "mongoose";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -316,6 +321,7 @@ export const GeneratedImageBack = styled(Image)`
 const DiscoveryPage = () => {
 	const { promptInfo, setPromptInfo } = usePromptContext();
 	const { selectedImage, setSelectedImage } = useImageContext();
+	const { journey, setJourney } = useJourneyContext();
 	const [prompt, setPrompt] = useState(promptInfo.prompt);
 	const [result, setResult] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -351,7 +357,7 @@ const DiscoveryPage = () => {
 	}, [hasMounted]);
 
 	// to be called on click of Buy or on click of fine tune
-	const saveImage = async (url) => {
+	const saveImageAndCreateJourney = async (url) => {
 		const response = await fetch("/api/image/saveImage", {
 			method: "POST",
 			headers: {
@@ -375,6 +381,7 @@ const DiscoveryPage = () => {
 		});
 		const journeyData = await journeyResponse.json();
 		console.log(journeyData);
+		setJourney({ journey_id: journeyData.journey._id });
 	};
 
 	// to check that selectedImage is updated due to async nature nature of setSelectedImage
@@ -391,7 +398,7 @@ const DiscoveryPage = () => {
 
 	// handles routing after async function instead of Link
 	const handleBuyClick = async (url) => {
-		await saveImage(url);
+		await saveImageAndCreateJourney(url);
 		router.push("/product");
 	};
 
