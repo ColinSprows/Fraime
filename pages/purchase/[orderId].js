@@ -38,7 +38,7 @@ function Purchase() {
 		<div className="App">
 			{clientSecret && (
 				<Elements options={options} stripe={stripePromise}>
-					<CheckoutForm />
+						<CheckoutForm />
 				</Elements>
 			)}
 		</div>

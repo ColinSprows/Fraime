@@ -8,10 +8,59 @@ import {
 import styled from "styled-components";
 
 export const CheckoutFormContainer = styled.div`
-  // width: clamp(100px, 80vw, 800px);
-  display: flex;
-  justify-content: center;
+  margin: 2em auto;
+  width: 60vw;
+  max-width: 600px;
 `
+
+
+export const CheckoutTextContainer = styled.div`
+  background-color: black;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 1rem;
+`
+
+export const CheckoutText = styled.h3`
+  font-family: DMSerifDisplay-Regular;
+  font-size: clamp(1rem, 4vw, 3rem);
+  white-space: nowrap;
+  font-weight: 100;
+  text-align: center;
+  color: black;
+`
+
+export const StartCreatingButton = styled.button`
+	background-color: ${(props) => props.theme.colors.button};
+	color: black;
+	padding: 1rem 0rem;
+	width: 100%;
+	border: 1px solid black;
+	border-radius: 50px;
+	font-family: InterBlack;
+	font-size: clamp(1.25rem, 2vw, 2rem);
+	letter-spacing: -0.05em;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: 0.2s;
+	will-change: transform;
+  margin-top: 1em;
+
+	&:hover {
+		transform: translate(-1%, -1%) scale(1.01);
+		background: ${(props) => props.theme.colors.button};
+		box-shadow: 0.25rem 0.25rem black;
+	}
+
+	&:active {
+		transform: translate(0%, -0%) scale(1);
+		box-shadow: none;
+	}
+`;
 
 function CheckoutForm() {
 	const stripe = useStripe();
@@ -91,17 +140,18 @@ function CheckoutForm() {
 
   return (
     <CheckoutFormContainer>
+        <CheckoutText>Checkout</CheckoutText>
       <form id="payment-form" onSubmit={handleSubmit}>
         <LinkAuthenticationElement
           id="link-authentication-element"
           onChange={(e) => setEmail(e.target.value)}
         />
         <PaymentElement id="payment-element" options={paymentElementOptions} />
-        <button disabled={isLoading || !stripe || !elements} id="submit">
+        <StartCreatingButton disabled={isLoading || !stripe || !elements} id="submit">
           <span id="button-text">
             {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
           </span>
-        </button>
+        </StartCreatingButton>
         {/* Show any error or success messages */}
         {message && <div id="payment-message">{message}</div>}
       </form>
