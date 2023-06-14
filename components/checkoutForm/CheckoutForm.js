@@ -5,6 +5,13 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
+import styled from "styled-components";
+
+export const CheckoutFormContainer = styled.div`
+  // width: clamp(100px, 80vw, 800px);
+  display: flex;
+  justify-content: center;
+`
 
 function CheckoutForm() {
   const stripe = useStripe();
@@ -83,20 +90,22 @@ function CheckoutForm() {
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      <LinkAuthenticationElement
-        id="link-authentication-element"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
-      </button>
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
-    </form>
+    <CheckoutFormContainer>
+      <form id="payment-form" onSubmit={handleSubmit}>
+        <LinkAuthenticationElement
+          id="link-authentication-element"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <PaymentElement id="payment-element" options={paymentElementOptions} />
+        <button disabled={isLoading || !stripe || !elements} id="submit">
+          <span id="button-text">
+            {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          </span>
+        </button>
+        {/* Show any error or success messages */}
+        {message && <div id="payment-message">{message}</div>}
+      </form>
+    </CheckoutFormContainer>
   );
 }
 
