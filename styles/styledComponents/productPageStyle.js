@@ -1,12 +1,10 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-	height: calc(100vh - 4rem);
+	// height: calc(100vh - 4rem);
 	display: flex;
-
-	@media (max-height: 696px) {
-		align-items: flex-start;
-	}
+	min-height: 500px;
+	align-items: center;
 
 	@media (max-width: 768px) {
 		align-items: flex-start;
@@ -19,6 +17,7 @@ export const Left = styled.div`
 	align-items: center;
 	justify-content: center;
 	width: 50%;
+	height: calc(100vh - 4rem);
 
 	@media (max-width: 768px) {
 		width: 100vw;
@@ -34,6 +33,7 @@ export const Right = styled.div`
 	justify-content: center;
 	flex-direction: column;
 	width: 50%;
+	height: calc(100vh - 4rem)%;
 	padding: 2rem 2rem 2rem 0rem;
 
 	@media (max-width: 768px) {
@@ -50,6 +50,7 @@ export const BuyCard = styled.div`
 	height: 100%;
 	border: 1px solid black;
 	border-radius: 25px;
+	transition: all 0.3s ease-in-out;
 `;
 
 export const TopTabsContainer = styled.div`
@@ -158,10 +159,7 @@ export const BottomContainer = styled.div`
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-
-	@media (max-height: 696px) {
-		margin-top: 2rem;
-	}
+	margin-top: 1rem;
 `;
 
 export const BottomText = styled.h5`
