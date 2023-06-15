@@ -1,12 +1,12 @@
 import { createGlobalStyle } from "styled-components";
 
 export const theme = {
-    colors: {
-      black: "#000",
-      background: "#FFF9E7",
-      header: "#E8E3D5",
-      button: "#F3AC3C",
-    },
+	colors: {
+		black: "#000",
+		background: "#FFF9E7",
+		header: "#E8E3D5",
+		button: "#F3AC3C",
+	},
 };
 
 const GlobalStyle = createGlobalStyle`

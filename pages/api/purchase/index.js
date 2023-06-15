@@ -6,11 +6,11 @@ import calculateOrderAmount from "../../../util/calculateOrderAmount.js";
 // https://stripe.com/docs/payments/quickstart
 
 export default async function handler(req, res) {
-	const { items } = req.body;
+	const { totalOrder } = req.body;
 
 	// Create a PaymentIntent with the order amount and currency
 	const paymentIntent = await stripe.paymentIntents.create({
-		amount: calculateOrderAmount(items),
+		amount: totalOrder * 100,
 		currency: "usd",
 		automatic_payment_methods: {
 			enabled: true,

@@ -14,7 +14,6 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 function Purchase() {
 	const [clientSecret, setClientSecret] = useState("");
-	const [order, setOrder] = useState(null);
 	const [totalOrder, setTotalOrder] = useState(0);
 
 	useEffect(() => {
@@ -25,7 +24,6 @@ function Purchase() {
 				const response = await fetch(`/api/order/${orderId}`);
 				if (response.ok) {
 					const order = await response.json();
-					setOrder(order);
 					setTotalOrder((calculateOrderAmount(order) / 100).toFixed(2));
 				} else {
 					throw new Error("Failed to fetch order");
@@ -40,15 +38,13 @@ function Purchase() {
 
 	useEffect(() => {
 		// Create PaymentIntent as after order value received
-		if (!order) return;
+		if (!totalOrder) return;
 		const paymentIntent = async () => {
 			try {
 				const response = await fetch("/api/purchase", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						items: order,
-					}),
+					body: JSON.stringify({ totalOrder }),
 				});
 
 				if (response.ok) {
@@ -62,7 +58,7 @@ function Purchase() {
 			}
 		};
 		paymentIntent();
-	}, [order]);
+	}, [totalOrder]);
 
 	const appearance = {
 		theme: "stripe",
