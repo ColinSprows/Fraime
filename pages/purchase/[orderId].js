@@ -3,6 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import calculateOrderAmount from "../../util/calculateOrderAmount.js";
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm.js";
+import { set } from "mongoose";
 
 // REFERENCE
 // https://stripe.com/docs/payments/quickstart
@@ -15,6 +16,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 function Purchase() {
 	const [clientSecret, setClientSecret] = useState("");
 	const [totalOrder, setTotalOrder] = useState(0);
+	const [order, setOrder] = useState(null);
 
 	useEffect(() => {
 		const gettotalOrder = async () => {
@@ -24,6 +26,7 @@ function Purchase() {
 				const response = await fetch(`/api/order/${orderId}`);
 				if (response.ok) {
 					const order = await response.json();
+					setOrder(order);
 					setTotalOrder((calculateOrderAmount(order) / 100).toFixed(2));
 				} else {
 					throw new Error("Failed to fetch order");
@@ -38,13 +41,13 @@ function Purchase() {
 
 	useEffect(() => {
 		// Create PaymentIntent as after order value received
-		if (!totalOrder) return;
+		if (!order) return;
 		const paymentIntent = async () => {
 			try {
 				const response = await fetch("/api/purchase", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ totalOrder }),
+					body: JSON.stringify({ order }),
 				});
 
 				if (response.ok) {
@@ -58,7 +61,7 @@ function Purchase() {
 			}
 		};
 		paymentIntent();
-	}, [totalOrder]);
+	}, [order]);
 
 	const appearance = {
 		theme: "stripe",

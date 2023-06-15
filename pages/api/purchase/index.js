@@ -5,12 +5,16 @@ import calculateOrderAmount from "../../../util/calculateOrderAmount.js";
 // REFERENCE
 // https://stripe.com/docs/payments/quickstart
 
+// Calculate the order total on the server to prevent
+// people from directly manipulating the amount on the client
+// Have I compromised this by using a utility file that also calculates thee total and is being used here?
+
 export default async function handler(req, res) {
-	const { totalOrder } = req.body;
+	const { order } = req.body;
 
 	// Create a PaymentIntent with the order amount and currency
 	const paymentIntent = await stripe.paymentIntents.create({
-		amount: totalOrder * 100,
+		amount: calculateOrderAmount(order) * 100,
 		currency: "usd",
 		automatic_payment_methods: {
 			enabled: true,
