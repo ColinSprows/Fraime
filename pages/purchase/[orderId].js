@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-
-import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
+import calculateOrderAmount from "../../util/calculateOrderAmount.js";
+import CheckoutForm from "../../components/checkoutForm/CheckoutForm.js";
 
 // REFERENCE
 // https://stripe.com/docs/payments/quickstart
@@ -15,28 +15,54 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 function Purchase() {
 	const [clientSecret, setClientSecret] = useState("");
 	const [order, setOrder] = useState(null);
+	const [totalOrder, setTotalOrder] = useState(0);
 
 	useEffect(() => {
-		// Create PaymentIntent as soon as the page loads
-		fetch("/api/purchase", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				items: {
-					prompt_id: "648a276b7f94057980f986cc",
-					image_id: "648a276d7f94057980f986ce",
-					product_type: "Print",
-					product_size: '12"x12"',
-					paper_type: "Glossy",
-					framing_type: "Frame",
-					framing_options: '1", Black',
-					mat_options: "No Mat",
-				},
-			}),
-		})
-			.then((res) => res.json())
-			.then((data) => setClientSecret(data.clientSecret));
+		const gettotalOrder = async () => {
+			// fetch request for getOrder
+			try {
+				const orderId = window.location.pathname.split("/")[2];
+				const response = await fetch(`/api/order/${orderId}`);
+				if (response.ok) {
+					const order = await response.json();
+					setOrder(order);
+					setTotalOrder((calculateOrderAmount(order) / 100).toFixed(2));
+				} else {
+					throw new Error("Failed to fetch order");
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		gettotalOrder();
 	}, []);
+
+	useEffect(() => {
+		// Create PaymentIntent as after order value received
+		if (!order) return;
+		const paymentIntent = async () => {
+			try {
+				const response = await fetch("/api/purchase", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						items: order,
+					}),
+				});
+
+				if (response.ok) {
+					const data = await response.json();
+					setClientSecret(data.clientSecret);
+				} else {
+					throw new Error("Failed to create payment intent");
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		paymentIntent();
+	}, [order]);
 
 	const appearance = {
 		theme: "stripe",
@@ -49,8 +75,8 @@ function Purchase() {
 	return (
 		<div className="App">
 			{clientSecret && (
-				<Elements options={options} stripe={stripePromise}>
-					<CheckoutForm />
+				<Elements options={options} stripe={stripePromise} key={clientSecret}>
+					<CheckoutForm totalOrder={totalOrder} />
 				</Elements>
 			)}
 		</div>

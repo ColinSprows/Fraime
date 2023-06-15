@@ -45,7 +45,6 @@ const calculateOrderAmount = ({
 	const matPrice = mat_options === "No Mat" ? 0 : matPrices[mat_size];
 	const sizePrice = sizePrices[product_type][product_size];
 	const totalPrice = framePrice + matPrice + sizePrice;
-	console.log(totalPrice);
 	return totalPrice;
 };
 

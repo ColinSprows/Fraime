@@ -6,7 +6,6 @@ import {
 	useElements,
 } from "@stripe/react-stripe-js";
 import styled from "styled-components";
-import calculateOrderAmount from "../../util/calculateOrderAmount.js";
 
 export const CheckoutFormContainer = styled.div`
 	margin: 2em auto;
@@ -62,35 +61,13 @@ export const StartCreatingButton = styled.button`
 	}
 `;
 
-function CheckoutForm() {
+function CheckoutForm({ totalOrder }) {
 	const stripe = useStripe();
 	const elements = useElements();
 
 	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
-	const [orderTotal, setOrderTotal] = useState(0);
-	const [orderTotalLoading, setOrderTotalLoading] = useState(true);
-
-	useEffect(() => {
-		const getOrderPrice = async () => {
-			// fetch request for getOrder
-			try {
-				const orderId = window.location.pathname.split("/")[2];
-				const response = await fetch(`/api/order/${orderId}`);
-				if (response.ok) {
-					const order = await response.json();
-					setOrderTotal((calculateOrderAmount(order) / 100).toFixed(2));
-					setOrderTotalLoading(false);
-				} else {
-					throw new Error("Failed to fetch order");
-				}
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		getOrderPrice();
-	}, []);
 
 	useEffect(() => {
 		if (!stripe) {
@@ -164,7 +141,7 @@ function CheckoutForm() {
 	return (
 		<CheckoutFormContainer>
 			<CheckoutText>Checkout</CheckoutText>
-			<p>Your total is: {orderTotalLoading ? "loading" : ` $${orderTotal}`}</p>
+			<CheckoutText>Your total is: ${totalOrder}</CheckoutText>
 			<form id="payment-form" onSubmit={handleSubmit}>
 				<LinkAuthenticationElement
 					id="link-authentication-element"
