@@ -14,6 +14,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 function Purchase() {
 	const [clientSecret, setClientSecret] = useState("");
+	const [order, setOrder] = useState(null);
 
 	useEffect(() => {
 		// Create PaymentIntent as soon as the page loads
@@ -49,7 +50,7 @@ function Purchase() {
 		<div className="App">
 			{clientSecret && (
 				<Elements options={options} stripe={stripePromise}>
-						<CheckoutForm />
+					<CheckoutForm />
 				</Elements>
 			)}
 		</div>

@@ -6,33 +6,33 @@ import {
 	useElements,
 } from "@stripe/react-stripe-js";
 import styled from "styled-components";
+import calculateOrderAmount from "../../util/calculateOrderAmount.js";
 
 export const CheckoutFormContainer = styled.div`
-  margin: 2em auto;
-  width: 60vw;
-  max-width: 600px;
-`
-
+	margin: 2em auto;
+	width: 60vw;
+	max-width: 600px;
+`;
 
 export const CheckoutTextContainer = styled.div`
-  background-color: black;
-  color: white;
-  padding: 5px 20px;
-  border-radius: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-bottom: 1rem;
-`
+	background-color: black;
+	color: white;
+	padding: 5px 20px;
+	border-radius: 50px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin-bottom: 1rem;
+`;
 
 export const CheckoutText = styled.h3`
-  font-family: DMSerifDisplay-Regular;
-  font-size: clamp(1rem, 4vw, 3rem);
-  white-space: nowrap;
-  font-weight: 100;
-  text-align: center;
-  color: black;
-`
+	font-family: DMSerifDisplay-Regular;
+	font-size: clamp(1rem, 4vw, 3rem);
+	white-space: nowrap;
+	font-weight: 100;
+	text-align: center;
+	color: black;
+`;
 
 export const StartCreatingButton = styled.button`
 	background-color: ${(props) => props.theme.colors.button};
@@ -48,7 +48,7 @@ export const StartCreatingButton = styled.button`
 	cursor: pointer;
 	transition: 0.2s;
 	will-change: transform;
-  margin-top: 1em;
+	margin-top: 1em;
 
 	&:hover {
 		transform: translate(-1%, -1%) scale(1.01);
@@ -69,6 +69,28 @@ function CheckoutForm() {
 	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [orderTotal, setOrderTotal] = useState(0);
+	const [orderTotalLoading, setOrderTotalLoading] = useState(true);
+
+	useEffect(() => {
+		const getOrderPrice = async () => {
+			// fetch request for getOrder
+			try {
+				const orderId = window.location.pathname.split("/")[2];
+				const response = await fetch(`/api/order/${orderId}`);
+				if (response.ok) {
+					const order = await response.json();
+					setOrderTotal((calculateOrderAmount(order) / 100).toFixed(2));
+					setOrderTotalLoading(false);
+				} else {
+					throw new Error("Failed to fetch order");
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		getOrderPrice();
+	}, []);
 
 	useEffect(() => {
 		if (!stripe) {
@@ -111,12 +133,13 @@ function CheckoutForm() {
 		}
 
 		setIsLoading(true);
+		const currentPath = window.location.origin;
 
 		const { error } = await stripe.confirmPayment({
 			elements,
 			confirmParams: {
 				// Make sure to change this to your payment completion page
-				return_url: "http://localhost:3001/confirmation",
+				return_url: currentPath + "/confirmation",
 			},
 		});
 
@@ -138,25 +161,26 @@ function CheckoutForm() {
 		layout: "tabs",
 	};
 
-  return (
-    <CheckoutFormContainer>
-        <CheckoutText>Checkout</CheckoutText>
-      <form id="payment-form" onSubmit={handleSubmit}>
-        <LinkAuthenticationElement
-          id="link-authentication-element"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <PaymentElement id="payment-element" options={paymentElementOptions} />
-        <StartCreatingButton disabled={isLoading || !stripe || !elements} id="submit">
-          <span id="button-text">
-            {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-          </span>
-        </StartCreatingButton>
-        {/* Show any error or success messages */}
-        {message && <div id="payment-message">{message}</div>}
-      </form>
-    </CheckoutFormContainer>
-  );
+	return (
+		<CheckoutFormContainer>
+			<CheckoutText>Checkout</CheckoutText>
+			<p>Your total is: {orderTotalLoading ? "loading" : ` $${orderTotal}`}</p>
+			<form id="payment-form" onSubmit={handleSubmit}>
+				<LinkAuthenticationElement
+					id="link-authentication-element"
+					onChange={(e) => setEmail(e.value)}
+				/>
+				<PaymentElement id="payment-element" options={paymentElementOptions} />
+				<StartCreatingButton disabled={isLoading || !stripe || !elements} id="submit">
+					<span id="button-text">
+						{isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+					</span>
+				</StartCreatingButton>
+				{/* Show any error or success messages */}
+				{message && <div id="payment-message">{message}</div>}
+			</form>
+		</CheckoutFormContainer>
+	);
 }
 
 export default CheckoutForm;
