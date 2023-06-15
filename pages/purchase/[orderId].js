@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import calculateOrderAmount from "../../util/calculateOrderAmount.js";
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm.js";
-import { set } from "mongoose";
 
 // REFERENCE
 // https://stripe.com/docs/payments/quickstart
@@ -15,19 +13,19 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 function Purchase() {
 	const [clientSecret, setClientSecret] = useState("");
-	const [totalOrder, setTotalOrder] = useState(0);
+	const [orderTotal, setOrderTotal] = useState(0);
 	const [order, setOrder] = useState(null);
 
 	useEffect(() => {
-		const gettotalOrder = async () => {
+		const getOrderAndTotal = async () => {
 			// fetch request for getOrder
 			try {
 				const orderId = window.location.pathname.split("/")[2];
 				const response = await fetch(`/api/order/${orderId}`);
 				if (response.ok) {
-					const order = await response.json();
+					const { order, orderTotal } = await response.json();
 					setOrder(order);
-					setTotalOrder((calculateOrderAmount(order) / 100).toFixed(2));
+					setOrderTotal(orderTotal);
 				} else {
 					throw new Error("Failed to fetch order");
 				}
@@ -36,7 +34,7 @@ function Purchase() {
 			}
 		};
 
-		gettotalOrder();
+		getOrderAndTotal();
 	}, []);
 
 	useEffect(() => {
@@ -75,7 +73,7 @@ function Purchase() {
 		<div className="App">
 			{clientSecret && (
 				<Elements options={options} stripe={stripePromise} key={clientSecret}>
-					<CheckoutForm totalOrder={totalOrder} />
+					<CheckoutForm orderTotal={orderTotal} order_id={order._id} />
 				</Elements>
 			)}
 		</div>

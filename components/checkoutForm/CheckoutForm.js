@@ -61,7 +61,7 @@ export const StartCreatingButton = styled.button`
 	}
 `;
 
-function CheckoutForm({ totalOrder }) {
+function CheckoutForm({ orderTotal, order_id }) {
 	const stripe = useStripe();
 	const elements = useElements();
 
@@ -116,7 +116,7 @@ function CheckoutForm({ totalOrder }) {
 			elements,
 			confirmParams: {
 				// Make sure to change this to your payment completion page
-				return_url: currentPath + "/confirmation",
+				return_url: currentPath + `/confirmation/${order_id}`,
 			},
 		});
 
@@ -141,7 +141,7 @@ function CheckoutForm({ totalOrder }) {
 	return (
 		<CheckoutFormContainer>
 			<CheckoutText>Checkout</CheckoutText>
-			<CheckoutText>Your total is: ${totalOrder}</CheckoutText>
+			<CheckoutText>Your total is: ${orderTotal}</CheckoutText>
 			<form id="payment-form" onSubmit={handleSubmit}>
 				<LinkAuthenticationElement
 					id="link-authentication-element"
