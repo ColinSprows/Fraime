@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
 	PaymentElement,
 	LinkAuthenticationElement,
@@ -8,31 +8,30 @@ import {
 import styled from "styled-components";
 
 export const CheckoutFormContainer = styled.div`
-  margin: 2em auto;
-  width: 60vw;
-  max-width: 600px;
-`
-
+	margin: 2em auto;
+	width: 60vw;
+	max-width: 600px;
+`;
 
 export const CheckoutTextContainer = styled.div`
-  background-color: black;
-  color: white;
-  padding: 5px 20px;
-  border-radius: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-bottom: 1rem;
-`
+	background-color: black;
+	color: white;
+	padding: 5px 20px;
+	border-radius: 50px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin-bottom: 1rem;
+`;
 
 export const CheckoutText = styled.h3`
-  font-family: DMSerifDisplay-Regular;
-  font-size: clamp(1rem, 4vw, 3rem);
-  white-space: nowrap;
-  font-weight: 100;
-  text-align: center;
-  color: black;
-`
+	font-family: DMSerifDisplay-Regular;
+	font-size: clamp(1rem, 4vw, 3rem);
+	white-space: nowrap;
+	font-weight: 100;
+	text-align: center;
+	color: black;
+`;
 
 export const StartCreatingButton = styled.button`
 	background-color: ${(props) => props.theme.colors.button};
@@ -48,7 +47,7 @@ export const StartCreatingButton = styled.button`
 	cursor: pointer;
 	transition: 0.2s;
 	will-change: transform;
-  margin-top: 1em;
+	margin-top: 1em;
 
 	&:hover {
 		transform: translate(-1%, -1%) scale(1.01);
@@ -62,15 +61,15 @@ export const StartCreatingButton = styled.button`
 	}
 `;
 
-function CheckoutForm() {
+function CheckoutForm({ orderTotal, order_id }) {
 	const stripe = useStripe();
 	const elements = useElements();
 
-	const [email, setEmail] = React.useState("");
-	const [message, setMessage] = React.useState(null);
-	const [isLoading, setIsLoading] = React.useState(false);
+	const [email, setEmail] = useState("");
+	const [message, setMessage] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!stripe) {
 			return;
 		}
@@ -111,12 +110,13 @@ function CheckoutForm() {
 		}
 
 		setIsLoading(true);
+		const currentPath = window.location.origin;
 
 		const { error } = await stripe.confirmPayment({
 			elements,
 			confirmParams: {
 				// Make sure to change this to your payment completion page
-				return_url: "http://localhost:3001/confirmation",
+				return_url: currentPath + `/confirmation/${order_id}`,
 			},
 		});
 
@@ -138,25 +138,26 @@ function CheckoutForm() {
 		layout: "tabs",
 	};
 
-  return (
-    <CheckoutFormContainer>
-        <CheckoutText>Checkout</CheckoutText>
-      <form id="payment-form" onSubmit={handleSubmit}>
-        <LinkAuthenticationElement
-          id="link-authentication-element"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <PaymentElement id="payment-element" options={paymentElementOptions} />
-        <StartCreatingButton disabled={isLoading || !stripe || !elements} id="submit">
-          <span id="button-text">
-            {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-          </span>
-        </StartCreatingButton>
-        {/* Show any error or success messages */}
-        {message && <div id="payment-message">{message}</div>}
-      </form>
-    </CheckoutFormContainer>
-  );
+	return (
+		<CheckoutFormContainer>
+			<CheckoutText>Checkout</CheckoutText>
+			<CheckoutText>Your total is: ${orderTotal}</CheckoutText>
+			<form id="payment-form" onSubmit={handleSubmit}>
+				<LinkAuthenticationElement
+					id="link-authentication-element"
+					onChange={(e) => setEmail(e.value)}
+				/>
+				<PaymentElement id="payment-element" options={paymentElementOptions} />
+				<StartCreatingButton disabled={isLoading || !stripe || !elements} id="submit">
+					<span id="button-text">
+						{isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+					</span>
+				</StartCreatingButton>
+				{/* Show any error or success messages */}
+				{message && <div id="payment-message">{message}</div>}
+			</form>
+		</CheckoutFormContainer>
+	);
 }
 
 export default CheckoutForm;

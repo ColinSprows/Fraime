@@ -1,11 +1,6 @@
-// This is your test secret API key.
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import OrderModel from "../../../models/Order.js";
+import dbConnect from "../../../lib/dbConnect.js";
 
-// REFERENCE
-// https://stripe.com/docs/payments/quickstart
-
-// Calculate the order total on the server to prevent
-// people from directly manipulating the amount on the client
 const calculateOrderAmount = ({
 	product_type,
 	product_size,
@@ -56,19 +51,16 @@ const calculateOrderAmount = ({
 	return totalPrice;
 };
 
-export default async function handler(req, res) {
-	const { order } = req.body;
+export default async function (req, res) {
+	await dbConnect();
 
-	// Create a PaymentIntent with the order amount and currency
-	const paymentIntent = await stripe.paymentIntents.create({
-		amount: calculateOrderAmount(order),
-		currency: "usd",
-		automatic_payment_methods: {
-			enabled: true,
-		},
-	});
-	res.send({
-		clientSecret: paymentIntent.client_secret,
-		totalPrice: paymentIntent.amount,
-	});
+	if (req.method === "GET") {
+		const order = await OrderModel.findById(req.query.orderId);
+
+		const orderTotal = calculateOrderAmount(order) / 100;
+
+		res.status(200).json({ order, orderTotal });
+	} else {
+		console.error("WRONG REQ");
+	}
 }

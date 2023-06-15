@@ -1,26 +1,26 @@
-import React from 'react'
-import styled from 'styled-components'
-import Link from 'next/link'
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import Link from "next/link";
 
 export const Wrapper = styled.div`
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
+	display: flex;
+	height: 100vh;
+	width: 100vw;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+`;
 
 export const OrderNumberContainer = styled.div`
-  background-color: black;
-  color: white;
-  padding: 5px 20px;
-  border-radius: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-bottom: 1rem;
-`
+	background-color: black;
+	color: white;
+	padding: 5px 20px;
+	border-radius: 50px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin-bottom: 1rem;
+`;
 
 export const CreateMoreArtButton = styled.button`
 	background-color: ${(props) => props.theme.colors.button};
@@ -64,19 +64,19 @@ export const Main = styled.h3`
 	white-space: nowrap;
 	font-weight: 100;
 	line-height: 1;
-  text-align: center;
+	text-align: center;
 	color: black;
-  margin-bottom: 1rem;
+	margin-bottom: 1rem;
 `;
 
 export const OrderNumber = styled.h3`
-  font-family: DMSerifDisplay;
-  font-size: clamp(1rem, 4vw, 3rem);
-  white-space: nowrap;
-  font-weight: 100;
-  text-align: center;
-  color: white;
-`
+	font-family: DMSerifDisplay;
+	font-size: clamp(1rem, 4vw, 3rem);
+	white-space: nowrap;
+	font-weight: 100;
+	text-align: center;
+	color: white;
+`;
 
 export const MainSerif = styled.h3`
 	font-family: DMSerifDisplayItalic;
@@ -91,8 +91,8 @@ export const Sub = styled.h5`
 	font-family: InterExtraLight;
 	font-size: clamp(0.5rem, 3vw, 1rem);
 	color: black;
-  text-align: center;
-  margin-bottom: 1rem;
+	text-align: center;
+	margin-bottom: 1rem;
 `;
 
 export const SubMobile = styled.h5`
@@ -102,20 +102,36 @@ export const SubMobile = styled.h5`
 `;
 
 const Confirmation = () => {
-  return (
-    <Wrapper>
-        <OrderNumberContainer>
-          <OrderNumber>Order Number&nbsp;</OrderNumber>
-          <OrderNumber>6969696</OrderNumber>
-        </OrderNumberContainer>
-        <MainSerif>Thank you for your order!</MainSerif>
-        <Main>Your order is on its way</Main>
-        <Sub>You can chek the status of your order any time by logging into your account. If you have any questions or need assistance, please email us at blah@blah.biz</Sub>
-        <Link href="/generate">
-        <CreateMoreArtButton>Create More Art</CreateMoreArtButton>
-        </Link>
-    </Wrapper>
-  )
-}
+	const [orderId, setOrderId] = useState("");
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		setOrderId(window.location.href.split("/")[4].split("?")[0]);
+	}, []);
+
+	useEffect(() => {
+		if (orderId !== "") {
+			setLoading(false);
+		}
+	}, [orderId]);
+
+	return (
+		<Wrapper>
+			<OrderNumberContainer>
+				<OrderNumber>Order Number&nbsp;</OrderNumber>
+				<OrderNumber>{loading ? "Loading" : orderId}</OrderNumber>
+			</OrderNumberContainer>
+			<MainSerif>Thank you for your order!</MainSerif>
+			<Main>Your order is on its way</Main>
+			<Sub>
+				You can chek the status of your order any time by logging into your account. If
+				you have any questions or need assistance, please email us at blah@blah.biz
+			</Sub>
+			<Link href="/generate">
+				<CreateMoreArtButton>Create More Art</CreateMoreArtButton>
+			</Link>
+		</Wrapper>
+	);
+};
 
 export default Confirmation;
