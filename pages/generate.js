@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 import { usePromptContext } from "../context/ContextProvider";
 import styled from "styled-components";

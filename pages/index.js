@@ -1,6 +1,10 @@
-import Image from "next/image";
 import styled from "styled-components";
-import { Main, MainSerif, Sub, SubMobile } from "../styles/styledComponents/indexPageStyle.js";
+import {
+	Main,
+	MainSerif,
+	Sub,
+	SubMobile,
+} from "../styles/styledComponents/indexPageStyle.js";
 import Link from "next/link";
 
 export const Wrapper = styled.div`

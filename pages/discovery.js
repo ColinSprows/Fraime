@@ -242,13 +242,6 @@ export const BuyButton = styled.button`
 	}
 `;
 
-export const TopRightButton = styled.div`
-	position: absolute;
-	top: 0;
-	right: 0;
-	// transform: translate(-10%, 20%); // to add some margin from top left edge
-`;
-
 export const ImageEl = styled.div`
 	width: 40vw;
 	height: 40vw;
@@ -256,7 +249,6 @@ export const ImageEl = styled.div`
 	margin: 2rem 0rem;
 	transform-style: preserve-3d;
 	transition: transform 0.6s;
-	transform: ${({ flipped }) => (flipped ? "rotateY(180deg)" : "rotateY(0deg)")};
 
 	&:hover {
 		.generatedImage {
@@ -273,33 +265,6 @@ export const ImageEl = styled.div`
 		height: 100vw;
 		margin: 0rem 0rem;
 	}
-`;
-
-export const Back = styled.div`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	backface-visibility: hidden;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	transform: rotateY(180deg);
-`;
-
-export const FlipBackButton = styled.button`
-	position: absolute;
-	top: 10px;
-	right: 10px;
-`;
-
-export const BackPromptContainer = styled.div`
-	position: relative;
-`;
-
-export const BackPrompt = styled.h3`
-	font-family: InterBold;
-	font-size: clamp(1.25rem, 2vw, 2rem);
-	color: black;
 `;
 
 export const GeneratedImage = styled(Image).attrs({
@@ -325,7 +290,6 @@ const DiscoveryPage = () => {
 	const [prompt, setPrompt] = useState(promptInfo.prompt);
 	const [result, setResult] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
-	const [isFlipped, setIsFlipped] = useState([]);
 	const [hasMounted, setHasMounted] = useState(false);
 
 	const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
@@ -402,18 +366,6 @@ const DiscoveryPage = () => {
 		router.push("/product");
 	};
 
-	// const handleFlipClick = (index) => {
-	// 	if (isFlipped.includes(index)) {
-	// 	    setIsFlipped(prevState => prevState.filter(item => item !== index));
-	// 	} else {
-	// 	    setIsFlipped(prevState => [...prevState, index]);
-	// 	}
-	// };
-
-	// const handleFlipBackClick = (index) => {
-	// 	setIsFlipped((prevState) => prevState.filter((item) => item !== index));
-	// };
-
 	return (
 		<Wrapper>
 			{isLoading ? (
@@ -424,44 +376,16 @@ const DiscoveryPage = () => {
 				<ImageContainer>
 					{result.length > 0
 						? result.map((url, index) => (
-								<ImageEl key={index} flipped={isFlipped.includes(index)}>
+								<ImageEl key={index}>
 									<GeneratedImage
 										key={index}
 										src={url || ""}
 										alt={`result ${index}`}
 										fill
 									/>
-									{/* <Back>
-									{isFlipped.includes(index) && (
-										<div>
-											<GeneratedImageBack key={index} src={url || ""} alt={`result ${index}`} fill />							
-											<BackPromptContainer><BackPrompt>{promptInfo.prompt}</BackPrompt></BackPromptContainer>
-											<TopRightButton onClick={() => handleFlipBackClick(index)}>
-												<Image
-													src="/page-flip.svg"
-													alt="page flip icon"
-													height={35}
-													width={35}
-												/>
-											</TopRightButton>
-										</div>
-									)}
-								</Back> */}
-									{!isFlipped.includes(index) && (
-										<HoverButtons>
-											{/* <Link href="/product"> */}
-											<BuyButton onClick={() => handleBuyClick(url)}>Buy</BuyButton>
-											{/* </Link> */}
-											{/* <TopRightButton onClick={() => handleFlipClick(index)}>
-											<Image
-												src="/page-flip.svg"
-												alt="page flip icon"
-												height={35}
-												width={35}
-											/>
-										</TopRightButton> */}
-										</HoverButtons>
-									)}
+									<HoverButtons>
+										<BuyButton onClick={() => handleBuyClick(url)}>Buy</BuyButton>
+									</HoverButtons>
 								</ImageEl>
 						  ))
 						: ""}
