@@ -348,12 +348,8 @@ const DiscoveryPage = () => {
 		setJourney({ journey_id: journeyData.journey._id });
 	};
 
-	// to check that selectedImage is updated due to async nature nature of setSelectedImage
-	// useEffect(() => {
-	// 	console.log(selectedImage);
-	// }, [selectedImage]);
-
 	const handleReRollClick = () => {
+		// setIsLoading(true);
 		// generateImage();
 		console.log("clicked");
 	};
