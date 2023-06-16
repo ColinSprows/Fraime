@@ -141,7 +141,7 @@ function CheckoutForm({ orderTotal, order_id }) {
 	return (
 		<CheckoutFormContainer>
 			<CheckoutText>Checkout</CheckoutText>
-			<CheckoutText>Your total is: ${orderTotal}</CheckoutText>
+			<CheckoutText>Your total is: ${orderTotal.toFixed(2)}</CheckoutText>
 			<form id="payment-form" onSubmit={handleSubmit}>
 				<LinkAuthenticationElement
 					id="link-authentication-element"
