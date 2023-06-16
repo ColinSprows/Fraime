@@ -5,16 +5,22 @@ import dbConnect from "../../../lib/dbConnect";
 export default async function (req, res) {
 	await dbConnect();
 
-	if (req.method === "POST") {
-		const prompt_id = req.body.prompt_id;
+	if (req.method === "PUT") {
+		const { journey_id, prompt_id } = req.body;
 
     try {
-      const newJourney = await JourneyModel.create({
-
-        prompt_ids: prompt_id
-      });
-  
-      res.status(200).json({ journey: newJourney });
+      const response = await JourneyModel.findOneAndUpdate(
+        {
+          _id: journey_id
+        },
+        {
+          $push: {
+            prompt_ids: prompt_id
+          }
+        }
+      );
+      console.log(response);
+      res.status(200).json(response);
     } catch(err) {
       console.error(err);
     }

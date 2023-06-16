@@ -375,6 +375,9 @@ const DiscoveryPage = () => {
 		});
 		const journeyData = await journeyResponse.json();
 		console.log(journeyData);
+
+    // update journey in local storage
+    localStorage.setItem
 	};
 
 	// to check that selectedImage is updated due to async nature nature of setSelectedImage
