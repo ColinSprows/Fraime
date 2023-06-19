@@ -13,6 +13,12 @@ const journeySchema = new Schema({
 			ref: "Prompt",
 		},
 	],
+	order_id: {
+		type: Types.ObjectId,
+	},
+	ordered_image_id: {
+		type: Types.ObjectId,
+	},
 	accessible_until: {
 		type: Date,
 		// default accessbile until is set to 1 week from current time

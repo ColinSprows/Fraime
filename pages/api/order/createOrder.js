@@ -5,7 +5,7 @@ export default async function (req, res) {
 	await dbConnect();
 
 	if (req.method === "POST") {
-		console.log(req.body);
+		// console.log(req.body);
 
 		const newOrder = await OrderModel.create({
 			prompt_id: req.body.prompt_id,

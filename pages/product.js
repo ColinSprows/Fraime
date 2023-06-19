@@ -1,7 +1,11 @@
 import Image from "next/image";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useImageContext, usePromptContext } from "../context/ContextProvider";
+import {
+	useImageContext,
+	usePromptContext,
+	useJourneyContext,
+} from "../context/ContextProvider";
 import {
 	Wrapper,
 	Left,
@@ -48,6 +52,7 @@ const ProductPage = () => {
 	// Image and Prompt context brought forward through user journey
 	const { selectedImage } = useImageContext();
 	const { promptInfo } = usePromptContext();
+	const { journey } = useJourneyContext();
 
 	// Click handler for product type tabs that assigns visibility states for size options and framing options
 	const handleTabClick = (tabName) => {
@@ -137,9 +142,10 @@ const ProductPage = () => {
 		setSelectedMatColor(matColor);
 	};
 
-	// useEffect on selectedImage to check if the image context is being passed through correctly
+	// useEffect on selectedImage and journey to check if the image context is being passed through correctly
 	// useEffect(() => {
 	// 	console.log(selectedImage);
+	// 	console.log(journey);
 	// }, []);
 
 	// Function to calculate the finished size of the product depending on size selected, frame width selected, and mat width selected
@@ -175,7 +181,7 @@ const ProductPage = () => {
 	};
 
 	// Fetch request to create Order document in database to be used with Stripe
-	const createOrder = async () => {
+	const createOrderAndUpdateJourney = async () => {
 		// Conditional logic to determine if framing and mat details are sent in the body of the request
 		const framingOptions = framingDetailOptionsVisible
 			? selectedFrameWidth + ", " + selectedFrameColor
@@ -213,7 +219,22 @@ const ProductPage = () => {
 			}),
 		});
 		const data = await response.json();
-		console.log(data);
+
+		const journeyResponse = await fetch("/api/journey/updateJourney", {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				journey_id: journey.journey_id,
+				order_id: data.order._id,
+				ordered_image_id: selectedImage.image_id,
+			}),
+		});
+		const journeyData = await journeyResponse.json();
+		console.log(journeyData);
+
+		return data.order._id;
 	};
 
 	// Props to be passed to each Body Section component
@@ -227,7 +248,7 @@ const ProductPage = () => {
 	const matWidthOptions = ['.5"', '1"', '1.5"', '2"'];
 	const matColorOptions = ["Black", "White", "Cream", "Tan"];
 
-  const router = useRouter();
+	const router = useRouter();
 
 	return (
 		<Wrapper>
@@ -369,11 +390,13 @@ const ProductPage = () => {
 					</BottomContainer>
 				</BuyCard>
 				{/* Button that makes the Fetch request (will eventually also redirect to checkout page) */}
-				<BuyNowButton onClick={async () => {
-            createOrder()
-            router.push('/purchase');
-          }}
-        >
+				<BuyNowButton
+					onClick={async () => {
+						const orderId = await createOrderAndUpdateJourney();
+						console.log(orderId);
+						router.push(`/purchase/${orderId}`);
+					}}
+				>
 					<span>Buy Now</span>
 				</BuyNowButton>
 			</Right>
