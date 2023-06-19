@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Loading from "../components/sub-components/loading";
+import { updateStoreJourney } from "@/utils/storageHandler";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -360,24 +361,11 @@ const DiscoveryPage = () => {
 			body: JSON.stringify({ url: url, prompt_id: promptInfo.prompt_id }),
 		});
 		const data = await response.json();
-		console.log(data.image._id);
+    
 		setSelectedImage({ url, image_id: data.image._id });
 
-		const journeyResponse = await fetch("/api/journey/createJourney", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				image_id: data.image._id,
-				prompt_id: promptInfo.prompt_id,
-			}),
-		});
-		const journeyData = await journeyResponse.json();
-		console.log(journeyData);
-
     // update journey in local storage
-    localStorage.setItem
+    updateStoreJourney({ imageId: data.image._id })
 	};
 
 	// to check that selectedImage is updated due to async nature nature of setSelectedImage
@@ -394,7 +382,7 @@ const DiscoveryPage = () => {
 
 	// handles routing after async function instead of Link
 	const handleBuyClick = async (url) => {
-		await saveImage(url);
+	  await saveImage(url);
 		router.push("/product");
 	};
 

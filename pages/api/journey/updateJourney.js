@@ -6,24 +6,37 @@ export default async function (req, res) {
 	await dbConnect();
 
 	if (req.method === "PUT") {
-		const { journey_id, prompt_id } = req.body;
+
+		const { journey_id, prompt_id, image_id } = req.body;
 
     try {
-      const response = await JourneyModel.findOneAndUpdate(
+
+      // dynamically handles for pushing new prompt_id, image_id or both
+      // returns updated document
+
+      const updateData = [
         {
           _id: journey_id
         },
         {
-          $push: {
-            prompt_ids: prompt_id
-          }
+          $push: {}
+        },
+        {
+          new: true
         }
-      );
-      console.log(response);
+      ];
+
+      if (prompt_id) updateData[1].$push.prompt_ids = prompt_id;
+
+      if (image_id) updateData[1].$push.image_ids = image_id;
+
+      const response = await JourneyModel.findOneAndUpdate(...updateData);
+      
       res.status(200).json(response);
     } catch(err) {
       console.error(err);
     }
+
 	} else {
 		console.error("WRONG REQ");
 	}

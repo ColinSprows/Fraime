@@ -4,7 +4,7 @@ import { usePromptContext } from "../context/ContextProvider";
 import styled from "styled-components";
 import Link from "next/link";
 
-import { savePromptDataToStorage, updateStoreJourneyWithPrompt } from "@/utils/storageHandler";
+import { savePromptDataToStorage, updateStoreJourney } from "@/utils/storageHandler";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -207,7 +207,7 @@ const GeneratePage = () => {
     savePromptDataToStorage(promptData);
 
     // save journey data to storage
-    await updateStoreJourneyWithPrompt(promptData);
+    await updateStoreJourney({ promptData });
 
 	};
 
