@@ -4,14 +4,12 @@ const journeySchema = new Schema({
 	image_ids: [
 		{
 			type: Types.ObjectId,
-			required: true,
 			ref: "Image",
 		},
 	],
 	prompt_ids: [
 		{
 			type: Types.ObjectId,
-			required: true,
 			ref: "Prompt",
 		},
 	],

@@ -3,6 +3,8 @@ import { usePromptContext } from "../context/ContextProvider";
 import styled from "styled-components";
 import Link from "next/link";
 
+import { savePromptDataToStorage, updateStoreJourney } from "@/utils/storageHandler";
+
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
 	display: flex;
@@ -182,17 +184,30 @@ const GeneratePage = () => {
 
 	// call to createPrompt api to save prompt in database
 	const savePrompt = async () => {
-		console.log(JSON.stringify(promptInfo.prompt));
-		const response = await fetch("/api/prompt/createPrompt", {
+
+    // create prompt API request
+		const createPromptResponse = await fetch("/api/prompt/createPrompt", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(promptInfo.prompt),
 		});
-		const data = await response.json();
-		console.log(data);
-		setPromptInfo({ ...promptInfo, prompt_id: data.prompt._id });
+		const createPromptResponseData = await createPromptResponse.json();
+
+    const promptData = {
+      ...promptInfo,
+      prompt_id: createPromptResponseData.prompt._id
+    }
+    // set prompt context
+		setPromptInfo(promptData);
+
+    // save prompt data to storage
+    savePromptDataToStorage(promptData);
+
+    // save journey data to storage
+    await updateStoreJourney({ promptData });
+
 	};
 
 	// Images array for the gallery

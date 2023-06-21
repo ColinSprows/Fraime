@@ -10,6 +10,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Loading from "../components/sub-components/loading";
+import { updateStoreJourney } from "@/utils/storageHandler";
 import { set } from "mongoose";
 
 export const Wrapper = styled.div`
@@ -330,22 +331,11 @@ const DiscoveryPage = () => {
 			body: JSON.stringify({ url: url, prompt_id: promptInfo.prompt_id }),
 		});
 		const data = await response.json();
-		console.log(data.image._id);
+    
 		setSelectedImage({ url, image_id: data.image._id });
 
-		const journeyResponse = await fetch("/api/journey/createJourney", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				image_id: data.image._id,
-				prompt_id: promptInfo.prompt_id,
-			}),
-		});
-		const journeyData = await journeyResponse.json();
-		console.log(journeyData);
-		setJourney({ journey_id: journeyData.journey._id });
+    // update journey in local storage
+    updateStoreJourney({ imageId: data.image._id })
 	};
 
 	const handleReRollClick = () => {
