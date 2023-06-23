@@ -10,8 +10,9 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Loading from "../components/sub-components/loading";
-import { updateStoreJourney } from "@/utils/storageHandler";
-import { set } from "mongoose";
+
+import { newImageHandler } from '@/utils/newImageHandler';
+import { loadStorePrompt, loadStoreJourney } from '@/utils/storageHandler';
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -285,10 +286,13 @@ export const GeneratedImageBack = styled(Image)`
 `;
 
 const DiscoveryPage = () => {
-	const { promptInfo, setPromptInfo } = usePromptContext();
-	const { selectedImage, setSelectedImage } = useImageContext();
-	const { journey, setJourney } = useJourneyContext();
-	const [prompt, setPrompt] = useState(promptInfo.prompt);
+	// const [ promptInfo, setPromptInfo ] = useState(loadStorePrompt());
+	// const [ journey, setJourney ] = useState(loadStoreJourney());
+  const promptInfo = loadStorePrompt();
+  const journey = loadStoreJourney();
+  
+	const [ selectedImage, setSelectedImage ] = useState();
+	// const [prompt, setPrompt] = useState(promptInfo.prompt);
 	const [result, setResult] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [hasMounted, setHasMounted] = useState(false);
@@ -322,21 +326,21 @@ const DiscoveryPage = () => {
 	}, [hasMounted]);
 
 	// to be called on click of Buy or on click of fine tune
-	const saveImageAndCreateJourney = async (url) => {
-		const response = await fetch("/api/image/saveImage", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ url: url, prompt_id: promptInfo.prompt_id }),
-		});
-		const data = await response.json();
+	// const saveImageAndCreateJourney = async (url) => {
+	// 	const response = await fetch("/api/image/saveImage", {
+	// 		method: "POST",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 		},
+	// 		body: JSON.stringify({ url: url, prompt_id: promptInfo.prompt_id }),
+	// 	});
+	// 	const data = await response.json();
     
-		setSelectedImage({ url, image_id: data.image._id });
+	// 	setSelectedImage({ url, image_id: data.image._id });
 
-    // update journey in local storage
-    updateStoreJourney({ imageId: data.image._id })
-	};
+  //   // update journey in local storage
+  //   updateStoreJourney({ imageId: data.image._id })
+	// };
 
 	const handleReRollClick = () => {
 		// setIsLoading(true);
@@ -348,7 +352,7 @@ const DiscoveryPage = () => {
 
 	// handles routing after async function instead of Link
 	const handleBuyClick = async (url) => {
-		await saveImageAndCreateJourney(url);
+		await newImageHandler(url, promptInfo.prompt_id);
 		router.push("/product");
 	};
 

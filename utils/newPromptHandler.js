@@ -5,7 +5,7 @@ import { createDBPrompt, createDBJourney } from '@/utils/databaseHandler';
 export const newPromptHandler = async (promptInfo) => {
 
   // create new DB-Prompt
-  const createPromptResponseData = createDBPrompt(promptInfo);
+  const createPromptResponseData = await createDBPrompt(promptInfo);
 
   const promptData = {
     ...promptInfo,
