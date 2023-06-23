@@ -1,24 +1,18 @@
 /**
  * 
  * @param {Object} promptData 
- * @returns parsed response data
+ * @returns parsed response from api
  */
-export const updateDBJourney = async (journey_id, { promptData, imageId }) => {
-
-  const updateJourneyResponse = await fetch("/api/journey/updateJourney", {
-    method: "PUT",
+export const createDBPrompt = async(promptInfo) => {
+  const createPromptResponse = await fetch("/api/prompt/createPrompt", {
+    method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      journey_id,
-      prompt_id: promptData?.prompt_id,
-      image_id: imageId
-    })
+    body: JSON.stringify(promptInfo.prompt),
   });
 
-  return await updateJourneyResponse.json();
-
+  return await createPromptResponse.json();
 }
 
 /**
@@ -37,4 +31,27 @@ export const createDBJourney = async (promptData) => {
     })
   });
   return await createJourneyResponse.json();
+}
+
+/**
+ * 
+ * @param {Object} promptData 
+ * @returns parsed response data
+ */
+export const updateDBJourney = async (journey_id, { promptData, imageId }) => {
+
+  const updateJourneyResponse = await fetch("/api/journey/updateJourney", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      journey_id,
+      prompt_id: promptData?.prompt_id,
+      image_id: imageId
+    })
+  });
+
+  return await updateJourneyResponse.json();
+
 }

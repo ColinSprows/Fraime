@@ -1,19 +1,11 @@
 import { createStorePrompt, createStoreJourney } from '@/utils/storageHandler';
 
-import { createDBJourney } from '@/utils/databaseHandler';
+import { createDBPrompt, createDBJourney } from '@/utils/databaseHandler';
 
 export const newPromptHandler = async (promptInfo) => {
 
   // create new DB-Prompt
-  const createPromptResponse = await fetch("/api/prompt/createPrompt", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(promptInfo.prompt),
-  });
-
-  const createPromptResponseData = await createPromptResponse.json();
+  const createPromptResponseData = createDBPrompt(promptInfo);
 
   const promptData = {
     ...promptInfo,
