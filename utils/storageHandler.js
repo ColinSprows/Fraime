@@ -23,7 +23,7 @@ export const loadStorePrompt = () => {
  * 
  * @param {Object} promptData the current prompt data
  */
-export const createStoreJourney = async (journey) => {
+export const createStoreJourney = async ({ journey }) => {
 
     localStorage.setItem('fraime-current-journey-data', JSON.stringify(journey));
 
@@ -50,8 +50,8 @@ export const updateStoreJourney = async (journey) => {
  * 
  */
 export const createStoreImage = (url, image_id) => {
-  localStorage.setItem('fraime-current-image-data', {
+  localStorage.setItem('fraime-current-image-data', JSON.stringify({
     url,
     image_id
-  });
+  }));
 }

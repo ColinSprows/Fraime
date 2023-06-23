@@ -6,11 +6,12 @@ export const newImageHandler = async (url, prompt_id, journey_id) => {
 
   createStoreImage(url, data.image._id);
 
-  const newJourney = updateDBJourney({
+  const newJourney = await updateDBJourney({
     journey_id,
-    prompt_id,
-    image_id: data.image_id
+    image_id: data.image._id
   });
+
+  console.log("newJourney", newJourney);
 
   updateStoreJourney(newJourney);
 }
