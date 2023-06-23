@@ -5,10 +5,20 @@ import { updateDBJourney, createDBJourney } from '@/utils/databaseHandler';
  * @param {Object} promptData the current prompt data
  *
  */
-export const savePromptDataToStorage = (promptData) => {
+export const createStorePrompt = (promptData) => {
   localStorage.setItem('fraime-current-prompt-data', JSON.stringify(promptData));
 }
 
+/**
+ * createStoreJourney dynamically handles for updating promptData and/or imageId
+ * 
+ * @param {Object} promptData the current prompt data
+ */
+export const createStoreJourney = async (journey) => {
+
+    localStorage.setItem('fraime-current-journey-data', JSON.stringify(journey));
+
+}
 /**
  * updateStoreJourney dynamically handles for updating promptData and/or imageId
  * 

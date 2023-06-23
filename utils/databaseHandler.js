@@ -26,15 +26,14 @@ export const updateDBJourney = async (journey_id, { promptData, imageId }) => {
  * @param {Object} promptData 
  * @returns parsed response from api
  */
-export const createDBJourney = async ({ promptData, imageId}) => {
+export const createDBJourney = async (promptData) => {
   const createJourneyResponse = await fetch("/api/journey/createJourney", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      prompt_id: promptData.prompt_id,
-      image_id: imageId
+      prompt_id: promptData.prompt_id
     })
   });
   return await createJourneyResponse.json();

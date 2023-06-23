@@ -1,9 +1,8 @@
-import React from "react";
-import { usePromptContext } from "../context/ContextProvider";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { newPromptHandler } from '@/utils/newPromptHandler';
 
-import { savePromptDataToStorage, updateStoreJourney } from "@/utils/storageHandler";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -180,35 +179,36 @@ export const GalleryImage = styled.img`
 `;
 
 const GeneratePage = () => {
-	const { promptInfo, setPromptInfo } = usePromptContext();
+	// const { promptInfo, setPromptInfo } = usePromptContext();
+  const [ promptInfo, setPromptInfo ] = useState();
 
 	// call to createPrompt api to save prompt in database
-	const savePrompt = async () => {
+	// const savePrompt = async () => {
 
-    // create prompt API request
-		const createPromptResponse = await fetch("/api/prompt/createPrompt", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(promptInfo.prompt),
-		});
-		const createPromptResponseData = await createPromptResponse.json();
+  //   // create prompt API request
+	// 	const createPromptResponse = await fetch("/api/prompt/createPrompt", {
+	// 		method: "POST",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 		},
+	// 		body: JSON.stringify(promptInfo.prompt),
+	// 	});
+	// 	const createPromptResponseData = await createPromptResponse.json();
 
-    const promptData = {
-      ...promptInfo,
-      prompt_id: createPromptResponseData.prompt._id
-    }
-    // set prompt context
-		setPromptInfo(promptData);
+  //   const promptData = {
+  //     ...promptInfo,
+  //     prompt_id: createPromptResponseData.prompt._id
+  //   }
+  //   // set prompt context
+	// 	setPromptInfo(promptData);
 
-    // save prompt data to storage
-    savePromptDataToStorage(promptData);
+  //   // save prompt data to storage
+  //   savePromptDataToStorage(promptData);
 
-    // save journey data to storage
-    await updateStoreJourney({ promptData });
+  //   // save journey data to storage
+  //   await updateStoreJourney({ promptData });
 
-	};
+	// };
 
 	// Images array for the gallery
 	const images = [
@@ -272,7 +272,7 @@ const GeneratePage = () => {
 				</Left>
 				<Right>
 					<Link href="/discovery">
-						<GenerateButton onClick={() => savePrompt()}>Generate</GenerateButton>
+						<GenerateButton onClick={() => newPromptHandler(promptInfo)}>Generate</GenerateButton>
 					</Link>
 				</Right>
 			</StaticContainer>
