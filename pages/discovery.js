@@ -10,8 +10,9 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Loading from "../components/sub-components/loading";
-import { updateStoreJourney } from "@/utils/storageHandler";
-import { set } from "mongoose";
+
+import { newImageHandler } from '@/utils/newImageHandler';
+import { loadStorePrompt, loadStoreJourney } from '@/utils/storageHandler';
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -285,10 +286,11 @@ export const GeneratedImageBack = styled(Image)`
 `;
 
 const DiscoveryPage = () => {
-	const { promptInfo, setPromptInfo } = usePromptContext();
-	const { selectedImage, setSelectedImage } = useImageContext();
-	const { journey, setJourney } = useJourneyContext();
-	const [prompt, setPrompt] = useState(promptInfo.prompt);
+
+  
+  const [ promptInfo, setPromptInfo ] = useState();
+  const [ journey, setJourney ] = useState();
+  console.log("journey", journey);
 	const [result, setResult] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [hasMounted, setHasMounted] = useState(false);
@@ -296,19 +298,6 @@ const DiscoveryPage = () => {
 	const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 	const configuration = new Configuration({ apiKey: apiKey });
 	const openai = new OpenAIApi(configuration);
-
-	const generateImage = async () => {
-		const response = await fetch("/api/image/generateImage", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ prompt: prompt }),
-		});
-		const data = await response.json();
-		setResult(data.urls);
-		setIsLoading(false);
-	};
 
 	useEffect(() => {
 		// Prevents hydration issues
@@ -319,24 +308,9 @@ const DiscoveryPage = () => {
 		// setIsLoading(true);
 		// generateImage();
 		setResult(["https://i.imgur.com/E8QwDMM.png", "https://i.imgur.com/E8QwDMM.png"]);
+    setPromptInfo(loadStorePrompt());
+    setJourney(loadStoreJourney());
 	}, [hasMounted]);
-
-	// to be called on click of Buy or on click of fine tune
-	const saveImageAndCreateJourney = async (url) => {
-		const response = await fetch("/api/image/saveImage", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ url: url, prompt_id: promptInfo.prompt_id }),
-		});
-		const data = await response.json();
-    
-		setSelectedImage({ url, image_id: data.image._id });
-
-    // update journey in local storage
-    updateStoreJourney({ imageId: data.image._id })
-	};
 
 	const handleReRollClick = () => {
 		// setIsLoading(true);
@@ -348,7 +322,11 @@ const DiscoveryPage = () => {
 
 	// handles routing after async function instead of Link
 	const handleBuyClick = async (url) => {
-		await saveImageAndCreateJourney(url);
+		await newImageHandler(
+      url, 
+      loadStorePrompt().prompt_id, 
+      loadStoreJourney()._id
+    );
 		router.push("/product");
 	};
 
@@ -385,7 +363,7 @@ const DiscoveryPage = () => {
 				</Left>
 				<Right>
 					<InputWrapper>
-						<Input placeholder={prompt} name="prompt" type="text" readOnly={true} />
+						<Input placeholder={promptInfo?.prompt} name="prompt" type="text" readOnly={true} />
 						<IconWrapper onClick={() => handleReRollClick()}>
 							<Image src="/icons/repeat-solid.svg" alt="rotate icon" fill />
 						</IconWrapper>

@@ -14,15 +14,15 @@ export default async function (req, res) {
 
       // dynamically handles for pushing new prompt_id, image_id or both
       // returns updated document
-
+      
       const updateData = [
         journey_id,
         {
-          $push: {}
-        },
-        {
+          $push: {},
+  
           ordered_image_id,
           order_id
+
         },
         {
           new: true
@@ -32,10 +32,12 @@ export default async function (req, res) {
       if (prompt_id) updateData[1].$push.prompt_ids = prompt_id;
 
       if (image_id) updateData[1].$push.image_ids = image_id;
-
+      
+      
       const response = await JourneyModel.findByIdAndUpdate(...updateData);
       
       res.status(200).json(response);
+
     } catch(err) {
       console.error(err);
     }
