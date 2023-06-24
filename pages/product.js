@@ -257,7 +257,7 @@ const ProductPage = () => {
 			<Left>
 				<ImageContainer>
 					{/* Using Image Context to display image selected on Discovery page */}
-					<Image src={selectedImage?.url} alt="Selected product image" fill />
+					{hasMounted && <Image src={selectedImage?.url} alt="Selected product image" fill />}
 				</ImageContainer>
 			</Left>
 			<Right>
