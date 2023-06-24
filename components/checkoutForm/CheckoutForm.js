@@ -61,7 +61,7 @@ export const StartCreatingButton = styled.button`
 	}
 `;
 
-function CheckoutForm({ orderTotal, order_id }) {
+function CheckoutForm({ order_id }) {
 	const stripe = useStripe();
 	const elements = useElements();
 
@@ -141,7 +141,6 @@ function CheckoutForm({ orderTotal, order_id }) {
 	return (
 		<CheckoutFormContainer>
 			<CheckoutText>Payment Information</CheckoutText>
-			<CheckoutText>Your total is: ${orderTotal.toFixed(2)}</CheckoutText>
 			<form id="payment-form" onSubmit={handleSubmit}>
 				<LinkAuthenticationElement
 					id="link-authentication-element"

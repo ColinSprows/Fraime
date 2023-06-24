@@ -94,9 +94,9 @@ function Purchase() {
 			{clientSecret && (
 				<Elements options={options} stripe={stripePromise} key={clientSecret}>
 					<CheckoutText>Checkout</CheckoutText>
-					<OrderInfo order={order}/>
+					<OrderInfo order={order} orderTotal={orderTotal}/>
 					<ShippingForm onSubmit={handleShippingInfo} />
-					<CheckoutForm orderTotal={orderTotal} order_id={order._id} />
+					<CheckoutForm order_id={order._id} />
 				</Elements>
 			)}
 		</div>

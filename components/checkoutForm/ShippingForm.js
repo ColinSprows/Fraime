@@ -2,33 +2,33 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const StyledForm = styled.form`
-    display: flex;
-    flex-direction: column;
-    margin: 2em auto;
+  display: flex;
+  flex-direction: column;
+  margin: 2em auto;
 	width: clamp(600px, 70vw, 1000px);
 `
 
 const StyledLabel = styled.label`
-    font-family: Inter;
-    font-size: 0.93rem;
-    font-weight: 400;
-    color: #30313d;
-    margin-bottom: 0.5rem;
+  font-family: Inter;
+  font-size: 0.93rem;
+  font-weight: 400;
+  color: #30313d;
+  margin-bottom: 0.5rem;
 `
 
 const StyledInput = styled.input`
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid rgba(48,49,61, 0.15);
-    border-radius: 5px;
-    margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid rgba(48,49,61, 0.15);
+  border-radius: 5px;
+  margin-top: 0.5rem;
 `
 
 const StateZipContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
 `;
 
 export const CheckoutText = styled.h3`
