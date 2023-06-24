@@ -2,6 +2,19 @@ import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm.js";
+import ShippingForm from "../../components/checkoutForm/ShippingForm.js";
+import OrderInfo from "../../components/checkoutForm/OrderInfo.js";
+import styled from "styled-components";
+
+export const CheckoutText = styled.h3`
+	font-family: DMSerifDisplay-Regular;
+	font-size: clamp(1rem, 4vw, 3rem);
+	white-space: nowrap;
+	font-weight: 100;
+	text-align: center;
+	color: black;
+	margin-top: 1em;
+`;
 
 // REFERENCE
 // https://stripe.com/docs/payments/quickstart
@@ -15,6 +28,7 @@ function Purchase() {
 	const [clientSecret, setClientSecret] = useState("");
 	const [orderTotal, setOrderTotal] = useState(0);
 	const [order, setOrder] = useState(null);
+	const [shippingInfo, setShippingInfo] = useState(null);
 
 	useEffect(() => {
 		const getOrderAndTotal = async () => {
@@ -69,10 +83,19 @@ function Purchase() {
 		appearance,
 	};
 
+	const handleShippingInfo = (info) => {
+	setShippingInfo(info);
+	// if needed, make a POST request to your server with the shipping info
+	};
+
+
 	return (
 		<div className="App">
 			{clientSecret && (
 				<Elements options={options} stripe={stripePromise} key={clientSecret}>
+					<CheckoutText>Checkout</CheckoutText>
+					<OrderInfo order={order}/>
+					<ShippingForm onSubmit={handleShippingInfo} />
 					<CheckoutForm orderTotal={orderTotal} order_id={order._id} />
 				</Elements>
 			)}
