@@ -1,6 +1,6 @@
 // when fine tuning, tracks image ids and prompt ids for selected images that are being tuned
 // Updates with purchased image and order id
-import JourneyModel from "../../../models/Journey.js";
+import Journey from "../../../models/Journey.js";
 import dbConnect from "../../../lib/dbConnect";
 
 export default async function (req, res) {
@@ -34,7 +34,7 @@ export default async function (req, res) {
       if (image_id) updateData[1].$push.image_ids = image_id;
       
       
-      const response = await JourneyModel.findByIdAndUpdate(...updateData);
+      const response = await Journey.findByIdAndUpdate(...updateData);
       
       res.status(200).json(response);
 

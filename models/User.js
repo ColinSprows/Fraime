@@ -70,4 +70,4 @@ userSchema.methods.isCorrectPassword = async function (password) {
 
 // const UserModel = model("User", userSchema);
 
-export default models.UserModel || model("UserModel", promptSchema);
+export default models.User || model("User", userSchema);

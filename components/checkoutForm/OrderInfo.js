@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const OrderInfoContainer = styled.div`
@@ -26,6 +26,7 @@ const OrderInfo = ({ order }) => {
           <StyledText>Product type: {order.product_type}</StyledText>
           <StyledText>Product size: {order.product_size}</StyledText>
           <StyledText>Paper type: {order.paper_type}</StyledText>
+          <img src={order.image_id.url} alt="Order content" width="100px" height="100px"/>
         </>
       )}
     </OrderInfoContainer>

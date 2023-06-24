@@ -34,4 +34,4 @@ promptSchema.pre("validate", function (next) {
 
 // const PromptModel = model("Prompt", promptSchema);
 
-export default models.PromptModel || model("PromptModel", promptSchema);
+export default models.Prompt || model("Prompt", promptSchema);
