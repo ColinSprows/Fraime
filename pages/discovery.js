@@ -363,7 +363,7 @@ const DiscoveryPage = () => {
 				</Left>
 				<Right>
 					<InputWrapper>
-						<Input placeholder={prompt} name="prompt" type="text" readOnly={true} />
+						<Input placeholder={promptInfo?.prompt} name="prompt" type="text" readOnly={true} />
 						<IconWrapper onClick={() => handleReRollClick()}>
 							<Image src="/icons/repeat-solid.svg" alt="rotate icon" fill />
 						</IconWrapper>

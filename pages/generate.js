@@ -179,36 +179,8 @@ export const GalleryImage = styled.img`
 `;
 
 const GeneratePage = () => {
-	// const { promptInfo, setPromptInfo } = usePromptContext();
+
   const [ promptInfo, setPromptInfo ] = useState();
-
-	// call to createPrompt api to save prompt in database
-	// const savePrompt = async () => {
-
-  //   // create prompt API request
-	// 	const createPromptResponse = await fetch("/api/prompt/createPrompt", {
-	// 		method: "POST",
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 		},
-	// 		body: JSON.stringify(promptInfo.prompt),
-	// 	});
-	// 	const createPromptResponseData = await createPromptResponse.json();
-
-  //   const promptData = {
-  //     ...promptInfo,
-  //     prompt_id: createPromptResponseData.prompt._id
-  //   }
-  //   // set prompt context
-	// 	setPromptInfo(promptData);
-
-  //   // save prompt data to storage
-  //   savePromptDataToStorage(promptData);
-
-  //   // save journey data to storage
-  //   await updateStoreJourney({ promptData });
-
-	// };
 
 	// Images array for the gallery
 	const images = [

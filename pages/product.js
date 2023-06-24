@@ -24,6 +24,9 @@ import {
 import ProductDetailOptions from "@/components/sub-components/productPageComponents/productDetailOptions";
 import SizeDetailOptions from "@/components/sub-components/productPageComponents/sizeDetailOptions";
 
+import { newOrderHandler } from '@/utils/newOrderHandler';
+import { loadStorePrompt, loadStoreJourney, loadStoreImage } from '@/utils/storageHandler';
+
 const ProductPage = () => {
 	// Tab states
 	const [selectedProductTypeTab, setSelectedProductTypeTab] = useState("Print");
@@ -50,9 +53,24 @@ const ProductPage = () => {
 	const [isPostcardSizeVisible, setPostcardSizeVisible] = useState(false);
 
 	// Image and Prompt context brought forward through user journey
-	const { selectedImage } = useImageContext();
-	const { promptInfo } = usePromptContext();
-	const { journey } = useJourneyContext();
+	// const { selectedImage } = useImageContext();
+	// const { promptInfo } = usePromptContext();
+	// const { journey } = useJourneyContext();
+  const [hasMounted, setHasMounted] = useState(false);
+  const [ promptInfo, setPromptInfo ] = useState();
+  const [ journey, setJourney ] = useState();
+  const [ selectedImage, setSelectedImage ] = useState();
+
+  useEffect(() => {
+		// Prevents hydration issues
+		setHasMounted(true);
+	}, []);
+
+  useEffect(() => {
+    setPromptInfo(loadStorePrompt());
+    setJourney(loadStoreJourney());
+    setSelectedImage(loadStoreImage());
+	}, [hasMounted]);
 
 	// Click handler for product type tabs that assigns visibility states for size options and framing options
 	const handleTabClick = (tabName) => {
@@ -201,38 +219,22 @@ const ProductPage = () => {
 			selectedSize = selectedPostcardSize;
 		}
 
-		// The actual fetch request utilizing prompt and image context and all selected options via states and conditional logic above
-		const response = await fetch("/api/order/createOrder", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				prompt_id: promptInfo.prompt_id,
-				image_id: selectedImage.image_id,
-				product_type: selectedProductTypeTab,
-				product_size: selectedSize,
-				paper_type: selectedPaperType,
-				framing_type: selectedFrameOption,
-				framing_options: framingOptions,
-				mat_options: matOptions,
-			}),
-		});
-		const data = await response.json();
-
-		const journeyResponse = await fetch("/api/journey/updateJourney", {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				journey_id: journey.journey_id,
-				order_id: data.order._id,
+		const data = await newOrderHandler(
+      {
+        prompt_id: promptInfo.prompt_id,
+        image_id: selectedImage.image_id,
+        product_type: selectedProductTypeTab,
+        product_size: selectedSize,
+        paper_type: selectedPaperType,
+        framing_type: selectedFrameOption,
+        framing_options: framingOptions,
+        mat_options: matOptions,
+      },
+      {
+				journey_id: journey._id,
 				ordered_image_id: selectedImage.image_id,
-			}),
-		});
-		const journeyData = await journeyResponse.json();
-		console.log(journeyData);
+			}
+    );
 
 		return data.order._id;
 	};
@@ -255,7 +257,7 @@ const ProductPage = () => {
 			<Left>
 				<ImageContainer>
 					{/* Using Image Context to display image selected on Discovery page */}
-					<Image src={selectedImage.url} alt="Selected product image" fill />
+					<Image src={selectedImage?.url} alt="Selected product image" fill />
 				</ImageContainer>
 			</Left>
 			<Right>

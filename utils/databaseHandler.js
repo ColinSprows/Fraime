@@ -38,7 +38,7 @@ export const createDBJourney = async (promptData) => {
  * @param {Object} promptData 
  * @returns parsed response data
  */
-export const updateDBJourney = async ({ journey_id, prompt_id, image_id }) => {
+export const updateDBJourney = async ({ journey_id, prompt_id, image_id, order_id, ordered_image_id }) => {
 
   const updateJourneyResponse = await fetch("/api/journey/updateJourney", {
     method: "PUT",
@@ -48,7 +48,9 @@ export const updateDBJourney = async ({ journey_id, prompt_id, image_id }) => {
     body: JSON.stringify({
       journey_id,
       prompt_id,
-      image_id
+      image_id,
+      order_id,
+      ordered_image_id
     })
   });
 
@@ -66,6 +68,20 @@ export const createDBImage = async (url, prompt_id) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ url, prompt_id }),
+  });
+  return await response.json();
+}
+
+/**
+ * 
+ */
+export const createDBOrder = async (orderObj) => {
+  const response = await fetch("/api/order/createOrder", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(orderObj),
   });
   return await response.json();
 }

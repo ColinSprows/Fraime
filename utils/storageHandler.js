@@ -55,3 +55,17 @@ export const createStoreImage = (url, image_id) => {
     image_id
   }));
 }
+
+/**
+ * 
+ */
+export const createStoreOrder = (data) => {
+  localStorage.setItem('fraime-current-order-data', JSON.stringify(data));
+}
+
+/**
+ * 
+ */
+export const loadStoreImage = () => {
+  return JSON.parse(localStorage.getItem('fraime-current-image-data'));
+}
