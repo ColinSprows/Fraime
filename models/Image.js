@@ -17,4 +17,4 @@ const imageSchema = new Schema({
 
 // const ImageModel = model("Image", imageSchema);
 
-export default models.ImageModel || model("ImageModel", imageSchema);
+export default models.Image || model("Image", imageSchema);

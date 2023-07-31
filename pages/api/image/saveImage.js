@@ -1,4 +1,4 @@
-import ImageModel from "../../../models/Image.js";
+import Image from "../../../models/Image.js";
 import dbConnect from "../../../lib/dbConnect";
 
 export default async function (req, res) {
@@ -7,7 +7,7 @@ export default async function (req, res) {
 	if (req.method === "POST") {
 		const url = req.body.url;
 		const prompt_id = req.body.prompt_id;
-		const newImage = await ImageModel.create({
+		const newImage = await Image.create({
 			url,
 			prompt_id,
 			liked: false,

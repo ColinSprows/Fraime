@@ -1,4 +1,4 @@
-import OrderModel from "../../../models/Order.js";
+import Order from "../../../models/Order.js";
 import dbConnect from "../../../lib/dbConnect.js";
 
 const calculateOrderAmount = ({
@@ -55,7 +55,7 @@ export default async function (req, res) {
 	await dbConnect();
 
 	if (req.method === "GET") {
-		const order = await OrderModel.findById(req.query.orderId);
+		const order = await Order.findById(req.query.orderId).populate('image_id');
 
 		const orderTotal = calculateOrderAmount(order) / 100;
 

@@ -29,4 +29,4 @@ const journeySchema = new Schema({
 
 // const JourneyModel = model("Journey", journeySchema);
 
-export default models.JourneyModel || model("JourneyModel", journeySchema);
+export default models.Journey || model("Journey", journeySchema);

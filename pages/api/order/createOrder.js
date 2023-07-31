@@ -1,4 +1,4 @@
-import OrderModel from "../../../models/Order.js";
+import Order from "../../../models/Order.js";
 import dbConnect from "../../../lib/dbConnect";
 
 export default async function (req, res) {
@@ -7,7 +7,7 @@ export default async function (req, res) {
 	if (req.method === "POST") {
 		// console.log(req.body);
 
-		const newOrder = await OrderModel.create({
+		const newOrder = await Order.create({
 			prompt_id: req.body.prompt_id,
 			image_id: req.body.image_id,
 			product_type: req.body.product_type,

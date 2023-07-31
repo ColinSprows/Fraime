@@ -9,8 +9,8 @@ import styled from "styled-components";
 
 export const CheckoutFormContainer = styled.div`
 	margin: 2em auto;
-	width: 60vw;
-	max-width: 600px;
+	width: 70vw;
+	width: clamp(600px, 70vw, 1000px);
 `;
 
 export const CheckoutTextContainer = styled.div`
@@ -26,7 +26,7 @@ export const CheckoutTextContainer = styled.div`
 
 export const CheckoutText = styled.h3`
 	font-family: DMSerifDisplay-Regular;
-	font-size: clamp(1rem, 4vw, 3rem);
+	font-size: clamp(1rem, 2vw, 3rem);
 	white-space: nowrap;
 	font-weight: 100;
 	text-align: center;
@@ -61,7 +61,7 @@ export const StartCreatingButton = styled.button`
 	}
 `;
 
-function CheckoutForm({ orderTotal, order_id }) {
+function CheckoutForm({ order_id }) {
 	const stripe = useStripe();
 	const elements = useElements();
 
@@ -140,8 +140,7 @@ function CheckoutForm({ orderTotal, order_id }) {
 
 	return (
 		<CheckoutFormContainer>
-			<CheckoutText>Checkout</CheckoutText>
-			<CheckoutText>Your total is: ${orderTotal.toFixed(2)}</CheckoutText>
+			<CheckoutText>Payment Information</CheckoutText>
 			<form id="payment-form" onSubmit={handleSubmit}>
 				<LinkAuthenticationElement
 					id="link-authentication-element"

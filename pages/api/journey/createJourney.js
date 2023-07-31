@@ -1,5 +1,5 @@
 // when fine tuning, tracks image ids and prompt ids for selected images that are being tuned
-import JourneyModel from "../../../models/Journey.js";
+import Journey from "../../../models/Journey.js";
 import dbConnect from "../../../lib/dbConnect";
 
 export default async function (req, res) {
@@ -9,7 +9,7 @@ export default async function (req, res) {
 		const { prompt_id, image_id } = req.body;
 
     try {
-      const newJourney = await JourneyModel.create({
+      const newJourney = await Journey.create({
         image_ids: image_id,
         prompt_ids: prompt_id
       });
