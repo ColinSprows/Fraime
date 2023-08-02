@@ -7,7 +7,8 @@ export default async function (req, res) {
 		const openai = new OpenAIApi(configuration);
 
 		const prompt = req.body.prompt;
-		console.log(prompt);
+		console.log(req.body);
+		console.log("prompt: " + prompt);
 
 		const response = await openai.createImage({
 			prompt: prompt,
