@@ -1,18 +1,13 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import {
-	useImageContext,
-	usePromptContext,
-	useJourneyContext,
-} from "../context/ContextProvider";
 import { Configuration, OpenAIApi } from "openai";
 import styled from "styled-components";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Loading from "../components/sub-components/loading";
 
-import { newImageHandler } from '@/utils/newImageHandler';
-import { loadStorePrompt, loadStoreJourney } from '@/utils/storageHandler';
+import { newImageHandler } from "@/utils/newImageHandler";
+import { loadStorePrompt, loadStoreJourney } from "@/utils/storageHandler";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -286,11 +281,9 @@ export const GeneratedImageBack = styled(Image)`
 `;
 
 const DiscoveryPage = () => {
-
-  
-  const [ promptInfo, setPromptInfo ] = useState();
-  const [ journey, setJourney ] = useState();
-  console.log("journey", journey);
+	const [promptInfo, setPromptInfo] = useState();
+	const [journey, setJourney] = useState();
+	console.log("journey", journey);
 	const [result, setResult] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [hasMounted, setHasMounted] = useState(false);
@@ -299,6 +292,19 @@ const DiscoveryPage = () => {
 	const configuration = new Configuration({ apiKey: apiKey });
 	const openai = new OpenAIApi(configuration);
 
+	const generateImage = async () => {
+		const response = await fetch("/api/image/generateImage", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ prompt: promptInfo.prompt }),
+		});
+		const data = await response.json();
+		setResult(data.urls);
+		setIsLoading(false);
+	};
+
 	useEffect(() => {
 		// Prevents hydration issues
 		setHasMounted(true);
@@ -306,11 +312,16 @@ const DiscoveryPage = () => {
 
 	useEffect(() => {
 		setIsLoading(true);
-		generateImage();
 		// setResult(["https://i.imgur.com/E8QwDMM.png", "https://i.imgur.com/E8QwDMM.png"]);
-    setPromptInfo(loadStorePrompt());
-    setJourney(loadStoreJourney());
+		setPromptInfo(loadStorePrompt());
+		setJourney(loadStoreJourney());
 	}, [hasMounted]);
+
+	useEffect(() => {
+		if (promptInfo) {
+			generateImage();
+		}
+	}, [promptInfo]);
 
 	const handleReRollClick = () => {
 		setIsLoading(true);
@@ -322,11 +333,7 @@ const DiscoveryPage = () => {
 
 	// handles routing after async function instead of Link
 	const handleBuyClick = async (url) => {
-		await newImageHandler(
-      url, 
-      loadStorePrompt().prompt_id, 
-      loadStoreJourney()._id
-    );
+		await newImageHandler(url, loadStorePrompt().prompt_id, loadStoreJourney()._id);
 		router.push("/product");
 	};
 
@@ -363,7 +370,12 @@ const DiscoveryPage = () => {
 				</Left>
 				<Right>
 					<InputWrapper>
-						<Input placeholder={promptInfo?.prompt} name="prompt" type="text" readOnly={true} />
+						<Input
+							placeholder={promptInfo?.prompt}
+							name="prompt"
+							type="text"
+							readOnly={true}
+						/>
 						<IconWrapper onClick={() => handleReRollClick()}>
 							<Image src="/icons/repeat-solid.svg" alt="rotate icon" fill />
 						</IconWrapper>
