@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Link from "next/link";
-import { newPromptHandler } from '@/utils/newPromptHandler';
-
+import { useRouter } from "next/navigation";
+import { newPromptHandler } from "@/utils/newPromptHandler";
 
 export const Wrapper = styled.div`
 	height: calc(100vh - 4rem);
@@ -179,8 +178,7 @@ export const GalleryImage = styled.img`
 `;
 
 const GeneratePage = () => {
-
-  const [ promptInfo, setPromptInfo ] = useState();
+	const [promptInfo, setPromptInfo] = useState();
 
 	// Images array for the gallery
 	const images = [
@@ -219,6 +217,13 @@ const GeneratePage = () => {
 		},
 	];
 
+	const router = useRouter();
+
+	const handleGenerateClick = async () => {
+		await newPromptHandler(promptInfo);
+		router.push("/discovery");
+	};
+
 	return (
 		<Wrapper>
 			<Gallery>
@@ -243,9 +248,7 @@ const GeneratePage = () => {
 					/>
 				</Left>
 				<Right>
-					<Link href="/discovery">
-						<GenerateButton onClick={() => newPromptHandler(promptInfo)}>Generate</GenerateButton>
-					</Link>
+					<GenerateButton onClick={() => handleGenerateClick()}>Generate</GenerateButton>
 				</Right>
 			</StaticContainer>
 		</Wrapper>
