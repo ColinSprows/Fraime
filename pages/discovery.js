@@ -305,16 +305,16 @@ const DiscoveryPage = () => {
 	}, []);
 
 	useEffect(() => {
-		// setIsLoading(true);
-		// generateImage();
-		setResult(["https://i.imgur.com/E8QwDMM.png", "https://i.imgur.com/E8QwDMM.png"]);
+		setIsLoading(true);
+		generateImage();
+		// setResult(["https://i.imgur.com/E8QwDMM.png", "https://i.imgur.com/E8QwDMM.png"]);
     setPromptInfo(loadStorePrompt());
     setJourney(loadStoreJourney());
 	}, [hasMounted]);
 
 	const handleReRollClick = () => {
-		// setIsLoading(true);
-		// generateImage();
+		setIsLoading(true);
+		generateImage();
 		console.log("clicked");
 	};
 
