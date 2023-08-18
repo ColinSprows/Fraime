@@ -5,6 +5,10 @@ import { ThemeProvider } from "styled-components";
 import GlobalStyle, { theme } from "../styles/globalStyles";
 import Header from "../components/header";
 import { ContextProvider } from "@/context/ContextProvider";
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from '../src/aws-exports';
+
+Amplify.configure({ ...awsconfig, ssr: true })
 
 export const Wrapper = styled.div`
 	// was breaking on larger screens

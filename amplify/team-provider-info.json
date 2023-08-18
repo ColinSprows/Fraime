@@ -1,0 +1,37 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-fraime-dev-120021-authRole",
+      "UnauthRoleArn": "arn:aws:iam::100508275461:role/amplify-fraime-dev-120021-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::100508275461:role/amplify-fraime-dev-120021-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-fraime-dev-120021-deployment",
+      "UnauthRoleName": "amplify-fraime-dev-120021-unauthRole",
+      "StackName": "amplify-fraime-dev-120021",
+      "StackId": "arn:aws:cloudformation:us-east-1:100508275461:stack/amplify-fraime-dev-120021/565edc10-3de0-11ee-b0cc-0a2191eef5ab",
+      "AmplifyAppId": "d37g88e3b3rjm1",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-fraime-dev-120021-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "fraimeresources": {}
+      },
+      "function": {
+        "fraimeresourcesCustomMessage": {
+          "REDIRECTURL": "fraimed.art",
+          "EMAILSUBJECT": "Confirm your account",
+          "EMAILMESSAGE": "",
+          "deploymentBucketName": "amplify-fraime-dev-120021-deployment",
+          "s3Key": "amplify-builds/fraimeresourcesCustomMessage-6e6c642f477057724161-build.zip"
+        },
+        "AdminQueriesdad5a1ad": {
+          "deploymentBucketName": "amplify-fraime-dev-120021-deployment",
+          "s3Key": "amplify-builds/AdminQueriesdad5a1ad-374d2b6b4f657033434a-build.zip"
+        }
+      },
+      "api": {
+        "AdminQueries": {}
+      }
+    }
+  }
+}

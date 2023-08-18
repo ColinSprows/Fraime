@@ -1,22 +1,17 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import { Auth, Hub } from 'aws-amplify'
 
 const AppContext = createContext();
 const PromptContext = createContext();
 const ImageContext = createContext();
 const JourneyContext = createContext();
+const LoginContext = createContext()
 
-export function useAppContext() {
-	return useContext(AppContext);
-}
-export function usePromptContext() {
-	return useContext(PromptContext);
-}
-export function useImageContext() {
-	return useContext(ImageContext);
-}
-export function useJourneyContext() {
-	return useContext(JourneyContext);
-}
+export function useAppContext() { return useContext(AppContext) }
+export function usePromptContext() { return useContext(PromptContext) }
+export function useImageContext() { return useContext(ImageContext) }
+export function useJourneyContext() { return useContext(JourneyContext) }
+export function useLoginContext() { return useContext(LoginContext) }
 
 export function ContextProvider({ children }) {
 	const [session, setSession] = useState(null);
