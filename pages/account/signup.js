@@ -37,10 +37,10 @@ export default function login() {
 		const response = await confirmSignUp(email, code);
 		console.log("signup", response);
 		if (response === "SUCCESS") {
-			alert("Account created ");
+			alert("Account created");
 			window.location.href = "/";
 		} else {
-			alert("error confirming sign up");
+			alert(response);
 		}
 	};
 

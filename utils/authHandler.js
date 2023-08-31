@@ -11,7 +11,6 @@ export async function signUp(email, password) {
 				enabled: true,
 			},
 		});
-		console.log("auth", user);
 		user.success = true;
 		return user;
 	} catch (error) {
@@ -32,6 +31,7 @@ export async function confirmSignUp(email, code) {
 		return response;
 	} catch (error) {
 		console.log("error confirming sign up", error);
+		return error;
 	}
 }
 
