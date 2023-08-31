@@ -1,15 +1,13 @@
 import { Auth, Hub } from 'aws-amplify';
 
 // Signup
-async function signUp() {
+export default async function signUp() {
   try {
     const { user } = await Auth.signUp({
       username,
       password,
       attributes: {
         email,          // optional
-        phone_number,   // optional - E.164 number convention
-        // other custom attributes 
       },
       autoSignIn: { // optional - enables auto sign in after user is confirmed
         enabled: true,
@@ -22,7 +20,7 @@ async function signUp() {
 }
 
 //Confirmation email resend
-async function resendConfirmationCode() {
+export default async function resendConfirmationCode() {
     try {
       await Auth.resendSignUp(username);
       console.log('code resent successfully');
@@ -32,7 +30,7 @@ async function resendConfirmationCode() {
 }
 
 //confirm after receiving code
-async function confirmSignUp() {
+export default async function confirmSignUp() {
   try {
     //doesn't allow doubled emails
     await Auth.confirmSignUp(username, code, { forceAliasCreation: false });
@@ -42,7 +40,7 @@ async function confirmSignUp() {
 }
 
 //Auto sign in after sign up
-function listenToAutoSignInEvent() {
+export default function listenToAutoSignInEvent() {
     Hub.listen('auth', ({ payload }) => {
       const { event } = payload;
       if (event === 'autoSignIn') {
@@ -55,7 +53,7 @@ function listenToAutoSignInEvent() {
 }
 
 //Sign in
-async function signIn() {
+export default async function signIn() {
     try {
       const user = await Auth.signIn(username, password);
     } catch (error) {
@@ -64,7 +62,7 @@ async function signIn() {
 }
 
 //sign out
-async function signOut() {
+export default async function signOut() {
     try {
       await Auth.signOut();
     } catch (error) {
@@ -73,7 +71,7 @@ async function signOut() {
 }
 
 //change password
-async function changePassword (oldPassword, newPassword) {
+export default async function changePassword (oldPassword, newPassword) {
     try {
       const user = await Auth.currentAuthenticatedUser();
       const data = await Auth.changePassword(user, oldPassword, newPassword);
@@ -85,7 +83,7 @@ async function changePassword (oldPassword, newPassword) {
 
 //Forgot Password
 // Send confirmation code to user's email
-async function forgotPassword(username) {
+export default async function forgotPassword(username) {
     try {
       const data = await Auth.forgotPassword(username);
       console.log(data);
@@ -95,7 +93,7 @@ async function forgotPassword(username) {
   } 
   
 // Collect confirmation code and new password
-async function forgotPasswordSubmit(username, code, newPassword) {
+export default async function forgotPasswordSubmit(username, code, newPassword) {
     try {
       const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
       console.log(data);
@@ -105,7 +103,7 @@ async function forgotPasswordSubmit(username, code, newPassword) {
 }
 
 //Retrieve current authenticated user
-async function currentAuthenticatedUser() {
+export default async function currentAuthenticatedUser() {
     try {
       const user = Auth.currentAuthenticatedUser({
         bypassCache: false // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data

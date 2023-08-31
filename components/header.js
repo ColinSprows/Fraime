@@ -73,7 +73,9 @@ export default function Header() {
       </Left>
       <Right>
         <Divider />
-        <Login>Login</Login>
+        <Link href="/account/login">
+          <Login>Login</Login>
+        </Link>
         {isHomepage && (
         <Link href="/generate">
           <StartCreating>Start Creating</StartCreating>
