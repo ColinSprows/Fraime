@@ -7,9 +7,9 @@ export default async function signUp() {
       username,
       password,
       attributes: {
-        email,          // optional
+        email,         
       },
-      autoSignIn: { // optional - enables auto sign in after user is confirmed
+      autoSignIn: {
         enabled: true,
       }
     });
