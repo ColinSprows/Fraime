@@ -12,6 +12,7 @@ export async function signUp(email, password) {
 			},
 		});
 		console.log("auth", user);
+		user.success = true;
 		return user;
 	} catch (error) {
 		console.log("error signing up:", error);

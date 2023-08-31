@@ -24,14 +24,24 @@ export default function login() {
 	const [code, setCode] = useState("");
 
 	const handleSubmit = async () => {
-		const user = await signUp(email, password);
-		console.log("signup", user);
-		setIsSubmitted(true);
+		const response = await signUp(email, password);
+		console.log("signup", response);
+		if (response.success) {
+			setIsSubmitted(true);
+		} else {
+			alert(response);
+		}
 	};
 
 	const handleConfirm = async () => {
 		const response = await confirmSignUp(email, code);
 		console.log("signup", response);
+		if (response === "SUCCESS") {
+			alert("Account created ");
+			window.location.href = "/";
+		} else {
+			alert("error confirming sign up");
+		}
 	};
 
 	return (
