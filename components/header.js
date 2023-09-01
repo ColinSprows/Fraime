@@ -2,8 +2,10 @@ import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { currentAuthenticatedUser, signOut } from "@/utils/authHandler";
+import { useLoginContext } from "@/context/ContextProvider";
 import { useEffect, useState } from "react";
+import { Hub } from "aws-amplify";
+import { currentAuthenticatedUser } from "@/utils/authHandler";
 
 const HeaderContainer = styled.div`
 	background-color: ${(props) => props.theme.colors.header};
@@ -37,7 +39,7 @@ const Login = styled.button`
 	color: black;
 `;
 
-const Logout = styled.button`
+const Profile = styled.button`
 	font-family: InterExtraLight;
 	background: none;
 	border: none;
@@ -68,30 +70,24 @@ const Divider = styled.div`
 `;
 
 export default function Header() {
-	const [user, setUser] = useState(null);
+	// const { loginStatus } = useLoginContext();
+	// console.log(loginStatus);
+	const [loginStatus, setLoginStatus] = useState(false);
+
+	useEffect(() => {
+		const authenticate = async () => {
+			const user = await currentAuthenticatedUser();
+			console.log(user);
+			if (user !== "The user is not authenticated") {
+				setLoginStatus(true);
+			}
+		};
+		authenticate();
+	}, []);
+
 	const router = useRouter();
 	// Check if the current path is the homepage
 	const isHomepage = router.pathname === "/";
-
-	useEffect(() => {
-		const validateUser = async () => {
-			const user = await currentAuthenticatedUser();
-			if (user) {
-				console.log(user);
-				setUser(user.attributes.email);
-			} else {
-				setUser(null);
-				console.log("no user");
-			}
-		};
-
-		validateUser();
-	}, []);
-
-	const handleLogout = () => {
-		signOut();
-		setUser(null);
-	};
 
 	return (
 		<HeaderContainer>
@@ -108,12 +104,14 @@ export default function Header() {
 			</Left>
 			<Right>
 				<Divider />
-				{!user ? (
+				{!loginStatus ? (
 					<Link href="/account/login">
 						<Login>Login</Login>
 					</Link>
 				) : (
-					<Logout onClick={() => handleLogout()}>Logout {user}</Logout>
+					<Link href="/account/profile">
+						<Profile>Account</Profile>
+					</Link>
 				)}
 
 				{isHomepage && (

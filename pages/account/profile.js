@@ -32,21 +32,23 @@ export default function Profile() {
 		setChangePassword(true);
 	};
 
-	const handleLogout = () => {
-		signOut();
+	const handleLogout = async () => {
+		await signOut();
+		setUserEmail("");
 		window.location.href = "/account/login";
 	};
 
 	useEffect(() => {
-		const validateUser = async () => {
+		const authenticate = async () => {
 			const user = await currentAuthenticatedUser();
-			if (!user) {
-				window.location.href = "/account/login";
-			} else {
+			console.log(user);
+			if (user !== "The user is not authenticated") {
 				setUserEmail(user.attributes.email);
+			} else {
+				window.location.href = "/account/login";
 			}
 		};
-		validateUser();
+		authenticate();
 	}, []);
 
 	return (
