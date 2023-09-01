@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { currentAuthenticatedUser, signOut } from "@/utils/authHandler";
+import { currentAuthenticatedUser, signOut, changePassword } from "@/utils/authHandler";
 
 const Wrapper = styled.div`
 	display: flex;
@@ -25,19 +25,41 @@ const InputWrapper = styled.div`
 const Input = styled.input``;
 
 export default function Profile() {
-	const [changePassword, setChangePassword] = useState("");
+	// States for Password
+	const [expandChangePassword, setExpandChangePassword] = useState("");
+	const [oldPassword, setOldPassword] = useState("");
+	const [newPassword, setNewPassword] = useState("");
+
+	// States for User Email
 	const [userEmail, setUserEmail] = useState("");
 
-	const handleClick = () => {
-		setChangePassword(true);
+	// Password Functions
+	const handleExpand = () => {
+		setExpandChangePassword(true);
 	};
 
+	const handleChangePassword = async () => {
+		if (oldPassword === newPassword) {
+			alert("New password cannot be the same as old password");
+			return;
+		}
+		await changePassword(oldPassword, newPassword);
+
+		console.log("Password changed");
+		setOldPassword("");
+		setNewPassword("");
+		setExpandChangePassword(false);
+	};
+
+	// Account Functions
 	const handleLogout = async () => {
 		await signOut();
 		setUserEmail("");
 		window.location.href = "/account/login";
 	};
 
+	// UseEffects
+	// Validate if user is logged in
 	useEffect(() => {
 		const authenticate = async () => {
 			const user = await currentAuthenticatedUser();
@@ -55,12 +77,20 @@ export default function Profile() {
 		<Wrapper>
 			<AccountDetails>
 				<Detail>Email: {userEmail}</Detail>
-				<Detail onClick={handleClick}>Change Password</Detail>
-				{changePassword && (
+				<Detail onClick={handleExpand}>Change Password</Detail>
+				{expandChangePassword && (
 					<InputWrapper>
-						<Input type="password" placeholder="Old Password" />
-						<Input type="password" placeholder="New Password" />
-						<Button>Set new password</Button>
+						<Input
+							onChange={(e) => setOldPassword(e.target.value)}
+							type="password"
+							placeholder="Old Password"
+						/>
+						<Input
+							onChange={(e) => setNewPassword(e.target.value)}
+							type="password"
+							placeholder="New Password"
+						/>
+						<Button onClick={() => handleChangePassword()}>Set new password</Button>
 					</InputWrapper>
 				)}
 			</AccountDetails>
