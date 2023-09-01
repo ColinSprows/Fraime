@@ -74,6 +74,7 @@ export async function signIn(email, password) {
 export async function signOut() {
 	try {
 		await Auth.signOut();
+		console.log("logged out");
 	} catch (error) {
 		console.log("error signing out: ", error);
 	}
@@ -117,6 +118,8 @@ export async function currentAuthenticatedUser() {
 		const user = Auth.currentAuthenticatedUser({
 			bypassCache: false, // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
 		});
+		console.log(user);
+		return user;
 	} catch (err) {
 		console.log(err);
 	}
