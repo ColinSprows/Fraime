@@ -59,11 +59,14 @@ export function listenToAutoSignInEvent() {
 }
 
 //Sign in
-export async function signIn() {
+export async function signIn(email, password) {
 	try {
-		const user = await Auth.signIn(username, password);
+		const user = await Auth.signIn({ username: email, password });
+		user.success = true;
+		return user;
 	} catch (error) {
 		console.log("error signing in", error);
+		return error;
 	}
 }
 
